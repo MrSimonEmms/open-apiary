@@ -1,0 +1,8 @@
+{
+  "watch": [
+    "server"
+  ],
+  "ext": "ts,js,json,yaml,yml",
+  "exitcrash": true,
+  "exec": "ts-node -P ./server/tsconfig.json ./server/main.ts"
+}

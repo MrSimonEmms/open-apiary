@@ -1,0 +1,37 @@
+{
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/gitlab"
+  ],
+  "prepare": [
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG"
+      }
+    ],
+    {
+      "path": "@semantic-release/git",
+      "assets": [
+        "CHANGELOG"
+      ],
+      "message": "chore(release): ${nextRelease.version} [CI SKIP]"
+    }
+  ],
+  "verifyConditions": [
+    {
+      "path": "@semantic-release/gitlab",
+      "gitlabUrl": "https://gitlab.com"
+    }
+  ],
+  "publish": [
+    {
+      "path": "@semantic-release/gitlab",
+      "gitlabUrl": "https://gitlab.com"
+    }
+  ],
+  "success": false,
+  "fail": false,
+  "npmPublish": false
+}

@@ -1,0 +1,94 @@
+include:
+  - project: "mrsimonemms/gitlab-ci-tasks"
+    ref: "master"
+    file: "tasks/common.yml"
+
+image: node:12-alpine
+
+variables:
+  CIT_DOCKER_ARCH_LIST: amd64,arm32v6,arm32v7,arm64v8
+
+###########
+# Install #
+###########
+install:
+  stage: install
+  artifacts:
+    paths:
+      - ./node_modules
+  script:
+    - apk add --no-cache g++ make python
+    - npm ci --unsafe-perm # Required for the patch-package postinstall task
+
+########
+# Test #
+########
+audit:
+  stage: test
+  script: npm audit
+
+lint:
+  stage: test
+  script: npm run lint
+
+#############
+# Pre-build #
+#############
+build_artifact:
+  stage: pre_build
+  artifacts:
+    paths:
+      - ./dist
+  script: npm run build
+
+#########
+# Build #
+#########
+docker_build_amd64:
+  extends: .docker_build
+
+docker_build_arm32v6:
+  extends: .docker_build
+  variables:
+    CIT_DOCKER_ARCH: arm32v6
+    CIT_DOCKER_ARGS_IMG: arm32v6/alpine
+
+docker_build_arm32v7:
+  extends: .docker_build
+  variables:
+    CIT_DOCKER_ARCH: arm32v7
+    CIT_DOCKER_ARGS_IMG: arm32v7/alpine
+
+docker_build_arm64v8:
+  extends: .docker_build
+  variables:
+    CIT_DOCKER_ARCH: arm64v8
+    CIT_DOCKER_ARGS_IMG: arm64v8/alpine
+
+###########
+# Publish #
+###########
+docker_publish_latest:
+  extends: .docker_publish
+  only:
+    refs:
+      - master
+      - tags
+  variables:
+    CIT_DOCKER_TAG: latest
+    CIT_PUBLISH_VERSIONED_TAG: 1
+
+docker_publish_feature:
+  extends: .docker_publish
+  except:
+    refs:
+      - master
+      - tags
+  variables:
+    CIT_DOCKER_TAG: ${CI_COMMIT_REF_SLUG}
+
+###########
+# Release #
+###########
+update_version:
+  extends: .repo_update
