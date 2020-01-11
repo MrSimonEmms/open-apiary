@@ -59,6 +59,7 @@ module.exports = {
     './plugins/components',
     './plugins/i18next',
     './plugins/logger',
+    './plugins/vuelidate',
   ],
   /*
   ** Nuxt.js dev-modules
