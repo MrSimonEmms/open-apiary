@@ -57,6 +57,8 @@ module.exports = {
   */
   plugins: [
     './plugins/components',
+    './plugins/i18next',
+    './plugins/logger',
   ],
   /*
   ** Nuxt.js dev-modules
