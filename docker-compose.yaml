@@ -11,6 +11,23 @@ services:
     restart: on-failure
     command: npm run dev
 
+  data:
+    build:
+      context: ./data
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    volumes:
+      - ./data:/opt/app
+    environment:
+      DB_HOST: mysql
+      DB_USER: apiary
+      DB_PASS: q1w2e3r4
+      DB_NAME: apiary
+      DB_PORT: 3306
+    restart: on-failure
+
   ##############################
   #  Third-party dependencies  #
   ##############################
