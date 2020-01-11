@@ -37,12 +37,15 @@ describe('Nuxt Controller', () => {
       process.env = OLD_ENV;
     });
 
-    it('should create a nuxt dev instance if IS_NUXT_ENABLED', () => {
+    it('should create a nuxt dev instance if IS_NUXT_ENABLED', async () => {
       process.env.IS_NUXT_ENABLED = '1';
       const obj = new NuxtController();
 
       expect((<any> obj).nuxt).toBeDefined();
       expect(Nuxt).toBeCalledWith(config);
+
+      // This is fairly horrible, but I have to put an async/await in a constructor
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       expect(Builder).toBeCalledWith((<any> obj).nuxt);
 
