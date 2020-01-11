@@ -21,7 +21,13 @@
     "lint": "run-s lint:client lint:server",
     "lint:client": "eslint --ext .ts,.js,.vue ./client",
     "lint:server": "eslint --ext .ts,.js ./server",
-    "start": "node ./"
+    "start": "node ./",
+    "test": "run-s test:server",
+    "test:server": "jest",
+    "test:server:watch": "jest --watch",
+    "test:server:cov": "jest --coverage",
+    "test:server:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:server:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^6.7.2",
