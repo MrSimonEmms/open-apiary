@@ -45,7 +45,7 @@ module.exports = {
   ** Customize the progress-bar color
   */
   loading: {
-    color: '#fff'
+    color: '#ff8f00'
   },
   /*
   ** Global CSS
@@ -56,6 +56,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    './plugins/components',
   ],
   /*
   ** Nuxt.js dev-modules
@@ -64,6 +65,7 @@ module.exports = {
     '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
+    '@nuxtjs/vuetify',
   ],
   /*
   ** Nuxt.js modules
@@ -83,4 +85,18 @@ module.exports = {
   extends: [
     '@nuxtjs/eslint-config-typescript',
   ],
-}
+  /*
+  ** vuetify module configuration
+  ** https://github.com/nuxt-community/vuetify-module
+  */
+  vuetify: {
+    customVariables: [
+      '~/assets/variables.scss',
+    ],
+  },
+  typescript: {
+    typeCheck: {
+      eslint: true,
+    },
+  },
+};
