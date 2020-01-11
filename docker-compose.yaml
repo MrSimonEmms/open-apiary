@@ -1,9 +1,17 @@
 version: "3.7"
 services:
   app:
-    image: node:12-alpine
+    image: node:12 # Use the full image so we can use node-gyp
     ports:
       - 9999:3000
+    environment:
+      DB_TYPE: mysql
+      DB_HOST: mysql
+      DB_USER: apiary
+      DB_PASS: db-password
+      DB_NAME: apiary
+      DB_PORT: 3306
+      JWT_SECRET: jwt-secret-token
     working_dir: /opt/app
     volumes:
       - .:/opt/app
@@ -23,7 +31,7 @@ services:
     environment:
       DB_HOST: mysql
       DB_USER: apiary
-      DB_PASS: q1w2e3r4
+      DB_PASS: db-password
       DB_NAME: apiary
       DB_PORT: 3306
     restart: on-failure
@@ -37,7 +45,7 @@ services:
       - 9990:3306
     environment:
       MYSQL_DATABASE: apiary
-      MYSQL_PASSWORD: q1w2e3r4
+      MYSQL_PASSWORD: db-password
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_USER: apiary
     command: --default-authentication-plugin=mysql_native_password
