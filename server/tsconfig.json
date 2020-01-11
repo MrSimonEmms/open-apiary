@@ -9,7 +9,9 @@
     "sourceMap": true,
     "outDir": "../dist/server",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "esModuleInterop": true,
+    "allowJs": true
   },
   "exclude": [
     "dist",

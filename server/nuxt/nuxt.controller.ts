@@ -11,7 +11,7 @@ import {
 import { Builder, Nuxt } from 'nuxt';
 
 /* Files */
-import * as config from '../../nuxt.config';
+const config = require('../../nuxt.config');
 
 @Controller()
 export default class NuxtController {
