@@ -4,6 +4,11 @@ services:
     image: node:12 # Use the full image so we can use node-gyp
     ports:
       - 9999:3000
+    links:
+      - mysql
+    depends_on:
+      - data
+      - mysql
     environment:
       DB_TYPE: mysql
       DB_HOST: mysql
