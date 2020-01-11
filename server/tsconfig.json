@@ -10,7 +10,8 @@
     "outDir": "../dist/server",
     "baseUrl": "./",
     "incremental": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowJs": true
   },
   "exclude": [
     "dist",

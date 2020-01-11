@@ -19,6 +19,8 @@ export interface IUser {
 
 export interface IUserDTO extends Omit<IUser, 'password'>{}
 
+export interface IAuthInputDTO extends Pick<IUser, 'emailAddress' | 'password'>{}
+
 export interface IUserLoginDTO {
   user: IUserDTO;
   token: string;

@@ -11,9 +11,8 @@ import {
 } from '@nestjs/common';
 
 /* Files */
-import User from '../entities/user.entity';
 import UserService from '../services/user.service';
-import { IUserLoginDTO } from '../interfaces/user';
+import { IAuthInputDTO, IUserLoginDTO } from '../interfaces/user';
 
 @Controller('/api/user')
 export default class UserController {
@@ -22,7 +21,7 @@ export default class UserController {
   ) {}
 
   @Post('/auth')
-  async authenticate(@Body() { emailAddress, password }: User) : Promise<IUserLoginDTO> {
+  async authenticate(@Body() { emailAddress, password }: IAuthInputDTO) : Promise<IUserLoginDTO> {
     const user = await this.usersService.findByEmailAndPassword(emailAddress, password);
 
     if (!user) {
