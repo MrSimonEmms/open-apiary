@@ -10,6 +10,7 @@ services:
       - data
       - mysql
     environment:
+      BUILD_ID: dev
       DB_TYPE: mysql
       DB_HOST: mysql
       DB_USER: apiary
@@ -17,6 +18,7 @@ services:
       DB_NAME: apiary
       DB_PORT: 3306
       JWT_SECRET: jwt-secret-token
+      VERSION: develop
     working_dir: /opt/app
     volumes:
       - .:/opt/app

@@ -10,9 +10,6 @@
 
 module.exports = {
   srcDir: './client/',
-  server: {
-    port: 8080
-  },
   mode: 'universal',
   /*
   ** Headers of the page
@@ -21,7 +18,7 @@ module.exports = {
     titleTemplate(title) {
       const name = 'Open Apiary';
       if (title) {
-        return `${name} | ${title}`;
+        return `${title} | ${name}`;
       }
       return name;
     },
@@ -60,6 +57,8 @@ module.exports = {
     './plugins/i18next',
     './plugins/logger',
     './plugins/vuelidate',
+    './plugins/vuexPersistedState',
+    './plugins/axios', // Put after the logger - log id added to outgoing
   ],
   /*
   ** Nuxt.js dev-modules
@@ -77,6 +76,9 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
   ],
+  axios: {
+    browserBaseURL: '/',
+  },
   /*
   ** Build configuration
   */
@@ -101,5 +103,9 @@ module.exports = {
     typeCheck: {
       eslint: true,
     },
+  },
+  env: {
+    BUILD_ID: process.env.BUILD_ID,
+    VERSION: process.env.VERSION,
   },
 };

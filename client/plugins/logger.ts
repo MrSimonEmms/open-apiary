@@ -71,7 +71,6 @@ Vue.use((app) => {
   Vue.set(app.prototype, '$log', logger);
 });
 
-// const plugin : Plugin = () : void => {
 const plugin : Plugin = ({ store }) : void => {
   if (process.server) {
     store.commit('app/setUUID', uuid.v4());

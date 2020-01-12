@@ -1,0 +1,8 @@
+ERRORS:
+  BETWEEN: Value must be between {{min}} and {{max}}
+  EMAIL: Field must be an email address
+  MAXLENGTH: Field must contain no more than {{max}} character
+  MAXLENGTH_plural: Field must contain no more than {{max}} characters
+  MINLENGTH: Field must contain at least {{min}} character
+  MINLENGTH_plural: Field must contain at least {{min}} characters
+  REQUIRED: Required field
