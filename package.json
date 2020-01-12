@@ -43,6 +43,7 @@
     "@nuxtjs/axios": "^5.9.2",
     "@panter/vue-i18next": "^0.15.1",
     "bcrypt": "^3.0.7",
+    "cookie-universal": "^2.1.0",
     "i18next": "^19.0.3",
     "i18next-express-middleware": "^1.9.1",
     "jsonwebtoken": "^8.5.1",
@@ -58,7 +59,9 @@
     "uuid": "^3.3.3",
     "vue-property-decorator": "^8.3.0",
     "vuelidate": "^0.7.4",
-    "vuex-module-decorators": "^0.11.0"
+    "vuex": "^3.1.2",
+    "vuex-module-decorators": "^0.11.0",
+    "vuex-persistedstate": "^2.7.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",

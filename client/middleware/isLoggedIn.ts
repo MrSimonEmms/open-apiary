@@ -9,12 +9,17 @@ import { Middleware } from '@nuxt/types'; // eslint-disable-line import/no-unres
 
 /* Files */
 
-const middleware : Middleware = ({ redirect }) => {
-  // @todo call store
-  const isLoggedIn = false;
+const middleware : Middleware = async ({ redirect, route, store }) => {
+  const isLoggedIn : boolean = !!store.getters['user/token'];
 
-  /* If we're not logged in, go to login page */
-  if (!isLoggedIn) {
+  if (isLoggedIn) {
+    /* Logged in, get the user data */
+    await store.dispatch('user/loadUser');
+  } else {
+    /* If we're not logged in, go to login page */
+    store.commit('user/logout');
+    store.commit('user/setRedirect', route);
+
     redirect({
       name: 'login',
     });
