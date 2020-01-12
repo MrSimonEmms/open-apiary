@@ -15,7 +15,7 @@ import { ConfigService } from '@nestjs/config';
 
 /* Files */
 import User from '../entities/user.entity';
-import { IUserDTO } from '../interfaces/user';
+import { IUserDTO, IUserTokenPayload } from '../interfaces/user';
 
 @Injectable()
 export default class UserService {
@@ -40,18 +40,24 @@ export default class UserService {
     return user;
   }
 
+  findById(id: number) : Promise<User | void> {
+    return this.userRepo.findOne(id);
+  }
+
   generateUserToken(user: User) : { expires: Date, token: string } {
     /* Get the expiry time for public consumption */
     const expiresIn = this.configService.get<string>('jwt.expiry');
     const expires = new Date(Date.now() + ms(expiresIn));
     expires.setMilliseconds(0); // JWT only works in whole seconds
 
+    const payload: IUserTokenPayload = {
+      id: user.id,
+      emailAddress: user.emailAddress,
+    };
+
     return {
       expires,
-      token: jwt.sign({
-        id: user.id,
-        emailAddress: user.emailAddress,
-      }, this.configService.get('jwt.secret'), {
+      token: jwt.sign(payload, this.configService.get('jwt.secret'), {
         expiresIn,
         issuer: this.configService.get('jwt.issuer'),
         notBefore: 0,

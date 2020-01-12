@@ -6,9 +6,13 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 /* Files */
 import UserService from '../services/user.service';
@@ -32,5 +36,11 @@ export default class UserController {
       ...this.usersService.generateUserToken(user),
       user: this.usersService.toDTO(user),
     };
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
+  user(@Request() req) {
+    return req.user;
   }
 }
