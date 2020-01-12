@@ -11,6 +11,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 /* Files */
 import config from './config/env';
+import AuthModule from './auth/auth.module';
 import NuxtModule from './nuxt/nuxt.module';
 import UserModule from './user/user.module';
 
@@ -41,6 +42,7 @@ import UserModule from './user/user.module';
         ],
       }),
     }),
+    AuthModule,
     UserModule,
     NuxtModule, /* This must be last */
   ],

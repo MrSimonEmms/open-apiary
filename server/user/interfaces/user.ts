@@ -26,3 +26,8 @@ export interface IUserLoginDTO {
   token: string;
   expires: Date;
 }
+
+export interface IUserTokenPayload {
+  id: number;
+  emailAddress: string;
+}
