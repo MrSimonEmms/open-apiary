@@ -41,6 +41,7 @@ const plugin : Plugin = ({ req, res, store }) : void => {
   createPersistedState({
     key: 'oa-persistence',
     paths: [
+      'app.drawerMini',
       'user.token',
     ],
     storage: factory(req, res, {

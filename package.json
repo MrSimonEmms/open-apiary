@@ -57,6 +57,7 @@
     "rxjs": "^6.5.3",
     "typeorm": "^0.2.22",
     "uuid": "^3.3.3",
+    "vue-fragment": "^1.5.1",
     "vue-property-decorator": "^8.3.0",
     "vuelidate": "^0.7.4",
     "vuex": "^3.1.2",
@@ -120,5 +121,13 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/MrSimonEmms/open-apiary.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/MrSimonEmms/open-apiary/issues"
+  },
+  "homepage": "https://gitlab.com/MrSimonEmms/open-apiary#readme"
 }

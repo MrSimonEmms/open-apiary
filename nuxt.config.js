@@ -7,6 +7,7 @@
 /* Third-party modules */
 
 /* Files */
+const pkg = require('./package.json');
 
 module.exports = {
   srcDir: './client/',
@@ -107,5 +108,7 @@ module.exports = {
   env: {
     BUILD_ID: process.env.BUILD_ID,
     VERSION: process.env.VERSION,
+    PROJECT_HOMEPAGE: pkg.homepage,
+    PROJECT_BUGS: pkg.bugs.url,
   },
 };
