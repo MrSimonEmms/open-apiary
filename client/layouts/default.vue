@@ -1,5 +1,9 @@
 <template lang="pug">
-  v-app
+  oa-base-layout
+    oa-nav-drawer()
+
+    oa-app-bar()
+
     v-content
       nuxt
 </template>

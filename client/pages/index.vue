@@ -10,14 +10,16 @@
 /* Node modules */
 
 /* Third-party modules */
-import { Vue, Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 /* Files */
 
-@Component
-export default class IndexPage extends Vue {
-
-}
+@Component({
+  middleware: [
+    'isLoggedIn',
+  ],
+})
+export default class IndexPage extends Vue {}
 </script>
 
 <style lang="scss" scoped>

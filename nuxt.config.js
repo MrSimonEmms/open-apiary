@@ -7,12 +7,10 @@
 /* Third-party modules */
 
 /* Files */
+const pkg = require('./package.json');
 
 module.exports = {
   srcDir: './client/',
-  server: {
-    port: 8080
-  },
   mode: 'universal',
   /*
   ** Headers of the page
@@ -21,7 +19,7 @@ module.exports = {
     titleTemplate(title) {
       const name = 'Open Apiary';
       if (title) {
-        return `${name} | ${title}`;
+        return `${title} | ${name}`;
       }
       return name;
     },
@@ -45,7 +43,7 @@ module.exports = {
   ** Customize the progress-bar color
   */
   loading: {
-    color: '#fff'
+    color: '#ff8f00'
   },
   /*
   ** Global CSS
@@ -56,6 +54,12 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    './plugins/components',
+    './plugins/i18next',
+    './plugins/logger',
+    './plugins/vuelidate',
+    './plugins/vuexPersistedState',
+    './plugins/axios', // Put after the logger - log id added to outgoing
   ],
   /*
   ** Nuxt.js dev-modules
@@ -64,6 +68,7 @@ module.exports = {
     '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
+    '@nuxtjs/vuetify',
   ],
   /*
   ** Nuxt.js modules
@@ -72,6 +77,9 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
   ],
+  axios: {
+    browserBaseURL: '/',
+  },
   /*
   ** Build configuration
   */
@@ -83,4 +91,24 @@ module.exports = {
   extends: [
     '@nuxtjs/eslint-config-typescript',
   ],
-}
+  /*
+  ** vuetify module configuration
+  ** https://github.com/nuxt-community/vuetify-module
+  */
+  vuetify: {
+    customVariables: [
+      '~/assets/variables.scss',
+    ],
+  },
+  typescript: {
+    typeCheck: {
+      eslint: true,
+    },
+  },
+  env: {
+    BUILD_ID: process.env.BUILD_ID,
+    VERSION: process.env.VERSION,
+    PROJECT_HOMEPAGE: pkg.homepage,
+    PROJECT_BUGS: pkg.bugs.url,
+  },
+};

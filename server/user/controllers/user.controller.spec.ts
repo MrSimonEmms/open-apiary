@@ -4,7 +4,7 @@
 
 /* Node modules */
 import { Test, TestingModule } from '@nestjs/testing';
-import { HttpException } from '@nestjs/common';
+import { HttpException, RequestMethod } from '@nestjs/common';
 
 /* Files */
 import UserController from './user.controller';
@@ -29,9 +29,16 @@ describe('User Controller', function () {
     }).compile();
 
     controller = module.get<UserController>(UserController);
+
+    expect(Reflect.getMetadata('path', UserController)).toBe('/api/user');
   });
 
   describe('#authenticate', () => {
+    beforeEach(() => {
+      expect(Reflect.getMetadata('path', controller.authenticate)).toBe('/auth');
+      expect(Reflect.getMetadata('method', controller.authenticate)).toBe(RequestMethod.POST);
+    });
+
     it('should throw HTTP exception if no user returned', async () => {
       const emailAddress = 'test@test.com';
       const password = 'invalid-password';
@@ -95,6 +102,21 @@ describe('User Controller', function () {
         ...token,
         user: userDto,
       });
+    });
+  });
+
+  describe('#user', () => {
+    beforeEach(() => {
+      expect(Reflect.getMetadata('path', controller.user)).toBe('/');
+      expect(Reflect.getMetadata('method', controller.user)).toBe(RequestMethod.GET);
+    });
+
+    it('should return the user object', () => {
+      const req = {
+        user: 'userObj',
+      };
+
+      expect(controller.user(req)).toBe(req.user);
     });
   });
 });

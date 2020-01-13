@@ -1,0 +1,11 @@
+ERROR:
+  GENERAL: General error - please try again later
+  INVALID_LOGIN: Access denied
+FORM:
+  BUTTON:
+    LOGIN: Login
+  LABEL:
+    EMAIL_ADDRESS: Email Address
+    PASSWORD: Password
+    REMEMBER_ME: Remember me
+TITLE: Login

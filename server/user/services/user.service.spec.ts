@@ -104,6 +104,31 @@ describe('UserService', function () {
     });
   });
 
+  describe('#findById', () => {
+    it('should find the user by id and return the object', async () => {
+      const userObj = 'some-user';
+      this.userRepo.findOne.mockResolvedValue(userObj);
+
+      const userId = 2345;
+
+      expect(await service.findById(userId)).toEqual(userObj);
+
+      expect(this.userRepo.findOne).toHaveBeenCalledTimes(1);
+      expect(this.userRepo.findOne).toHaveBeenCalledWith(userId);
+    });
+
+    it('should not find the user and return undefined', async () => {
+      this.userRepo.findOne.mockResolvedValue(undefined);
+
+      const userId = 2345;
+
+      expect(await service.findById(userId)).toBeUndefined();
+
+      expect(this.userRepo.findOne).toHaveBeenCalledTimes(1);
+      expect(this.userRepo.findOne).toHaveBeenCalledWith(userId);
+    });
+  });
+
   describe('#generateUserToken', () => {
     it('should generate the JWT for the user and return the expiry date object', () => {
       const configStubs = {
