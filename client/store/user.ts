@@ -3,6 +3,8 @@
  */
 
 /* Node modules */
+import crypto from 'crypto';
+import qs from 'querystring';
 
 /* Third-party modules */
 import { GetterTree, ActionTree, MutationTree } from 'vuex';
@@ -61,6 +63,30 @@ const userStore : {
 
   getters: {
     expires: (state) => state.expires,
+    gravatar: (_state, getters) => ({
+      defaultImg = 'mp',
+      size = 32,
+    }: {
+      defaultImg?: string;
+      size?: number;
+    } = {}) : string | void => {
+      const emailAddress = getters?.user?.emailAddress;
+
+      if (!emailAddress) {
+        return undefined;
+      }
+
+      const md5 = crypto.createHash('md5')
+        .update(emailAddress)
+        .digest('hex');
+
+      const opts = {
+        d: defaultImg,
+        s: size,
+      };
+
+      return `https://www.gravatar.com/avatar/${md5}?${qs.stringify(opts)}`;
+    },
     redirect: (state) => {
       if (!state.redirect) {
         return undefined;
