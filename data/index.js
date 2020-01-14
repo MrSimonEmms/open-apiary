@@ -30,13 +30,31 @@ async function main() {
   const connection = await getConnection();
 
   const src = path.join(__dirname, 'data', '**', '*.{js,json}');
-  const files = glob(src);
+  const files = glob(src, {
+    sort: false,
+  })
+    .sort((a, b) => {
+      /* Always put link tables to end - assume they've got keys */
+      if (a.includes('link_')) {
+        return 1;
+      } else if (b.includes('link_')) {
+        return -1;
+      } else if (a < b) {
+        return 1;
+      } else if (a > b) {
+        return -1;
+      }
+
+      return 0;
+    });
 
   await Promise.all(files.map(async (file) => {
     /* First, get the data */
-    const data = require(file);
+    const items = require(file);
 
     const name = path.basename(path.basename(file, '.js'), '.json');
+
+    const { meta = {}, data = items } = items;
 
     if (!Array.isArray(data)) {
       throw new Error(`Data not an array: ${name}`);
@@ -52,10 +70,10 @@ async function main() {
 
     const parsedData = data.map(item => {
       const now = new Date();
-      if (!item.createdAt) {
+      if (!item.createdAt && meta.created !== false) {
         item.createdAt = now;
       }
-      if (!item.updatedAt) {
+      if (!item.updatedAt && meta.updated !== false) {
         item.updatedAt = now;
       }
 

@@ -44,6 +44,6 @@ module.exports = class MySQL {
   }
 
   async truncate(table) {
-    return this.db.query(`TRUNCATE TABLE ${table}`);
+    return this.db.query(`DELETE FROM ${table}`);
   }
 };
