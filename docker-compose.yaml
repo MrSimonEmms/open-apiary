@@ -17,6 +17,9 @@ services:
       DB_PASS: db-password
       DB_NAME: apiary
       DB_PORT: 3306
+      DB_MIGRATIONS_RUN: "true"
+      DB_SYNC: "false"
+      DB_LOGGING: "true"
       JWT_SECRET: jwt-secret-token
       VERSION: develop
     working_dir: /opt/app

@@ -33,6 +33,7 @@ import UserModule from './user/user.module';
         password: configService.get('db.password'),
         database: configService.get<any>('db.database'),
         migrationsRun: configService.get<boolean>('db.migrationsRun', true),
+        synchronize: configService.get<boolean>('db.sync', false),
         name: 'default',
         entities: [
           `${__dirname}/**/*.entity{.ts,.js}`,
