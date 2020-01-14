@@ -128,3 +128,6 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# SQLite
+**/*.sql
