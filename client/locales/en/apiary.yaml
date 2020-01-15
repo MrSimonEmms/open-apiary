@@ -1,0 +1,6 @@
+LIST:
+  CARD:
+    ACTIONS:
+      COUNT: Number of hives
+      LOCATION: Location
+  TITLE: Apiaries

@@ -3,7 +3,7 @@
     app
     dark
     v-model="drawer"
-    :mini-variant.sync="isMini"
+    :mini-variant="isMini"
     :mobile-break-point="$vuetify.breakpoint.thresholds.sm"
   )
 
@@ -38,17 +38,20 @@
 
     oa-nav-list(
       v-model="userMenu"
+      :displayTooltip="isMini"
     )
 
     v-divider
 
     oa-nav-list(
       v-model="menu"
+      :displayTooltip="isMini"
     )
 
     template( v-slot:append )
       oa-nav-list(
         v-model="footerMenu"
+        :displayTooltip="isMini"
       )
 
 </template>
@@ -72,6 +75,13 @@ export default class NavDrawer extends Vue {
     },
     icon: 'mdi-view-dashboard',
     title: 'nav:DRAWER.DASHBOARD',
+  }, {
+    exact: false,
+    to: {
+      name: 'apiary',
+    },
+    icon: 'mdi-beehive-outline',
+    title: 'nav:DRAWER.APIARIES',
   }];
 
   get appName(): string {
