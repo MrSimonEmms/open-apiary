@@ -2,6 +2,7 @@
   component(
     :is="tag"
     nav
+    dense
   )
     template( v-for="(item, key) in value" )
       v-list-group(
@@ -12,35 +13,48 @@
         template( v-slot:activator )
           oa-nav-list-item( :item="item" )
 
-        v-list-item(
+        v-tooltip(
           v-for="(subItem, subKey) in item.menu"
           :key="subKey"
-          nuxt
-          color="amber"
-          :exact="subItem.exact !== false"
-          v-on="getEventListeners(subItem)"
-          v-bind="{ \
-            href: subItem.href, \
-            target: subItem.hrefTarget, \
-            to: subItem.to, \
-          }"
+          right
+          :disabled="!displayTooltip"
         )
-          oa-nav-list-item( :item="subItem" )
+          span {{ $t(subItem.title) }}
+          template( v-slot:activator="{ on }" )
+            v-list-item(
+              nuxt
+              color="amber"
+              :exact="subItem.exact !== false"
+              v-on="getEventListeners(subItem, on)"
+              v-bind="{ \
+                href: subItem.href, \
+                target: subItem.hrefTarget, \
+                to: subItem.to, \
+              }"
+            )
+              oa-nav-list-item( :item="subItem" )
 
-      v-list-item(
+
+      v-tooltip(
         v-else
         :key="key"
-        nuxt
-        color="amber"
-        :exact="item.exact !== false"
-        v-on="getEventListeners(item)"
-        v-bind="{ \
-          href: item.href, \
-          target: item.hrefTarget, \
-          to: item.to, \
-        }"
+        right
+        :disabled="!displayTooltip"
       )
-        oa-nav-list-item( :item="item" )
+        span {{ $t(item.title) }}
+        template( v-slot:activator="{ on }" )
+          v-list-item(
+            nuxt
+            color="amber"
+            :exact="item.exact !== false"
+            v-on="getEventListeners(item, on)"
+            v-bind="{ \
+              href: item.href, \
+              target: item.hrefTarget, \
+              to: item.to, \
+            }"
+          )
+            oa-nav-list-item( v-on="on" :item="item" )
 </template>
 
 <script lang="ts">
@@ -57,10 +71,16 @@ import { IMenuItem } from '../interfaces/navDrawer';
 @Component
 export default class NavList extends Vue {
   @Prop({
+    type: Boolean,
+    default: true,
+  })
+  readonly displayTooltip!: boolean;
+
+  @Prop({
     type: String,
     default: 'v-list',
   })
-  readonly tag!: String;
+  readonly tag!: string;
 
   @Prop({
     type: Array,
@@ -69,8 +89,10 @@ export default class NavList extends Vue {
   readonly value!: IMenuItem[];
 
   // eslint-disable-next-line class-methods-use-this
-  getEventListeners(config: IMenuItem) {
-    const events : { [key: string]: any } = {};
+  getEventListeners(config: IMenuItem, on: { [key: string]: any } = {}) {
+    const events : { [key: string]: any } = {
+      ...on,
+    };
     if (config.click) {
       events.click = () => config.click!();
     }
