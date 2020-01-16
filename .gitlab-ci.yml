@@ -5,9 +5,6 @@ include:
 
 image: node:12-alpine
 
-variables:
-  CIT_DOCKER_ARCH_LIST: amd64,arm32v6,arm32v7,arm64v8
-
 ###########
 # Install #
 ###########
@@ -59,18 +56,33 @@ docker_build_amd64:
 
 docker_build_arm32v6:
   extends: .docker_build
+  only:
+    refs:
+      - master
+      - develop
+      - tags
   variables:
     CIT_DOCKER_ARCH: arm32v6
     CIT_DOCKER_ARGS_IMG: arm32v6/alpine
 
 docker_build_arm32v7:
   extends: .docker_build
+  only:
+    refs:
+      - master
+      - develop
+      - tags
   variables:
     CIT_DOCKER_ARCH: arm32v7
     CIT_DOCKER_ARGS_IMG: arm32v7/alpine
 
 docker_build_arm64v8:
   extends: .docker_build
+  only:
+    refs:
+      - master
+      - develop
+      - tags
   variables:
     CIT_DOCKER_ARCH: arm64v8
     CIT_DOCKER_ARGS_IMG: arm64v8/alpine
@@ -85,8 +97,18 @@ docker_publish_latest:
       - master
       - tags
   variables:
+    CIT_DOCKER_ARCH_LIST: amd64,arm32v6,arm32v7,arm64v8
     CIT_DOCKER_TAG: latest
     CIT_PUBLISH_VERSIONED_TAG: 1
+
+docker_publish_develop:
+  extends: .docker_publish
+  only:
+    refs:
+      - develop
+  variables:
+    CIT_DOCKER_ARCH_LIST: amd64,arm32v6,arm32v7,arm64v8
+    CIT_DOCKER_TAG: ${CI_COMMIT_REF_SLUG}
 
 docker_publish_feature:
   extends: .docker_publish
