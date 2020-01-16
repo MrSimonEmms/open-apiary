@@ -21,6 +21,11 @@ export default class AppStore extends VuexModule {
 
   uuid : string | null = null;
 
+  // eslint-disable-next-line class-methods-use-this
+  get appName() {
+    return 'Open Apiary';
+  }
+
   get correlationId() {
     return this.uuid;
   }

@@ -3,7 +3,7 @@
     app
     dark
     v-model="drawer"
-    :mini-variant.sync="isMini"
+    :mini-variant="isMini"
     :mobile-break-point="$vuetify.breakpoint.thresholds.sm"
   )
 
@@ -16,25 +16,42 @@
         .fill-height.nav-drawer-gradient
 
     v-list
-      v-list-item
-        v-list-item-content
-          v-list-item-title.title.text-center open apiary title
+      v-tooltip(
+        :disabled="!isMini"
+        right
+      )
+        span {{ appName }}
+        template( v-slot:activator="{ on }")
+          v-list-item.app-title(
+            v-on="on"
+            nuxt
+            :to="{ name: 'index' }"
+          )
+            v-list-item-avatar( tile )
+              v-img(
+                src="/img/icon.png"
+              )
+            v-list-item-content
+              v-list-item-title.title {{ appName }}
 
     v-divider
 
     oa-nav-list(
       v-model="userMenu"
+      :displayTooltip="isMini"
     )
 
     v-divider
 
     oa-nav-list(
       v-model="menu"
+      :displayTooltip="isMini"
     )
 
     template( v-slot:append )
       oa-nav-list(
         v-model="footerMenu"
+        :displayTooltip="isMini"
       )
 
 </template>
@@ -58,7 +75,18 @@ export default class NavDrawer extends Vue {
     },
     icon: 'mdi-view-dashboard',
     title: 'nav:DRAWER.DASHBOARD',
+  }, {
+    exact: false,
+    to: {
+      name: 'apiary',
+    },
+    icon: 'mdi-beehive-outline',
+    title: 'nav:DRAWER.APIARIES',
   }];
+
+  get appName(): string {
+    return this.$store.getters['app/appName'];
+  }
 
   get drawer() : boolean | null {
     return this.$store.getters['app/drawerDisplay'];
@@ -129,6 +157,16 @@ export default class NavDrawer extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .app-title.v-list-item--link {
+    &:before {
+      background: {
+        color: transparent;
+      }
+    }
+  }
+</style>
 
 <style lang="scss" slot-scope="image">
   @import '~vuetify/src/styles/styles.sass';

@@ -13,6 +13,7 @@
   "dependencies": {
     "glob": "^7.1.6",
     "mysql2": "^2.1.0",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "sqlite3": "^4.1.1"
   }
 }

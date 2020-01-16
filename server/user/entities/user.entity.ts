@@ -17,33 +17,33 @@ import { IUser } from '../interfaces/user';
 @Entity()
 export default class User implements IUser {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id: number;
 
   @Column({
     type: 'varchar',
     length: 200,
   })
-  name!: string;
+  name: string;
 
   @Column({
     type: 'varchar',
     length: 200,
   })
-  emailAddress!: string;
+  emailAddress: string;
 
   @Column({
     type: 'varchar',
     length: 200,
   })
-  password!: string;
+  password: string;
 
   @Column({
     type: 'datetime',
   })
-  createdAt!: Date;
+  createdAt: Date;
 
   @Column({
     type: 'datetime',
   })
-  updatedAt!: Date;
+  updatedAt: Date;
 }

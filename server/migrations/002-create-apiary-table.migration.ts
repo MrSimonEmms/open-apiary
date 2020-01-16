@@ -1,18 +1,22 @@
 /**
- * 001-create-user-table
+ * 002-create-apiary-table.migration
  */
 
 /* Node modules */
 
 /* Third-party modules */
-import { QueryRunner, MigrationInterface, Table } from 'typeorm';
+import {
+  QueryRunner,
+  MigrationInterface,
+  Table,
+} from 'typeorm';
 
 /* Files */
 
-export default class CreateUserTable1578524292325 implements MigrationInterface {
+export default class CreateApiaryTable1578955798961 implements MigrationInterface {
   async up(queryRunner: QueryRunner) : Promise<any> {
     await queryRunner.createTable(new Table({
-      name: 'user',
+      name: 'apiary',
       columns: [{
         name: 'id',
         type: 'integer',
@@ -24,24 +28,20 @@ export default class CreateUserTable1578524292325 implements MigrationInterface 
         type: 'varchar',
         width: 200,
       }, {
-        name: 'emailAddress',
-        type: 'varchar',
-        width: 200,
-      }, {
-        name: 'password',
-        type: 'varchar',
-        width: 200,
-      }, {
         name: 'createdAt',
         type: 'datetime',
+        isNullable: false,
+        default: 'CURRENT_TIMESTAMP',
       }, {
         name: 'updatedAt',
         type: 'datetime',
+        isNullable: false,
+        default: 'CURRENT_TIMESTAMP',
       }],
     }), true);
   }
 
   async down(queryRunner: QueryRunner) : Promise<any> {
-    await queryRunner.dropTable(('user'));
+    await queryRunner.dropTable('apiary');
   }
 }

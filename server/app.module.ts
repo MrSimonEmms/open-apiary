@@ -8,9 +8,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { LoggerOptions } from 'typeorm/logger/LoggerOptions';
 
 /* Files */
 import config from './config/env';
+import ApiaryModule from './apiary/apiary.module';
 import AuthModule from './auth/auth.module';
 import NuxtModule from './nuxt/nuxt.module';
 import UserModule from './user/user.module';
@@ -33,6 +35,8 @@ import UserModule from './user/user.module';
         password: configService.get('db.password'),
         database: configService.get<any>('db.database'),
         migrationsRun: configService.get<boolean>('db.migrationsRun', true),
+        synchronize: configService.get<boolean>('db.sync', false),
+        logging: configService.get<LoggerOptions>('db.logging', false),
         name: 'default',
         entities: [
           `${__dirname}/**/*.entity{.ts,.js}`,
@@ -42,6 +46,7 @@ import UserModule from './user/user.module';
         ],
       }),
     }),
+    ApiaryModule,
     AuthModule,
     UserModule,
     NuxtModule, /* This must be last */

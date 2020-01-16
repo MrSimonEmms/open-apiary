@@ -107,6 +107,11 @@ describe('User Controller', function () {
 
   describe('#user', () => {
     beforeEach(() => {
+      const guards = Reflect.getMetadata('__mockedGuards__', controller.user);
+      expect(guards).toHaveLength(1);
+      expect(guards[0]()).toEqual([
+        'jwt',
+      ]);
       expect(Reflect.getMetadata('path', controller.user)).toBe('/');
       expect(Reflect.getMetadata('method', controller.user)).toBe(RequestMethod.GET);
     });

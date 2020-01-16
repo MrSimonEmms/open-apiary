@@ -10,21 +10,18 @@ const path = require('path');
 
 /* Third-party modules */
 const { sync: glob } = require('glob');
-const mysql = require('mysql2/promise');
+const sqlite = require('sqlite3');
 
 /* Files */
 
 async function getConnection() {
-  const db = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    port: Number(process.env.DB_PORT || 3306),
-  });
+  const driver = (process.env.DB_TYPE || 'mysql').toLowerCase();
 
-  /* Do a dummy query to check connection ok */
-  await db.query('SELECT 1 + 1');
+  const Driver = require(`./drivers/${driver}`);
+
+  const db = new Driver();
+
+  await db.auth();
 
   return db;
 }
@@ -33,13 +30,31 @@ async function main() {
   const connection = await getConnection();
 
   const src = path.join(__dirname, 'data', '**', '*.{js,json}');
-  const files = glob(src);
+  const files = glob(src, {
+    sort: false,
+  })
+    .sort((a, b) => {
+      /* Always put link tables to end - assume they've got keys */
+      if (a.includes('link_')) {
+        return 1;
+      } else if (b.includes('link_')) {
+        return -1;
+      } else if (a < b) {
+        return 1;
+      } else if (a > b) {
+        return -1;
+      }
+
+      return 0;
+    });
 
   await Promise.all(files.map(async (file) => {
     /* First, get the data */
-    const data = require(file);
+    const items = require(file);
 
     const name = path.basename(path.basename(file, '.js'), '.json');
+
+    const { meta = {}, data = items } = items;
 
     if (!Array.isArray(data)) {
       throw new Error(`Data not an array: ${name}`);
@@ -51,30 +66,23 @@ async function main() {
     }
 
     /* Clear out any existing data */
-    await connection.query(`TRUNCATE TABLE ${name}`);
+    await connection.truncate(name);
 
     const parsedData = data.map(item => {
       const now = new Date();
-      if (!item.createdAt) {
+      if (!item.createdAt && meta.created !== false) {
         item.createdAt = now;
       }
-      if (!item.updatedAt) {
+      if (!item.updatedAt && meta.updated !== false) {
         item.updatedAt = now;
       }
 
       return item;
     });
 
-    const columns = Object.keys(parsedData[0]).join(', ');
-    const sql = `INSERT INTO ${name} (${columns}) VALUES ?`;
+    const inserts = await connection.insertBulk(name, parsedData);
 
-    const values = parsedData.map(item => Object.values(item));
-
-    await connection.query(sql, [
-      values,
-    ]);
-
-    console.log(`Inserted ${values.length} row(s) to ${name}`);
+    console.log(`Inserted ${inserts} row(s) to ${name}`);
   }));
 
   await connection.close();
