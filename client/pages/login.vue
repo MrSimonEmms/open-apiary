@@ -1,6 +1,9 @@
 <template lang="pug">
   v-content
-    v-container.fill-height( fluid )
+    v-container.bg-img.fill-height(
+      fluid
+      :style="`background-image: url(${backgroundImg})`"
+    )
       v-row.ma-0(
         align="center"
         justify="center"
@@ -67,27 +70,21 @@
  */
 
 /* Node modules */
-import { Vue } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import { email, required } from 'vuelidate/lib/validators';
 
 /* Files */
 import Validation from '../lib/validation';
 import { IValidation } from '../interfaces/validation';
 
+/* Define the validator on the instance */
 declare module 'vue/types/vue' {
   interface Vue {
     validator: IValidation;
   }
 }
 
-interface IData {
-  error: string | null;
-  emailAddress: string;
-  password: string;
-  validator: Validation,
-}
-
-export default Vue.extend({
+@Component({
   layout: 'blank',
 
   middleware: [
@@ -98,66 +95,19 @@ export default Vue.extend({
     return this.validator.getValidations();
   },
 
-  data() {
-    return {
-      error: null,
-      emailAddress: '',
-      password: '',
-      rememberMe: true,
-      validator: new Validation(this, [{
-        name: 'emailAddress',
-        validations: {
-          required,
-          email,
-        },
-      }, {
-        name: 'password',
-        validations: {
-          required,
-        },
-      }]),
-    } as IData;
-  },
-
-  computed: {
-    expires() { return this.$store.getters['user/expires']; },
-    token() { return this.$store.getters['user/token']; },
-    user() { return this.$store.getters['user/user']; },
-  },
-
-  methods: {
-    async submit() {
-      this.error = null;
-      const valid = this.validator.validate();
-
-      if (!valid) {
-        /* Don't continue - form in invalid state */
-        return;
-      }
-
-      try {
-        await this.$store.dispatch('user/login', {
-          emailAddress: this.emailAddress,
-          password: this.password,
-        });
-
-        const target = this.$store.getters['user/redirect'] ?? {
-          name: 'index',
-        };
-
-        await this.$router.replace(target);
-      } catch (err) {
-        this.$log.error('Unabled to login', {
-          err,
-        });
-
-        if (err?.response?.status === 401) {
-          this.error = 'INVALID_LOGIN';
-        } else {
-          this.error = 'GENERAL';
-        }
-      }
-    },
+  created() {
+    this.validator = new Validation(this, [{
+      name: 'emailAddress',
+      validations: {
+        required,
+        email,
+      },
+    }, {
+      name: 'password',
+      validations: {
+        required,
+      },
+    }]);
   },
 
   head() {
@@ -165,9 +115,83 @@ export default Vue.extend({
       title: this.$i18n.t('login:TITLE'),
     };
   },
-});
+})
+export default class LoginPage extends Vue {
+  error: string | null = null;
+
+  emailAddress: string = '';
+
+  password: string = '';
+
+  rememberMe: boolean = true;
+
+  validator!: IValidation;
+
+  // eslint-disable-next-line class-methods-use-this
+  get backgroundImg() {
+    /* This must be set in the /client/static/img/login folder - must be in format xxx.jpg */
+    const min = 1;
+    const max = 5;
+
+    const fileNumber = Math.floor(Math.random() * (max - min + 1) + min)
+      .toString()
+      .padStart(3, '0');
+
+    return `/img/login/${fileNumber}.jpg`;
+  }
+
+  get expires() {
+    return this.$store.getters['user/expires'];
+  }
+
+  get token() {
+    return this.$store.getters['user/token'];
+  }
+
+  get user() {
+    return this.$store.getters['user/user'];
+  }
+
+  async submit() {
+    this.error = null;
+    const valid = this.validator.validate();
+
+    if (!valid) {
+      /* Don't continue - form in invalid state */
+      return;
+    }
+
+    try {
+      await this.$store.dispatch('user/login', {
+        emailAddress: this.emailAddress,
+        password: this.password,
+      });
+
+      const target = this.$store.getters['user/redirect'] ?? {
+        name: 'index',
+      };
+
+      await this.$router.replace(target);
+    } catch (err) {
+      this.$log.error('Unabled to login', {
+        err,
+      });
+
+      if (err?.response?.status === 401) {
+        this.error = 'INVALID_LOGIN';
+      } else {
+        this.error = 'GENERAL';
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-
+  .bg-img {
+    background: {
+      size: cover;
+      position: center center;
+    }
+  }
 </style>
