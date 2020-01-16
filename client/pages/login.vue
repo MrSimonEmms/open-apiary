@@ -19,7 +19,17 @@
             outlined
             flat
           )
-            v-card-title {{ $t('login:TITLE') }}
+            v-card-title.mt-n11.mb-n9.justify-center
+              v-avatar(
+                color="white"
+                size="65"
+              )
+                v-img(
+                  height="60px"
+                  src="/img/icon.png"
+                )
+
+            v-card-title.justify-center {{ $t('login:TITLE') }}
 
             v-card-text( v-if="error" )
               v-alert( type="error" ) {{ $t(`login:ERROR.${error}`) }}
