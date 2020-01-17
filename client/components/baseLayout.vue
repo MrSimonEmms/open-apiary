@@ -13,7 +13,21 @@ import { Vue, Component } from 'vue-property-decorator';
 
 /* Files */
 
-@Component
+@Component({
+  head() {
+    let title: string | undefined;
+
+    const parsedTitle = this.$store.getters['app/pageTitle'];
+
+    if (parsedTitle) {
+      title = this.$i18n.t(parsedTitle);
+    }
+
+    return {
+      title,
+    };
+  },
+})
 export default class BaseLayout extends Vue {}
 </script>
 
