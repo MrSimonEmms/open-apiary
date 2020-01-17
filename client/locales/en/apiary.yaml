@@ -1,4 +1,7 @@
+BUTTONS:
+  NEW: Create an apiary
 LIST:
+  NO_ITEMS: You have no apiaries configured. Why not create your first?
   CARD:
     ACTIONS:
       COUNT: Number of hives
