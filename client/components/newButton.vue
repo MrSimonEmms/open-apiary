@@ -9,8 +9,9 @@
       nuxt
       :to="to"
       fab
-      dark
-      color="red"
+      :light="dark === false"
+      :dark="dark !== false"
+      :color="color"
     )
       v-icon {{ openIcon }}
 
@@ -27,8 +28,9 @@
         v-btn(
           v-model="opened"
           fab
-          dark
-          color="red"
+          :light="dark === false"
+          :dark="dark !== false"
+          :color="color"
         )
           v-icon( v-if="opened" ) {{ closeIcon }}
           v-icon( v-else ) {{ openIcon }}
@@ -36,11 +38,13 @@
         v-for="(item, key) in buttons"
         :key="key"
         fab
-        dark
+        :light="item.dark === false"
+        :dark="item.dark !== false"
         small
         :color="item.color"
         nuxt
         :to="item.to"
+        v-on="getEvents(item)"
       )
         v-icon {{ item.icon }}
 </template>
@@ -65,24 +69,47 @@ export default class NewButton extends Vue {
     type: Array,
     default: () => [],
   })
-  buttons!: IButton[];
+  readonly buttons!: IButton[];
+
+  @Prop({
+    type: String,
+    default: 'primary',
+  })
+  readonly color!: string;
+
+  @Prop({
+    type: Boolean,
+    default: true,
+  })
+  readonly dark!: boolean;
 
   @Prop({
     type: String,
     default: 'mdi-plus',
   })
-  openIcon!: string;
+  readonly openIcon!: string;
 
   @Prop({
     type: String,
     default: 'mdi-close',
   })
-  closeIcon!: string;
+  readonly closeIcon!: string;
 
   @Prop({
     type: Object,
   })
   readonly to?: RawLocation;
+
+  // eslint-disable-next-line class-methods-use-this
+  getEvents(item: IButton) {
+    const events : { [key:string]: any } = {};
+
+    if (item.click) {
+      events.click = (event: Event) => item.click!(event);
+    }
+
+    return events;
+  }
 }
 </script>
 

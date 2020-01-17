@@ -12,5 +12,7 @@ import { RawLocation } from 'vue-router'; // eslint-disable-line import/no-extra
 export interface IButton {
   color: string;
   icon: string;
-  to: RawLocation;
+  dark?: boolean;
+  to?: RawLocation;
+  click?: (e: Event) => void;
 }

@@ -1,10 +1,25 @@
 <template lang="pug">
   v-row
+    oa-new-button(
+      :to="{ name: 'apiary-create' }"
+    )
     v-col(
       cols="12"
     )
       v-row()
+        v-col.text-center(
+          cols="12"
+          v-if="apiaryList.length === 0"
+        ) {{ $t('apiary:LIST.NO_ITEMS') }}
+          .mt-5
+            v-btn(
+              color="primary"
+              nuxt
+              :to="{ name: 'apiary-create' }"
+            ) {{ $t('apiary:BUTTONS.NEW') }}
+
         v-col(
+          v-else
           v-for="(item, key) in apiaryList"
           :key="key"
           cols="12"
@@ -75,15 +90,26 @@ import { Vue, Component } from 'vue-property-decorator';
 /* Files */
 import { IApiary, ILocation } from '../../../server/apiary/interfaces/apiary';
 
+/* Define the validator on the instance */
+declare module 'vue/types/vue' {
+  interface Vue {
+    setPageTitle(): void;
+  }
+}
+
 @Component({
   async fetch({ store }) {
     await store.dispatch('apiary/loadAll');
   },
 
-  head() {
-    return {
-      title: this.$i18n.t('apiary:LIST.TITLE'),
-    };
+  created() {
+    this.setPageTitle();
+  },
+
+  watch: {
+    $route() {
+      this.setPageTitle();
+    },
   },
 })
 export default class ApiaryPage extends Vue {
@@ -132,6 +158,10 @@ export default class ApiaryPage extends Vue {
     const imgNumber = (key % maxNumber) + 1;
 
     return `/img/apiaries/00${imgNumber}.jpg`;
+  }
+
+  setPageTitle() {
+    this.$store.commit('app/setPageTitle', 'apiary:LIST.TITLE');
   }
 }
 </script>
