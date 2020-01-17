@@ -5,7 +5,7 @@
     oa-app-bar()
 
     v-content
-      v-container( fluid )
+      v-container.footer-clearance( fluid )
         nuxt
 
       oa-footer
@@ -28,4 +28,9 @@ export default class DefaultLayout extends Vue {}
 </script>
 
 <style lang="scss" scoped>
+  .footer-clearance {
+    padding: {
+      bottom: 50px;
+    }
+  }
 </style>
