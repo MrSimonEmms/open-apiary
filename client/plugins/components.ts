@@ -14,6 +14,7 @@ import Footer from '../components/footer.vue';
 import NavDrawer from '../components/navDrawer.vue';
 import NavList from '../components/navList.vue';
 import NavListItem from '../components/navListItem.vue';
+import NewButton from '../components/newButton.vue';
 
 const { Fragment } = require('vue-fragment');
 
@@ -25,3 +26,4 @@ Vue.component('oaFooter', Footer);
 Vue.component('oaNavDrawer', NavDrawer);
 Vue.component('oaNavList', NavList);
 Vue.component('oaNavListItem', NavListItem);
+Vue.component('oaNewButton', NewButton);
