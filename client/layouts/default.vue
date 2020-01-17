@@ -5,7 +5,10 @@
     oa-app-bar()
 
     v-content
-      nuxt
+      v-container( fluid )
+        nuxt
+
+      oa-footer
 </template>
 
 <script lang="ts">
@@ -16,13 +19,12 @@
 /* Node modules */
 
 /* Third-party modules */
-import { Vue } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 
 /* Files */
 
-export default Vue.extend({
-
-});
+@Component
+export default class DefaultLayout extends Vue {}
 </script>
 
 <style lang="scss" scoped>
