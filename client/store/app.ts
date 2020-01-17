@@ -19,6 +19,8 @@ export default class AppStore extends VuexModule {
 
   drawerMini: boolean = false;
 
+  title?: string;
+
   uuid : string | null = null;
 
   // eslint-disable-next-line class-methods-use-this
@@ -38,6 +40,10 @@ export default class AppStore extends VuexModule {
     return this.drawerMini;
   }
 
+  get pageTitle() {
+    return this.title;
+  }
+
   @Mutation
   setDrawerDisplay(state: boolean) {
     this.drawer = state;
@@ -46,6 +52,11 @@ export default class AppStore extends VuexModule {
   @Mutation
   setDrawerMini(isMini: boolean) {
     this.drawerMini = isMini;
+  }
+
+  @Mutation
+  setPageTitle(title?: string) {
+    this.title = title;
   }
 
   @Mutation
