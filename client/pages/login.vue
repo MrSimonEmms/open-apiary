@@ -40,23 +40,21 @@
               )
                 v-text-field(
                   v-model="emailAddress"
-                  required
                   :error-messages="validator.getErrors('emailAddress')"
                   v-on="validator.getEvents('emailAddress')"
                   :label="$t('login:FORM.LABEL.EMAIL_ADDRESS')"
-                  name="emailAddress"
-                  prepend-icon="mdi-account"
+                  prepend-inner-icon="mdi-account"
+                  outlined
                 )
 
                 v-text-field(
                   v-model="password"
-                  required
                   :error-messages="validator.getErrors('password')"
                   v-on="validator.getEvents('password')"
                   :label="$t('login:FORM.LABEL.PASSWORD')"
-                  name="password"
-                  prepend-icon="mdi-lock"
+                  prepend-inner-icon="mdi-lock"
                   type="password"
+                  outlined
                 )
 
                 v-switch(
