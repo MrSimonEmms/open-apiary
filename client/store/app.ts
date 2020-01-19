@@ -5,6 +5,7 @@
 /* Node modules */
 
 /* Third-party modules */
+import { Vue } from 'vue-property-decorator';
 import { Module, Mutation, VuexModule } from 'vuex-module-decorators';
 
 /* Files */
@@ -46,21 +47,21 @@ export default class AppStore extends VuexModule {
 
   @Mutation
   setDrawerDisplay(state: boolean) {
-    this.drawer = state;
+    Vue.set(this, 'drawer', state);
   }
 
   @Mutation
   setDrawerMini(isMini: boolean) {
-    this.drawerMini = isMini;
+    Vue.set(this, 'drawerMini', isMini);
   }
 
   @Mutation
   setPageTitle(title?: string) {
-    this.title = title;
+    Vue.set(this, 'title', title);
   }
 
   @Mutation
   setUUID(uuid: string) {
-    this.uuid = uuid;
+    Vue.set(this, 'uuid', uuid);
   }
 }
