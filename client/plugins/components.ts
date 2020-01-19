@@ -8,6 +8,7 @@
 import { Vue } from 'vue-property-decorator';
 
 /* Files */
+import ApiaryEditor from '../components/apiaryEditor.vue';
 import AppBar from '../components/appBar.vue';
 import BaseLayout from '../components/baseLayout.vue';
 import Footer from '../components/footer.vue';
@@ -20,6 +21,7 @@ const { Fragment } = require('vue-fragment');
 
 Vue.component('Fragment', Fragment); // This should be used sparingly
 
+Vue.component('oaApiaryEditor', ApiaryEditor);
 Vue.component('oaAppBar', AppBar);
 Vue.component('oaBaseLayout', BaseLayout);
 Vue.component('oaFooter', Footer);
