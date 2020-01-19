@@ -1,5 +1,8 @@
 BUTTONS:
   NEW: Create an apiary
+  SUBMIT: Save
+ERROR:
+  FAILED_TO_SAVE: Error whilst saving. Please try again later.
 LIST:
   NO_ITEMS: You have no apiaries configured. Why not create your first?
   CARD:
@@ -7,3 +10,10 @@ LIST:
       COUNT: Number of hives
       LOCATION: Location
   TITLE: Apiaries
+ITEM:
+  EDIT:
+    TITLE: Edit Apiary
+  NEW:
+    TITLE: Create Apiary
+EDITOR:
+  NAME: Name
