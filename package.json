@@ -19,7 +19,7 @@
     "dev:client": "nuxt",
     "dev:server": "nodemon",
     "lint": "run-s lint:client lint:server",
-    "lint:client": "eslint --ext .ts,.js,.vue ./client",
+    "lint:client": "eslint --ext .ts,.js,.vue ./client nuxt.config.js",
     "lint:server": "eslint --ext .ts,.js ./server",
     "postinstall": "patch-package",
     "start": "node ./",
