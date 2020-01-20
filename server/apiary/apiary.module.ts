@@ -10,15 +10,28 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 /* Files */
 import Apiary from './entities/apiary.entity';
-import ApiaryService from './services/apiary.service';
 import ApiaryController from './controllers/apiary.controller';
+import ApiaryService from './services/apiary.service';
+import Hive from './entities/hive.entity';
+import HiveController from './controllers/hive.controller';
+import HiveService from './services/hive.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
+    Hive,
     Apiary,
   ])],
-  controllers: [ApiaryController],
-  providers: [ApiaryService],
-  exports: [ApiaryService],
+  controllers: [
+    HiveController,
+    ApiaryController,
+  ],
+  providers: [
+    HiveService,
+    ApiaryService,
+  ],
+  exports: [
+    HiveService,
+    ApiaryService,
+  ],
 })
 export default class ApiaryModule {}

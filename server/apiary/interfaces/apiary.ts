@@ -14,14 +14,19 @@ export interface ILocation {
   w3w: string;
 }
 
-export interface IHive {}
+export interface IHive {
+  id: number;
+  apiary: IApiary;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export interface IApiary {
   id: number;
   name: string;
   image?: number;
   location?: ILocation,
-  hives?: IHive[];
-  createdAt: Date,
-  updatedAt: Date,
+  hives: IHive[];
+  createdAt: Date;
+  updatedAt: Date;
 }

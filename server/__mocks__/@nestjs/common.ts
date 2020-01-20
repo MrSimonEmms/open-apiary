@@ -9,6 +9,8 @@ import * as mod from '@nestjs/common';
 
 /* Files */
 
+(<any> mod).HttpException = jest.fn();
+
 (<any> mod).UseGuards = jest.fn((...guards: any[]) => (
   target: any,
   method: any,

@@ -4,7 +4,7 @@
 
 /* Node modules */
 import { Test, TestingModule } from '@nestjs/testing';
-import { HttpException, RequestMethod } from '@nestjs/common';
+import { HttpException, HttpStatus, RequestMethod } from '@nestjs/common';
 
 /* Files */
 import UserController from './user.controller';
@@ -54,8 +54,7 @@ describe('User Controller', function () {
         expect(true).toEqual(false);
       } catch (err) {
         expect(err).toBeInstanceOf(HttpException);
-        expect(err.status).toEqual(401);
-        expect(err.message).toEqual('Unauthorized');
+        expect(HttpException).toBeCalledWith('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
 
         expect(this.mockUserService.findByEmailAndPassword).toHaveBeenCalledTimes(1);
         expect(this.mockUserService.findByEmailAndPassword)
