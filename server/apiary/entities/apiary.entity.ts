@@ -9,6 +9,7 @@ import {
   Entity,
   Column,
   CreateDateColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,6 +23,7 @@ import { CrudValidationGroups } from '@nestjsx/crud';
 
 /* Files */
 import { IApiary } from '../interfaces/apiary';
+import Hive from './hive.entity'; // eslint-disable-line import/no-cycle
 
 @Entity()
 export default class Apiary implements IApiary {
@@ -37,6 +39,9 @@ export default class Apiary implements IApiary {
     length: 200,
   })
   name: string;
+
+  @OneToMany(() => Hive, (hive) => hive.apiary)
+  hives: Hive[];
 
   @CreateDateColumn({
     type: 'datetime',

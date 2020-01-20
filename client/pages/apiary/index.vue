@@ -58,7 +58,7 @@
                         v-on="on"
                         color="amber darken-3"
                       ) mdi-beehive-outline
-                      span.subheading.mx-2 0
+                      span.subheading.mx-2 {{ item.hives.length }}
 
                   v-tooltip(
                     v-if="item.location"
