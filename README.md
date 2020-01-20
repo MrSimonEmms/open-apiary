@@ -20,7 +20,7 @@ to run the whole stack.
 
 In the root of your repo, run `docker-compose up`. This will run the development
 stack and initialise test data sets. Once it's loaded, navigate to 
-[localhost:9999](http://localhost:9999).
+[localhost:3000](http://localhost:3000).
 
 # Applications
 

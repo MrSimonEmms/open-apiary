@@ -3,7 +3,7 @@ services:
   app:
     image: node:12 # Use the full image so we can use node-gyp
     ports:
-      - 9999:3000
+      - 3000:3000
     links:
       - mysql
     depends_on:
