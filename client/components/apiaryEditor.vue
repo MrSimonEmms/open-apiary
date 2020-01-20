@@ -100,6 +100,8 @@ export default class ApiaryEditor extends Vue {
     try {
       const saved = await this.$store.dispatch('apiary/save', this.id);
 
+      this.$store.commit('app/addSystemMessage', 'misc:BUTTONS:SAVED');
+
       if (!this.id) {
         /* Redirect to page if creating a new one */
         await this.$router.push({
