@@ -1,28 +1,43 @@
 <template lang="pug">
   oa-base-layout
-    v-row( justify="center" )
-      v-col( cols="12" )
-        v-row( no-gutters justify="center" )
-          v-col(
+    v-content.bg-img
+      v-container.fill-height.bg-gradient.white--text( fluid )
+        v-row.ma-0( justify="center" )
+          v-col.text-center(
             cols="12"
-            lg="10"
-            xl="8"
+            sm="8"
+            md="4"
+            lg="4"
+            xl="3"
           )
-            v-row( no-gutters )
-              v-col.pr-2(
-                cols="12"
-              )
-                v-row.pb-2( no-gutters )
-                  v-card(
-                    width="100%"
-                    flat
-                  )
-                    v-card-title.subtitle-1.red--text.font-weight-medium.text-uppercase
-                      span( v-if="error.statusCode === 404") Page not found
-                      span( v-else ) Error
+            h1.display-4.font-weight-bold {{ error.statusCode }}
 
-                    v-card-text
-                      NuxtLink( :to="{ name: 'index' }" ) Home page
+            .display-2
+              span( v-if="error.statusCode === 404" ) {{ $t('error:PAGE_NOT_FOUND') }}
+              span( v-else ) {{ $t('error:GENERAL_ERROR') }}
+
+            .mt-5( v-if="error.statusCode !== 404" )
+              | {{ $t('error:MESSAGE', { msg: error.message }) }}
+
+            v-btn.mt-5(
+              color="black"
+              dark
+              large
+              nuxt
+              :to="{ name: 'index' }"
+            ) {{ $t('error:RETURN_TO_HOMEPAGE') }}
+
+            .mt-12( v-if="error.statusCode !== 404" )
+              v-btn(
+                :href="bugUrl"
+                target="_blank"
+                color="error"
+                x-small
+              ) {{ $t('nav:DRAWER.REPORT_ISSUE') }}
+                v-icon(
+                  right
+                  dark
+                ) mdi-bug
 </template>
 
 <script lang="ts">
@@ -48,14 +63,38 @@ export default Vue.extend({
     } as Vue.PropOptions<IVueError>,
   },
 
+  data() {
+    return {
+      bugUrl: process.env.PROJECT_BUGS,
+    };
+  },
+
   created() {
     Vue.$log.error('General Nuxt error', {
-      err: this.error,
+      statusCode: this.error.statusCode,
+      path: this.error.path,
+      err: this.error.message,
     });
   },
 });
 </script>
 
 <style lang="scss" scoped>
+  @import '~vuetify/src/styles/styles.sass';
 
+  .bg-img {
+    background: {
+      image: url('/img/login/005.jpg');
+      size: cover;
+      position: center center;
+    }
+
+    .bg-gradient {
+      $base-color: map-get($grey, 'darken-4');
+
+      background: {
+        image: linear-gradient(to top right, rgba($base-color, .75), rgba($base-color, .75));
+      }
+    }
+  }
 </style>
