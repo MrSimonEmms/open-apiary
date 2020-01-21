@@ -30,7 +30,7 @@ if (process.server) {
   logLevel = process.env.LOG_LEVEL || 'info';
 } else if (process.client) {
   /* Get log level from */
-  logLevel = Logger.getDebugLevel('debug', /^www:/);
+  logLevel = Logger.getDebugLevel('debug', /^apiary:/);
 }
 
 if (logLevel) {

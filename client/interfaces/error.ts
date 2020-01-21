@@ -10,4 +10,6 @@
 
 export interface IVueError {
   statusCode: number;
+  path: string;
+  message: string;
 }
