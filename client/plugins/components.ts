@@ -11,6 +11,7 @@ import { Vue } from 'vue-property-decorator';
 import ApiaryEditor from '../components/apiaryEditor.vue';
 import AppBar from '../components/appBar.vue';
 import BaseLayout from '../components/baseLayout.vue';
+import Confirm from '../components/confirm.vue';
 import Footer from '../components/footer.vue';
 import NavDrawer from '../components/navDrawer.vue';
 import NavList from '../components/navList.vue';
@@ -24,6 +25,7 @@ Vue.component('Fragment', Fragment); // This should be used sparingly
 Vue.component('oaApiaryEditor', ApiaryEditor);
 Vue.component('oaAppBar', AppBar);
 Vue.component('oaBaseLayout', BaseLayout);
+Vue.component('oaConfirm', Confirm);
 Vue.component('oaFooter', Footer);
 Vue.component('oaNavDrawer', NavDrawer);
 Vue.component('oaNavList', NavList);
