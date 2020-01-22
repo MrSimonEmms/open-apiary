@@ -6,8 +6,8 @@
 
 /* Third-party modules */
 import { Vue } from 'vue-property-decorator';
-import { Module, Mutation, VuexModule } from 'vuex-module-decorators';
 import uuid from 'uuid';
+import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
 /* Files */
 import { ISystemMsg } from '../interfaces/app';
@@ -17,108 +17,95 @@ interface ISystemMsgItem {
   message: ISystemMsg;
 }
 
-@Module({
-  name: 'app',
-  stateFactory: true,
-  namespaced: true,
-})
-export default class AppStore extends VuexModule {
-  drawer: boolean | null = null;
-
-  drawerMini: boolean = false;
-
-  systemMessage: ISystemMsgItem[] = [];
-
+export interface RootState {
+  drawer: boolean | null;
+  drawerMini: boolean;
+  systemMessage: ISystemMsgItem[]
   title?: string;
-
-  uuid : string | null = null;
-
-  // eslint-disable-next-line class-methods-use-this
-  get appName() {
-    return 'Open Apiary';
-  }
-
-  get correlationId() {
-    return this.uuid;
-  }
-
-  get drawerDisplay() {
-    return this.drawer;
-  }
-
-  get isDrawerMini() {
-    return this.drawerMini;
-  }
-
-  get pageTitle() {
-    return this.title;
-  }
-
-  get systemMessages() {
-    return this.systemMessage;
-  }
-
-  @Mutation
-  addSystemMessage(msg: ISystemMsg | string) {
-    const messages : ISystemMsgItem[] = [
-      ...this.systemMessage,
-    ];
-
-    /* Default options */
-    let message : ISystemMsg = {
-      msg: '',
-      top: false,
-      bottom: true,
-      left: false,
-      right: false,
-      timeout: 5000,
-      multiLine: false,
-      vertical: false,
-    };
-
-    if (typeof msg === 'string') {
-      message.msg = msg;
-    } else {
-      message = {
-        ...message,
-        ...msg,
-      };
-    }
-
-    messages.push({
-      message,
-      key: uuid.v4(),
-    });
-
-    Vue.set(this, 'systemMessage', messages);
-  }
-
-  @Mutation
-  removeSystemMessage(key: string) {
-    const messages : ISystemMsgItem[] = [
-      ...this.systemMessage,
-    ].filter((item) => item.key !== key);
-
-    Vue.set(this, 'systemMessage', messages);
-  }
-
-  @Mutation
-  setDrawerDisplay(state: boolean) {
-    Vue.set(this, 'drawer', state);
-  }
-
-  @Mutation
-  setDrawerMini(isMini: boolean) {
-    Vue.set(this, 'drawerMini', isMini);
-  }
-
-  @Mutation
-  setPageTitle(title?: string) {
-    Vue.set(this, 'title', title);
-  }
-
-  @Mutation
-  setUUID(str: string) {
-    Vue.set(this, 'uuid', str);
-  }
+  uuid: string | null;
 }
+
+const appStore : {
+  actions?: ActionTree<RootState, RootState>;
+  getters?: GetterTree<RootState, RootState>;
+  mutations?: MutationTree<RootState>;
+  state: () => RootState;
+} = {
+  mutations: {
+    addSystemMessage(state, msg: ISystemMsg | string) {
+      const messages : ISystemMsgItem[] = [
+        ...state.systemMessage,
+      ];
+
+      /* Default options */
+      let message : ISystemMsg = {
+        msg: '',
+        top: false,
+        bottom: true,
+        left: false,
+        right: false,
+        timeout: 5000,
+        multiLine: false,
+        vertical: false,
+      };
+
+      if (typeof msg === 'string') {
+        message.msg = msg;
+      } else {
+        message = {
+          ...message,
+          ...msg,
+        };
+      }
+
+      messages.push({
+        message,
+        key: uuid.v4(),
+      });
+
+      Vue.set(state, 'systemMessage', messages);
+    },
+
+    removeSystemMessage(state, key: string) {
+      const messages : ISystemMsgItem[] = [
+        ...state.systemMessage,
+      ].filter((item) => item.key !== key);
+
+      Vue.set(state, 'systemMessage', messages);
+    },
+
+    setDrawerDisplay(state, display: boolean) {
+      Vue.set(state, 'drawer', display);
+    },
+
+    setDrawerMini(state, isMini: boolean) {
+      Vue.set(state, 'drawerMini', isMini);
+    },
+
+    setPageTitle(state, title?: string) {
+      Vue.set(state, 'title', title);
+    },
+
+    setUUID(state, str: string) {
+      Vue.set(state, 'uuid', str);
+    },
+  },
+
+  getters: {
+    appName: () => 'Open Apiary',
+    correlationId: (state) => state.uuid,
+    drawerDisplay: (state) => state.drawer,
+    isDrawerMini: (state) => state.drawerMini,
+    pageTitle: (state) => state.title,
+    systemMessages: (state) => state.systemMessage,
+  },
+
+  state: () => ({
+    drawer: null,
+    drawerMini: false,
+    systemMessage: [],
+    title: undefined,
+    uuid: null,
+  }),
+};
+export default appStore;
