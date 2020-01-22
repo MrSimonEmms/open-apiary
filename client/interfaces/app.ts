@@ -18,3 +18,7 @@ export interface ISystemMsg {
   multiLine?: boolean;
   vertical?: boolean;
 }
+
+export interface IConfirm {
+  open: (message?: string, title?: string) => Promise<boolean>;
+}
