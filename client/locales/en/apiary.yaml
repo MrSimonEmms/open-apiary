@@ -3,6 +3,7 @@ BUTTONS:
   SUBMIT: Save
 ERROR:
   FAILED_TO_SAVE: Error whilst saving. Please try again later.
+  HIVES_PRESENT: Cannot delete whilst apiary has hives
 LIST:
   NO_ITEMS: You have no apiaries configured. Why not create your first?
   CARD:

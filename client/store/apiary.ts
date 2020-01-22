@@ -24,6 +24,10 @@ const apiaryStore : {
   state: () => RootState;
 } = {
   actions: {
+    async delete(_context, id: number) {
+      await this.$axios.$delete(`/api/apiary/${id}`);
+    },
+
     async loadApiary({ commit, getters }, id: number) {
       const item = await this.$axios.$get<IApiary | undefined>(`/api/apiary/${id}`);
 
