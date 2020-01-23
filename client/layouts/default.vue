@@ -5,6 +5,7 @@
     oa-app-bar()
 
     v-content
+      oa-breadcrumbs
       v-container.footer-clearance( fluid )
         nuxt
 
