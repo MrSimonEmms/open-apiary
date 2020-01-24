@@ -35,7 +35,18 @@
               }, \
             }"
           )
+
+            oa-map-selector(
+              v-if="showMap[item.id]"
+              height="200px"
+              :value="[item.location.lat, item.location.long]"
+              zoom="15"
+              :draggable="false"
+              disable-geo-location
+              hide-geo-location
+            )
             v-img(
+              v-else
               height="200px"
               :src="getApiaryImg(item, key)"
             )
@@ -69,9 +80,7 @@
                       v-btn(
                         v-on="on"
                         icon
-                        @click.stop
-                        :href="generateLocationUrl(item.location)"
-                        target="_blank"
+                        @click.stop.prevent="toggleShowMap(item)"
                       )
                         v-icon(
                           color="error"
@@ -88,7 +97,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 /* Files */
-import { IApiary, ILocation } from '../../../server/apiary/interfaces/apiary';
+import { IApiary } from '../../../server/apiary/interfaces/apiary';
 
 /* Define the validator on the instance */
 declare module 'vue/types/vue' {
@@ -113,6 +122,8 @@ declare module 'vue/types/vue' {
   },
 })
 export default class ApiaryPage extends Vue {
+  showMap: { [key: string]: boolean } = {};
+
   get apiaryList() {
     return this.$store.getters['apiary/list'];
   }
@@ -137,11 +148,8 @@ export default class ApiaryPage extends Vue {
     return columnWidth;
   }
 
-  // eslint-disable-next-line max-len
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars,class-methods-use-this
-  generateLocationUrl(location: ILocation) : string {
-    // @todo generate location url
-    return '';
+  toggleShowMap(item: any) : void {
+    Vue.set(this.showMap, item.id, !this.showMap[item.id]);
   }
 
   // eslint-disable-next-line class-methods-use-this
