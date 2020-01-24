@@ -29,6 +29,13 @@ describe('Apiary entity', () => {
             CrudValidationGroups.UPDATE,
           ],
         }],
+      }, {
+        param: 'location',
+        settings: [{
+          groups: [
+            CrudValidationGroups.UPDATE,
+          ],
+        }],
       }]);
 
       expect(decorators.IsNotEmpty).toEqual([{
@@ -38,8 +45,14 @@ describe('Apiary entity', () => {
             CrudValidationGroups.CREATE,
           ],
         }],
+      }, {
+        param: 'location',
+        settings: [{
+          groups: [
+            CrudValidationGroups.CREATE,
+          ],
+        }],
       }]);
-
 
       expect(decorators.IsString).toEqual([{
         param: 'name',

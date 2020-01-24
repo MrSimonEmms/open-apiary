@@ -64,6 +64,10 @@ describe('Apiary Controller', function () {
           hives: {
             eager: true,
           },
+          location: {
+            eager: true,
+            required: true,
+          },
         },
       },
     }]);
