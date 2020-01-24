@@ -18,7 +18,26 @@
           outlined
         )
 
+        // Hide as CSS property to prevent enter reloading page
+        // @link https://stackoverflow.com/questions/1370021/why-does-forms-with-single-input-field-submit-upon-pressing-enter-key-in-input
+        v-text-field.d-none(
+          v-model="latitude"
+        )
+
+        // Hide as CSS property to prevent enter reloading page
+        // @link https://stackoverflow.com/questions/1370021/why-does-forms-with-single-input-field-submit-upon-pressing-enter-key-in-input
+        v-text-field.d-none(
+          v-model="longitude"
+        )
+
+        oa-map-selector(
+          v-model="latLong"
+          :zoom="zoom"
+          :disable-geo-location="!isNew"
+        )
+
     v-card-actions
+      v-spacer
       v-btn(
         @click="submit()"
         color="primary"
@@ -59,6 +78,8 @@ declare module 'vue/types/vue' {
 export default class ApiaryEditor extends Vue {
   error: string | null = null;
 
+  zoom: number = 15;
+
   schema: ISchema[] = [{
     name: 'name',
     validations: {
@@ -68,8 +89,34 @@ export default class ApiaryEditor extends Vue {
 
   validator!: IValidation;
 
+  get latLong() {
+    return [
+      this.latitude,
+      this.longitude,
+    ];
+  }
+
+  set latLong([lat, long]: [number, number]) {
+    this.$store.commit('apiary/updateActive', {
+      value: {
+        lat,
+        long,
+      },
+      key: 'location',
+    });
+  }
+
+  // Default to the BBKA head office
+  get latitude() : number {
+    return this.apiary?.location?.lat ?? 52.339600;
+  }
+
+  get longitude(): number {
+    return this.apiary?.location?.long ?? -1.524890;
+  }
+
   get name() {
-    return this.$store.getters['apiary/active'].name;
+    return this.apiary?.name;
   }
 
   set name(value: any) {
@@ -81,6 +128,10 @@ export default class ApiaryEditor extends Vue {
 
   get isNew() : boolean {
     return !this.id || this.id === 0;
+  }
+
+  get apiary() {
+    return this.$store.getters['apiary/active'];
   }
 
   @Prop({
