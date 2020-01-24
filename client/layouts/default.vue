@@ -31,7 +31,7 @@ export default class DefaultLayout extends Vue {}
 <style lang="scss" scoped>
   .footer-clearance {
     padding: {
-      bottom: 50px;
+      bottom: 75px;
     }
   }
 </style>
