@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "created": false,
+    "updated": false
+  },
+  "data": [{
+    "id": 1,
+    "lat": 52.339600,
+    "long": -1.524890
+  }, {
+    "id": 2,
+    "lat": 52.780220,
+    "long": -2.428950
+  }]
+}

@@ -1,7 +1,9 @@
 [{
   "id": 1,
-  "name": "Apiary 1"
+  "name": "Apiary 1",
+  "locationId": 1
 }, {
   "id": 2,
-  "name": "Apiary 2"
+  "name": "Apiary 2",
+  "locationId": 2
 }]
