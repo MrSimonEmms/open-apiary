@@ -1,90 +1,79 @@
 <template lang="pug">
-  v-row
-    oa-new-button(
-      :to="{ name: 'apiary-create' }"
-    )
-    v-col(
-      cols="12"
-    )
-      v-row()
-        v-col.text-center(
-          cols="12"
-          v-if="apiaryList.length === 0"
-        ) {{ $t('apiary:LIST.NO_ITEMS') }}
-          .mt-5
-            v-btn(
-              color="primary"
-              nuxt
-              :to="{ name: 'apiary-create' }"
-            ) {{ $t('apiary:BUTTONS.NEW') }}
+  oa-card-grid(
+    v-model="apiaryList"
+  )
+    template( v-slot:root )
+      oa-new-button(
+        :to="{ name: 'apiary-create' }"
+      )
 
-        v-col(
-          v-else
-          v-for="(item, key) in apiaryList"
-          :key="key"
-          cols="12"
-          :sm="adjustColumns(6)"
-          :md="adjustColumns(4)"
-          :lg="adjustColumns(3)"
+    template( v-slot:no-data ) {{ $t('apiary:LIST.NO_ITEMS') }}
+      .mt-5
+        v-btn(
+          color="primary"
+          nuxt
+          :to="{ name: 'apiary-create' }"
+        ) {{ $t('apiary:BUTTONS.NEW') }}
+
+    template( v-slot:activator="{ item, id }" )
+      v-card(
+        :to="{ \
+          name: 'apiary-id',\
+          params: { \
+            id: item.id, \
+          }, \
+        }"
+      )
+
+        oa-map-selector(
+          v-if="showMap[item.id]"
+          height="200px"
+          :value="[item.location.lat, item.location.long]"
+          zoom="15"
+          :draggable="false"
+          disable-geo-location
+          hide-geo-location
         )
-          v-card(
-            :to="{ \
-              name: 'apiary-id',\
-              params: { \
-                id: item.id, \
-              }, \
-            }"
-          )
+        v-img(
+          v-else
+          height="200px"
+          :src="getApiaryImg(item, id)"
+        )
 
-            oa-map-selector(
-              v-if="showMap[item.id]"
-              height="200px"
-              :value="[item.location.lat, item.location.long]"
-              zoom="15"
-              :draggable="false"
-              disable-geo-location
-              hide-geo-location
+        v-card-title {{ item.name }}
+
+        v-divider.mx-4
+
+        v-card-actions
+          v-list-item.grow
+
+            v-row(
+              align="center"
+              justify="end"
             )
-            v-img(
-              v-else
-              height="200px"
-              :src="getApiaryImg(item, key)"
-            )
+              v-tooltip( top )
+                span {{ $t('apiary:LIST.CARD.ACTIONS.COUNT') }}
+                template( v-slot:activator="{ on }" )
+                  v-icon(
+                    v-on="on"
+                    color="amber darken-3"
+                  ) mdi-beehive-outline
+                  span.subheading.mx-2 {{ item.hives.length }}
 
-            v-card-title {{ item.name }}
-
-            v-divider.mx-4
-
-            v-card-actions
-              v-list-item.grow
-
-                v-row(
-                  align="center"
-                  justify="end"
-                )
-                  v-tooltip( top )
-                    span {{ $t('apiary:LIST.CARD.ACTIONS.COUNT') }}
-                    template( v-slot:activator="{ on }" )
-                      v-icon(
-                        v-on="on"
-                        color="amber darken-3"
-                      ) mdi-beehive-outline
-                      span.subheading.mx-2 {{ item.hives.length }}
-
-                  v-tooltip(
-                    v-if="item.location"
-                    top
+              v-tooltip(
+                v-if="item.location"
+                top
+              )
+                span {{ $t('apiary:LIST.CARD.ACTIONS.LOCATION') }}
+                template( v-slot:activator="{ on }" )
+                  v-btn(
+                    v-on="on"
+                    icon
+                    @click.stop.prevent="toggleShowMap(item)"
                   )
-                    span {{ $t('apiary:LIST.CARD.ACTIONS.LOCATION') }}
-                    template( v-slot:activator="{ on }" )
-                      v-btn(
-                        v-on="on"
-                        icon
-                        @click.stop.prevent="toggleShowMap(item)"
-                      )
-                        v-icon(
-                          color="error"
-                        ) mdi-map-marker
+                    v-icon(
+                      color="error"
+                    ) mdi-map-marker
 
 </template>
 
