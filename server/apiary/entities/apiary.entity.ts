@@ -51,7 +51,9 @@ export default class Apiary implements IApiary {
   @JoinColumn()
   location: Location;
 
-  @OneToMany(() => Hive, (hive) => hive.apiary)
+  @OneToMany(() => Hive, (hive) => hive.apiary, {
+    cascade: true,
+  })
   hives: Hive[];
 
   @CreateDateColumn({
