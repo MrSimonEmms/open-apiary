@@ -10,6 +10,7 @@ import {
   MigrationInterface,
   Table,
   TableForeignKey,
+  TableIndex,
 } from 'typeorm';
 
 /* Files */
@@ -84,6 +85,9 @@ export default class CreateApiaryTable1578955798961 implements MigrationInterfac
         isGenerated: true,
         generationStrategy: 'increment',
       }, {
+        name: 'apiaryCount',
+        type: 'integer',
+      }, {
         name: 'uuid',
         type: 'varchar',
         width: 100,
@@ -109,6 +113,13 @@ export default class CreateApiaryTable1578955798961 implements MigrationInterfac
         default: 'CURRENT_TIMESTAMP',
       }],
     }), true);
+
+    await queryRunner.createIndex('hive', new TableIndex({
+      columnNames: [
+        'apiaryCount',
+      ],
+      name: 'apiaryCountIndex',
+    }));
 
     await queryRunner.createForeignKey('hive', new TableForeignKey({
       columnNames: [

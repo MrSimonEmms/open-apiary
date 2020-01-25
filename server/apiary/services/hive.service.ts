@@ -20,11 +20,40 @@ export default class HiveService extends TypeOrmCrudService<Hive> {
     super(repo);
   }
 
-  async findHivesByApiaryId(apiary: number) {
+  async findByApiaryCountAndApiaryId(
+    apiaryCount: number,
+    apiary: number,
+  ) : Promise<Hive | undefined> {
+    return this.findOne({
+      where: {
+        apiaryCount,
+        apiary,
+      },
+    });
+  }
+
+  async findHivesByApiaryId(apiary: number) : Promise<Hive[]> {
     return this.find({
       where: {
         apiary,
       },
     });
+  }
+
+  async findNextHiveNumber(apiary: number) : Promise<number> {
+    const hive = await this.findOne({
+      where: {
+        apiary,
+      },
+      order: {
+        apiaryCount: 'DESC',
+      },
+    });
+
+    if (!hive) {
+      return 1;
+    }
+
+    return hive.apiaryCount + 1;
   }
 }

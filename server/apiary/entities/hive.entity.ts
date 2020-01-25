@@ -6,20 +6,23 @@
 
 /* Third-party modules */
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import {
-  IsDate,
+  IsISO8601,
   IsNotEmpty,
-  IsOptional, IsString,
-  IsUUID,
+  IsOptional,
+  IsString,
 } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
+import uuid from 'uuid';
 
 /* Files */
 import Apiary from './apiary.entity'; // eslint-disable-line import/no-cycle
@@ -30,18 +33,22 @@ export default class Hive implements IHive {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
-  @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
-  @IsUUID('4', { always: true })
+  @Index('apiaryCountIndex')
+  @Column({
+    type: 'integer',
+  })
+  apiaryCount: number;
+
   @Column({
     type: 'varchar',
     length: 100,
+    update: false,
   })
   uuid: string;
 
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
-  @IsDate({ always: true })
+  @IsISO8601({ always: true })
   @Column({
     type: 'date',
   })
@@ -68,4 +75,9 @@ export default class Hive implements IHive {
     type: 'datetime',
   })
   updatedAt: Date;
+
+  @BeforeInsert()
+  generateUUID() {
+    this.uuid = uuid.v4();
+  }
 }
