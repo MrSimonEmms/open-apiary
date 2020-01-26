@@ -1,0 +1,17 @@
+###
+# This is an example for using PM2 to start and manage
+# the application.
+#
+# See https://pm2.keymetrics.io for more info
+apps:
+  - script: ./
+    instances: 0
+    name: open-apiary
+    exec_mode: cluster
+    env:
+      DB_LOGGING: true
+      DB_MIGRATIONS_RUN: true
+      DB_NAME: ./db.sql
+      DB_SYNC: false
+      DB_TYPE: sqlite
+      JWT_SECRET: q1w2e3r4 # Ensure you set your own random string
