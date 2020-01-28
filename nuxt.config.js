@@ -130,6 +130,8 @@ module.exports = {
   */
   plugins: [
     './plugins/components',
+    './plugins/domPurify',
+    './plugins/filters',
     './plugins/i18next',
     './plugins/logger',
     './plugins/leaflet.client',
