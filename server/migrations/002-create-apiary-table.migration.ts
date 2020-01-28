@@ -26,13 +26,15 @@ export default class CreateApiaryTable1578955798961 implements MigrationInterfac
         isGenerated: true,
         generationStrategy: 'increment',
       }, {
-        name: 'lat',
-        type: 'varchar',
-        width: 100,
+        name: 'latitude',
+        type: 'decimal',
+        precision: 10,
+        scale: 8,
       }, {
-        name: 'long',
-        type: 'varchar',
-        width: 100,
+        name: 'longitude',
+        type: 'decimal',
+        precision: 11,
+        scale: 8,
       }],
     }));
 

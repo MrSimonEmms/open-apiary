@@ -50,12 +50,13 @@ async function main() {
     return 0;
   });
 
-  await Promise.all(files.map(async (file) => {
+  await files.reduce((thenable, file) => thenable.then(async () => {
     /* First, get the data */
     // eslint-disable-next-line global-require,import/no-dynamic-require
     const items = require(file);
 
-    const name = path.basename(path.basename(file, '.js'), '.json');
+    const name = path.basename(path.basename(file, '.js'), '.json')
+      .replace(/^(\d.*-)/, '');
 
     const { meta = {}, data = items } = items;
 
@@ -88,7 +89,7 @@ async function main() {
     const inserts = await connection.insertBulk(name, parsedData);
 
     console.log(`Inserted ${inserts} row(s) to ${name}`);
-  }));
+  }), Promise.resolve());
 
   await connection.close();
 }

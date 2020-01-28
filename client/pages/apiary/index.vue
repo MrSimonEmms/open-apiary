@@ -28,7 +28,7 @@
         oa-map-selector(
           v-if="showMap[item.id]"
           height="200px"
-          :value="[item.location.lat, item.location.long]"
+          :value="[item.location.latitude, item.location.longitude]"
           zoom="15"
           :draggable="false"
           disable-geo-location

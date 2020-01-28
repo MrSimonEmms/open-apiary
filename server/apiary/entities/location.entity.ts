@@ -30,17 +30,19 @@ export default class Location implements ILocation {
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
   @IsLatitude()
   @Column({
-    type: 'varchar',
-    length: 100,
+    type: 'decimal',
+    precision: 10,
+    scale: 8,
   })
-  lat: number;
+  latitude: number;
 
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
   @IsLongitude()
   @Column({
-    type: 'varchar',
-    length: 100,
+    type: 'decimal',
+    precision: 11,
+    scale: 8,
   })
-  long: number;
+  longitude: number;
 }
