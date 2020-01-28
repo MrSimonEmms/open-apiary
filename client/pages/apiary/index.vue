@@ -25,15 +25,18 @@
         }"
       )
 
-        oa-map-selector(
+        div(
           v-if="showMap[item.id]"
-          height="200px"
-          :value="[item.location.latitude, item.location.longitude]"
-          zoom="15"
-          :draggable="false"
-          disable-geo-location
-          hide-geo-location
+          @click.stop.prevent.self=""
         )
+          oa-map-selector(
+            height="200px"
+            :value="[item.location.latitude, item.location.longitude]"
+            zoom="15"
+            :draggable="false"
+            disable-geo-location
+            hide-geo-location
+          )
         v-img(
           v-else
           height="200px"
