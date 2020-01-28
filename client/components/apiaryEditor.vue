@@ -96,11 +96,11 @@ export default class ApiaryEditor extends Vue {
     ];
   }
 
-  set latLong([lat, long]: [number, number]) {
+  set latLong([latitude, longitude]: [number, number]) {
     this.$store.commit('apiary/updateActive', {
       value: {
-        lat,
-        long,
+        latitude,
+        longitude,
       },
       key: 'location',
     });
@@ -108,11 +108,11 @@ export default class ApiaryEditor extends Vue {
 
   // Default to the BBKA head office
   get latitude() : number {
-    return this.apiary?.location?.lat ?? 52.339600;
+    return this.apiary?.location?.latitude ?? 52.339600;
   }
 
   get longitude(): number {
-    return this.apiary?.location?.long ?? -1.524890;
+    return this.apiary?.location?.longitude ?? -1.524890;
   }
 
   get name() {

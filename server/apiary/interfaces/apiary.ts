@@ -9,12 +9,16 @@
 /* Files */
 
 export interface ILocation {
-  lat: number;
-  long: number;
+  latitude: number;
+  longitude: number;
 }
 
 export interface IHive {
   id: number;
+  apiaryCount: number;
+  uuid: string;
+  establishedDate: Date;
+  origin: string;
   apiary: IApiary;
   createdAt: Date;
   updatedAt: Date;
