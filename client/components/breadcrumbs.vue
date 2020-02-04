@@ -56,6 +56,8 @@ export default class Breadcrumbs extends Vue {
         // @todo I don't like this, but I can't see a way of getting dynamic page names in
         if (name === 'apiary-id') {
           i18nParams.name = this.$store.getters['apiary/active']?.name;
+        } else if (name === 'apiary-id-hive') {
+          i18nParams.number = this.$store.getters['hive/active']?.apiaryCount;
         }
 
         return {
