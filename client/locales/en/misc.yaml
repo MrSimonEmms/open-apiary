@@ -9,5 +9,13 @@ PAGE_TITLES:
   APIARY: My Apiaries
   APIARY-CREATE: New Apiary
   APIARY-ID: "{{name}}"
+  APIARY-ID-CREATE: New Hive
   APIARY-ID-EDIT: Edit
+  APIARY-ID-HIVE: "Hive #{{number}} Inspections"
   SETTINGS: Settings
+PAGING:
+  ITEMS_PER_PAGE_TEXT: Rows per page
+  PAGE_TEXT: "{{ pageStart }}-{{ pageStop }} of {{ itemsLength }}"
+FORM:
+  CREATED_AT: Created
+  UPDATED_AT: Last updated
