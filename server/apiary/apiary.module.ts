@@ -15,21 +15,28 @@ import ApiaryService from './services/apiary.service';
 import Hive from './entities/hive.entity';
 import HiveController from './controllers/hive.controller';
 import HiveService from './services/hive.service';
+import Inspection from './entities/inspection.entity';
+import InspectionController from './controllers/inspection.controller';
+import InspectionService from './services/inspection.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
+    Inspection,
     Hive,
     Apiary,
   ])],
   controllers: [
+    InspectionController,
     HiveController,
     ApiaryController,
   ],
   providers: [
+    InspectionService,
     HiveService,
     ApiaryService,
   ],
   exports: [
+    InspectionService,
     HiveService,
     ApiaryService,
   ],

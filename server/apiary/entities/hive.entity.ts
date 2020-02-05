@@ -12,6 +12,7 @@ import {
   Entity,
   Index,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -26,6 +27,7 @@ import uuid from 'uuid';
 
 /* Files */
 import Apiary from './apiary.entity'; // eslint-disable-line import/no-cycle
+import Inspection from './inspection.entity'; // eslint-disable-line import/no-cycle
 import { IHive } from '../interfaces/apiary';
 
 @Entity()
@@ -65,6 +67,11 @@ export default class Hive implements IHive {
 
   @ManyToOne(() => Apiary, (apiary) => apiary.hives)
   apiary: Apiary;
+
+  @OneToMany(() => Inspection, (inspection) => inspection.hive, {
+    cascade: true,
+  })
+  inspections: Inspection[];
 
   @CreateDateColumn({
     type: 'datetime',
