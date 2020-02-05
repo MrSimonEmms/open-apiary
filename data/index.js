@@ -86,9 +86,22 @@ async function main() {
       return item;
     });
 
-    const inserts = await connection.insertBulk(name, parsedData);
+    try {
+      const inserts = await connection.insertBulk(name, parsedData);
 
-    console.log(`Inserted ${inserts} row(s) to ${name}`);
+      console.log(`Inserted ${inserts} row(s) to ${name}`);
+    } catch (err) {
+      console.log('Error - backing out');
+
+      try {
+        await connection.truncate(name);
+      } catch (trunErr) {
+        console.log('Erroring backing out');
+        console.log(trunErr);
+      }
+
+      throw err;
+    }
   }), Promise.resolve());
 
   await connection.close();
