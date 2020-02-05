@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "created": false,
+    "updated": false
+  },
+  "data": [{
+    "id": 1,
+    "ok": false,
+    "diseases": "American Foul Brood,Nosema"
+  }]
+}

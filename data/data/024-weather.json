@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "created": false,
+    "updated": false
+  },
+  "data": [{
+    "id": 1,
+    "temp": 12,
+    "desc": "SUN"
+  }]
+}
