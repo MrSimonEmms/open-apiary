@@ -43,8 +43,13 @@ module.exports = class SQLite {
 
   async insertBulk(table, data) {
     const columns = Object.keys(data[0]);
-    const sql = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${columns.map(() => '?').join(', ')})`;
-    const values = data.map(item => Object.values(item));
+
+    const cols = columns
+      .map((item) => `\`${item}\``)
+      .join(', ');
+
+    const sql = `INSERT INTO ${table} (${cols}) VALUES (${columns.map(() => '?').join(', ')})`;
+    const values = data.map((item) => Object.values(item));
 
     const tasks = values.map((params) => new Promise((resolve, reject) => {
       this.db.serialize(() => {

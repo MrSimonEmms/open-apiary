@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "created": false,
+    "updated": false
+  },
+  "data": [{
+    "id": 1,
+    "inspectionId": 1,
+    "quantity": 0,
+    "type": "Light Syrup"
+  }]
+}

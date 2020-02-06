@@ -1,0 +1,16 @@
+[{
+  "id": 1,
+  "date": "2019-02-01",
+  "stores": 2,
+  "room": 1,
+  "temper": 10,
+  "supers": -1,
+  "varroa": "L",
+  "notes": "Here is some notes in **markdown**.\n\nAnd on _another_ line.",
+  "hiveId": 1,
+  "queenId": 1,
+  "queenCellId": 1,
+  "broodId": 1,
+  "healthId": 1,
+  "weatherId": 1
+}]

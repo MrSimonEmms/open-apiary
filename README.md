@@ -15,12 +15,29 @@
 
 See the [Contributing Guidelines](CONTRIBUTING.md).
 
-For development, use [Docker Compose](https://docs.docker.com/compose/install)
-to run the whole stack.
+Open Apiary supports [MySQL](https://www.mysql.com/) and [SQLite](https://www.sqlite.org)
+out of the box. Follow the instructions below for how to run the development stack
 
-In the root of your repo, run `docker-compose up`. This will run the development
-stack and initialise test data sets. Once it's loaded, navigate to 
-[localhost:9999](http://localhost:9999).
+Once either of the commands below have been run, which set up the stack and initialise
+the test data sets, please navigate to [localhost:3000](http://localhost:3000).
+
+## MySQL Database
+
+##### Requirements
+- [Docker](https://docs.docker.com/install)
+- [Docker Compose](https://docs.docker.com/compose/install)
+
+In the root of your repo, run `docker-compose up`.
+
+## SQLite Database
+
+##### Requirements
+- [NodeJS](https://nodejs.org/en/download)
+
+> You will need to install the dependencies using `npm install`. You will only need
+> to do this once
+
+In the root of your repo, run `npm run dev:sqlite`.
 
 # Applications
 

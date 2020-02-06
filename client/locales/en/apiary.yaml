@@ -1,6 +1,129 @@
+BUTTONS:
+  NEW: Create an apiary
+  SUBMIT: Save
+ERROR:
+  FAILED_TO_SAVE: Error whilst saving. Please try again later.
+  HIVES_PRESENT: Cannot delete whilst apiary has hives
 LIST:
+  NO_ITEMS: You have no apiaries configured. Why not create your first?
   CARD:
     ACTIONS:
       COUNT: Number of hives
       LOCATION: Location
   TITLE: Apiaries
+HIVES:
+  NO_ITEMS: You have no hives configured. Why not create your first?
+  CARD:
+    ESTABLISHED_DATE: Colony established
+    LAST_INSPECTION_DATE: Last inspection
+  TITLE: Hives
+INSPECTIONS:
+  FORM:
+    DATE: Date
+    BROOD:
+      EGGS: Are there eggs present?
+      FRAMES: How many frames have brood present?
+      PATTERN_OK: Is the brood pattern ok?
+      TITLE: Brood
+    FEED:
+      FONDANT: Fondant
+      HEAVY_SYRUP: Heavy Syrup
+      LIGHT_SYRUP: Light Syrup
+      QUANTITY: Quantity
+      TITLE: Feed
+      TYPE: Type
+    GENERAL:
+      ROOM: Frames available for brood
+      STORES: Frames available for food stores
+      TEMPER: The temper of the bees
+      TEMPER_HINT: 10 = nice calm bees, 8 = bees agitated, 6 = bees sting, 4 = bees follow too much, etc
+      TITLE: General
+    HEALTH:
+      LIST:
+        AMERICAN_FOUL_BROOD: American Foul Brood
+        EURO_FOUL_BROOD: European Foul Brood
+        CHALK_BROOD: Chalk Brood
+        NOSEMA: Nosema
+      DISEASES: Diseases
+      DISEASES_HINT: Add a question mark (?) if you're unsure if the disease is present
+      LEVEL: Low
+      LEVEL_M: Medium
+      LEVEL_H: High
+      OK: Is the colony in good health?
+      TITLE: Health
+      VARROA: Varroa levels
+    MARKING:
+      NO: No
+      YES: Yes
+      WHITE: White (years ending 1/6)
+      YELLOW: Yellow (years ending 2/7)
+      RED: Red (years ending 3/8)
+      GREEN: Green (years ending 4/9)
+      BLUE: Blue (years ending 5/0)
+    NOTES:
+      MARKDOWN_ALLOWED: "<a href='{{ url }}' target='_blank'>Markdown</a> is supported"
+      PREVIEW: Preview
+      TITLE: Notes
+      WRITE: Write
+    QUEEN: Queen
+    QUEEN_CELL:
+      LEFT: Cells kept
+      REMOVED: Cells removed
+      TITLE: Queen Cells
+    QUEEN_CLIPPED: Did you clip the queen?
+    QUEEN_SEEN: Did you see the queen?
+    QUEEN_MARKED: Did you mark the queen?
+    WEATHER:
+      TITLE: Weather
+      TEMP: Temperature
+      CLOUD: Cloudy
+      FAIR: Fair
+      HAIL: Hail
+      RAIN: Rain
+      SNOW: Snow
+      SUN: Sun
+    TITLE:
+      EDIT: Edit inspection
+      NEW: New inspection
+  SEARCH: Search
+  NO_DATA: No data
+  NO_RESULTS: No results
+  ABBREV:
+    CLIPPED: C
+    EGGS: E
+    FEED: "{{ count }}{{ abbrev }}"
+    MARKED: M
+    QUEEN_CELLS_LEFT: "{{ count }}L"
+    QUEEN_CELLS_REMOVED: "{{ count }}R"
+    VARROA: L
+    VARROA_M: M
+    VARROA_H: H
+  HEADINGS:
+    ACTION_BUTTONS: Actions
+    BROOD: Brood
+    DATE: Date
+    DISEASE_LIST: Diseases
+    FEED: Feed
+    HEALTH: Health
+    NOTES: Notes
+    QUEEN: Queen
+    QUEENCELL: Queen Cells
+    ROOM: Room
+    STORES: Stores
+    SUPERS: Supers
+    TEMPER: Temper
+    VARROA: Varroa
+    WEATHER: Weather
+ITEM:
+  EDIT:
+    TITLE: Edit Apiary
+  NEW:
+    TITLE: Create Apiary
+EDITOR:
+  NAME: Name
+  FORM:
+    DATE: Date
+  BUTTONS:
+    CANCEL: Cancel
+    OK: Ok
+    SAVE: Save

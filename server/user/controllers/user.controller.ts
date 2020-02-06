@@ -8,6 +8,7 @@ import {
   Controller,
   Get,
   HttpException,
+  HttpStatus,
   Post,
   Request,
   UseGuards,
@@ -29,7 +30,7 @@ export default class UserController {
     const user = await this.usersService.findByEmailAndPassword(emailAddress, password);
 
     if (!user) {
-      throw new HttpException('Unauthorized', 401);
+      throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
     }
 
     return {

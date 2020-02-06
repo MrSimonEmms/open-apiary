@@ -1,0 +1,22 @@
+[{
+  "id": 1,
+  "apiaryCount": 1,
+  "uuid": "26d02afd-a9a2-498d-a310-8985c7908a27",
+  "establishedDate": "2019-05-01",
+  "origin": null,
+  "apiaryId": 1
+}, {
+  "id": 2,
+  "apiaryCount": 1,
+  "uuid": "a16a4258-ce84-4138-9a3c-801be9add796",
+  "establishedDate": "2020-01-20",
+  "origin": "Some multiline origin\n\nThis is the multiline bit",
+  "apiaryId": 2
+}, {
+  "id": 3,
+  "apiaryCount": 2,
+  "uuid": "1b18e796-0d20-4c62-adc5-b7308dbcac7c",
+  "establishedDate": "2020-01-20",
+  "origin": "Some origin detail",
+  "apiaryId": 1
+}]

@@ -32,9 +32,11 @@ module.exports = class MySQL {
   }
 
   async insertBulk(table, dataArr) {
-    const columns = Object.keys(dataArr[0]).join(', ');
+    const columns = Object.keys(dataArr[0])
+      .map((item) => `\`${item}\``)
+      .join(', ');
     const sql = `INSERT INTO ${table} (${columns}) VALUES ?`;
-    const values = dataArr.map(item => Object.values(item));
+    const values = dataArr.map((item) => Object.values(item));
 
     await this.db.query(sql, [
       values,

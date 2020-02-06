@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "created": false,
+    "updated": false
+  },
+  "data": [{
+    "id": 1,
+    "eggs": true,
+    "pattern": true,
+    "frames": 2
+  }]
+}
