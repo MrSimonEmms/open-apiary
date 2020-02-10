@@ -15,6 +15,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 @Component({
   middleware: [
+    'isSetup',
     'isLoggedIn',
   ],
 })

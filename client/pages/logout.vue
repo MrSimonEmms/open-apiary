@@ -22,6 +22,10 @@ import { Component, Vue } from 'vue-property-decorator';
       name: 'login',
     });
   },
+
+  middleware: [
+    'isSetup',
+  ],
 })
 export default class LogoutPage extends Vue {}
 </script>

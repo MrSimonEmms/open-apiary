@@ -20,6 +20,7 @@ interface ISystemMsgItem {
 export interface RootState {
   drawer: boolean | null;
   drawerMini: boolean;
+  setupStage: number;
   systemMessage: ISystemMsgItem[]
   title?: string;
   uuid: string | null;
@@ -31,6 +32,12 @@ const appStore : {
   mutations?: MutationTree<RootState>;
   state: () => RootState;
 } = {
+  actions: {
+    isSetup() {
+      return this.$axios.$get('/api/user/setup');
+    },
+  },
+
   mutations: {
     addSystemMessage(state, msg: ISystemMsg | string) {
       const messages : ISystemMsgItem[] = [
@@ -86,6 +93,12 @@ const appStore : {
       Vue.set(state, 'title', title);
     },
 
+    setSetupStage(state, stage: number) {
+      if (stage > state.setupStage) {
+        Vue.set(state, 'setupStage', stage);
+      }
+    },
+
     setUUID(state, str: string) {
       Vue.set(state, 'uuid', str);
     },
@@ -97,12 +110,14 @@ const appStore : {
     drawerDisplay: (state) => state.drawer,
     isDrawerMini: (state) => state.drawerMini,
     pageTitle: (state) => state.title,
+    setupStage: (state) => state.setupStage,
     systemMessages: (state) => state.systemMessage,
   },
 
   state: () => ({
     drawer: null,
     drawerMini: false,
+    setupStage: 1,
     systemMessage: [],
     title: undefined,
     uuid: null,

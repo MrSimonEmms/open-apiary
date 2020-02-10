@@ -1,0 +1,10 @@
+STEP_1:
+  PAGE_TITLE: Welcome
+  TITLE: Welcome to Open Apiary
+  DESC: Open Apiary helps you manage your apiary sites and keep your bees in good health
+STEP_2:
+  PAGE_TITLE: Setup account
+  TITLE: Create your account
+BUTTONS:
+  BACK: Back
+  NEXT: Continue

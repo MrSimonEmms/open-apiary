@@ -29,6 +29,10 @@ const userStore : {
   state: () => RootState;
 } = {
   actions: {
+    async create(_store, data: IUser) {
+      await this.$axios.$post('/api/user', data);
+    },
+
     async loadUser({ commit }) {
       const user = await this.$axios.$get('/api/user');
 
