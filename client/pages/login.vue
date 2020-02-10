@@ -96,6 +96,7 @@ declare module 'vue/types/vue' {
   layout: 'blank',
 
   middleware: [
+    'isSetup',
     'isNotLoggedIn',
   ],
 
@@ -181,7 +182,7 @@ export default class LoginPage extends Vue {
 
       await this.$router.replace(target);
     } catch (err) {
-      this.$log.error('Unabled to login', {
+      this.$log.error('Unable to login', {
         err,
       });
 

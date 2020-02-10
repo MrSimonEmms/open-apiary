@@ -6,6 +6,8 @@ FORM:
     LOGIN: Login
   LABEL:
     EMAIL_ADDRESS: Email Address
+    NAME: Name
     PASSWORD: Password
+    PASSWORD_CONFIRM: Confirm password
     REMEMBER_ME: Remember me
 TITLE: Login
