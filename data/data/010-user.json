@@ -2,5 +2,6 @@
   "id": 1,
   "name": "Test",
   "emailAddress": "test@test.com",
-  "password": "$2b$10$iX/EG0S6jt4C6SLRaalS9e4n7Zdofgrv8Txv/C4ltl3yEBCwpCQBq"
+  "password": "$2b$10$iX/EG0S6jt4C6SLRaalS9e4n7Zdofgrv8Txv/C4ltl3yEBCwpCQBq",
+  "changeOnLogin": 0
 }]
