@@ -10,22 +10,32 @@ import bcrypt from 'bcrypt';
 import ms from 'ms';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 
 /* Files */
 import User from '../entities/user.entity';
 import { IUserDTO, IUserTokenPayload } from '../interfaces/user';
 
 @Injectable()
-export default class UserService {
+export default class UserService extends TypeOrmCrudService<User> {
   constructor(
     private configService: ConfigService,
-    @InjectRepository(User) protected userRepo: Repository<User>,
-  ) {}
+    @InjectRepository(User) protected repo,
+  ) {
+    super(repo);
+  }
+
+  countUsers() : Promise<number> {
+    return this.repo.count();
+  }
+
+  async deleteUser(id: string | number) : Promise<void> {
+    await this.repo.delete(id);
+  }
 
   async findByEmailAndPassword(emailAddress: string, password: string) : Promise<User | void> {
-    const user = await this.userRepo.findOne({
+    const user = await this.repo.findOne({
       emailAddress,
     });
 
@@ -38,10 +48,6 @@ export default class UserService {
     }
 
     return user;
-  }
-
-  findById(id: number) : Promise<User | void> {
-    return this.userRepo.findOne(id);
   }
 
   generateUserToken(user: User) : { expires: Date, token: string } {

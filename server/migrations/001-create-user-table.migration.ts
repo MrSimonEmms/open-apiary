@@ -27,16 +27,24 @@ export default class CreateUserTable1578524292325 implements MigrationInterface 
         name: 'emailAddress',
         type: 'varchar',
         width: 200,
+        isUnique: true,
       }, {
         name: 'password',
         type: 'varchar',
         width: 200,
       }, {
+        name: 'changeOnLogin',
+        type: 'tinyint',
+      }, {
         name: 'createdAt',
         type: 'datetime',
+        isNullable: false,
+        default: 'CURRENT_TIMESTAMP',
       }, {
         name: 'updatedAt',
         type: 'datetime',
+        isNullable: false,
+        default: 'CURRENT_TIMESTAMP',
       }],
     }), true);
   }
