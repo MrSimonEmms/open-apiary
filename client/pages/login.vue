@@ -1,74 +1,54 @@
 <template lang="pug">
-  v-content
-    v-container.bg-img.fill-height(
-      fluid
-      :style="`background-image: url(${backgroundImg})`"
-    )
-      v-row.ma-0(
-        align="center"
-        justify="center"
+  div
+    v-card-title.mt-n11.mb-n9.justify-center
+      v-avatar(
+        color="white"
+        size="65"
       )
-        v-col(
-          cols="12"
-          sm="8"
-          md="4"
-          lg="4"
-          xl="3"
+        img(
+          src="/img/icon.png"
         )
-          v-card(
-            outlined
-            flat
-          )
-            v-card-title.mt-n11.mb-n9.justify-center
-              v-avatar(
-                color="white"
-                size="65"
-              )
-                v-img(
-                  height="60px"
-                  src="/img/icon.png"
-                )
 
-            v-card-title.justify-center {{ $t('login:TITLE') }}
+    v-card-title.justify-center {{ $t('login:TITLE') }}
 
-            v-card-text( v-if="error" )
-              v-alert( type="error" ) {{ $t(`login:ERROR.${error}`) }}
+    v-card-text( v-if="error" )
+      v-alert( type="error" ) {{ $t(`login:ERROR.${error}`) }}
 
-            v-card-text
-              v-form(
-                @keyup.native.enter="submit()"
-              )
-                v-text-field(
-                  v-model="emailAddress"
-                  :error-messages="validator.getErrors('emailAddress')"
-                  v-on="validator.getEvents('emailAddress')"
-                  :label="$t('login:FORM.LABEL.EMAIL_ADDRESS')"
-                  prepend-inner-icon="mdi-account"
-                  outlined
-                )
+    v-card-text
+      v-form(
+        @keyup.native.enter="submit()"
+      )
+        v-text-field(
+          v-model="emailAddress"
+          :error-messages="validator.getErrors('emailAddress')"
+          v-on="validator.getEvents('emailAddress')"
+          :label="$t('login:FORM.LABEL.EMAIL_ADDRESS')"
+          prepend-inner-icon="mdi-account"
+          outlined
+        )
 
-                v-text-field(
-                  v-model="password"
-                  :error-messages="validator.getErrors('password')"
-                  v-on="validator.getEvents('password')"
-                  :label="$t('login:FORM.LABEL.PASSWORD')"
-                  prepend-inner-icon="mdi-lock"
-                  type="password"
-                  outlined
-                )
+        v-text-field(
+          v-model="password"
+          :error-messages="validator.getErrors('password')"
+          v-on="validator.getEvents('password')"
+          :label="$t('login:FORM.LABEL.PASSWORD')"
+          prepend-inner-icon="mdi-lock"
+          type="password"
+          outlined
+        )
 
-                v-switch(
-                  v-model="rememberMe"
-                  :label="$t('login:FORM.LABEL.REMEMBER_ME')"
-                )
+        v-switch(
+          v-model="rememberMe"
+          :label="$t('login:FORM.LABEL.REMEMBER_ME')"
+        )
 
-            v-card-actions
-              v-btn(
-                @click="submit()"
-                block
-                color="primary"
-                large
-              ) {{ $t('login:FORM.BUTTON.LOGIN') }}
+    v-card-actions
+      v-btn(
+        @click="submit()"
+        block
+        color="primary"
+        large
+      ) {{ $t('login:FORM.BUTTON.LOGIN') }}
 
 </template>
 
@@ -93,7 +73,7 @@ declare module 'vue/types/vue' {
 }
 
 @Component({
-  layout: 'blank',
+  layout: 'login',
 
   middleware: [
     'isSetup',
@@ -136,19 +116,6 @@ export default class LoginPage extends Vue {
 
   validator!: IValidation;
 
-  // eslint-disable-next-line class-methods-use-this
-  get backgroundImg() {
-    /* This must be set in the /client/static/img/login folder - must be in format xxx.jpg */
-    const min = 1;
-    const max = 5;
-
-    const fileNumber = Math.floor(Math.random() * (max - min + 1) + min)
-      .toString()
-      .padStart(3, '0');
-
-    return `/img/login/${fileNumber}.jpg`;
-  }
-
   get expires() {
     return this.$store.getters['user/expires'];
   }
@@ -180,7 +147,7 @@ export default class LoginPage extends Vue {
         name: 'index',
       };
 
-      await this.$router.replace(target);
+      await this.$router.push(target);
     } catch (err) {
       this.$log.error('Unable to login', {
         err,
@@ -197,10 +164,4 @@ export default class LoginPage extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  .bg-img {
-    background: {
-      size: cover;
-      position: center center;
-    }
-  }
 </style>
