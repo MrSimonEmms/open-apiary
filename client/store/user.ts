@@ -63,6 +63,12 @@ const userStore : {
         throw err;
       }
     },
+
+    async update({ dispatch }, data: IUser) {
+      await this.$axios.$put('/api/user', data);
+
+      await dispatch('loadUser');
+    },
   },
 
   getters: {
