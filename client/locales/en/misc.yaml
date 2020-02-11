@@ -1,4 +1,5 @@
 BUTTONS:
+  SAVE: Save
   SAVED: Saved
 CONFIRM:
   ARE_YOU_SURE: Are you sure?
@@ -13,6 +14,9 @@ PAGE_TITLES:
   APIARY-ID-EDIT: Edit
   APIARY-ID-HIVE: "Hive #{{number}} Inspections"
   SETTINGS: Settings
+  SETTINGS-PASSWORD: Password
+  SETTINGS-PROFILE: Profile
+  SETTINGS-USERS: Users
 PAGING:
   ITEMS_PER_PAGE_TEXT: Rows per page
   PAGE_TEXT: "{{ pageStart }}-{{ pageStop }} of {{ itemsLength }}"
