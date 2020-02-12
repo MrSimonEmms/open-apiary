@@ -7,3 +7,4 @@ ERRORS:
   MINLENGTH_plural: Field must contain at least {{min}} characters
   REQUIRED: Required field
   SAMEASPASSWORD: Does not match
+  UNIQUEEMAIL: Email address is already registered

@@ -23,3 +23,8 @@ PAGING:
 FORM:
   CREATED_AT: Created
   UPDATED_AT: Last updated
+TABLE:
+  ACTIONS: Actions
+  LOADING: Loading data
+  LOGGED_IN: Activated
+  NO_USERS: No users
