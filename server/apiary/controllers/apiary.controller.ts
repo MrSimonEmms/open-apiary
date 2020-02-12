@@ -41,6 +41,9 @@ import HiveService from '../services/hive.service';
       hives: {
         eager: true,
       },
+      'hives.inspections': {
+        eager: true,
+      },
       location: {
         eager: true,
         required: true,
