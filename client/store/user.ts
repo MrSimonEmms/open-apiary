@@ -33,11 +33,38 @@ const userStore : {
       await this.$axios.$post('/api/user', data);
     },
 
+    async delete(_store, id: number) {
+      await this.$axios.$delete(`/api/user/${id}`);
+    },
+
     async loadUser({ commit }) {
       const user = await this.$axios.$get('/api/user');
 
       /* Set the user data */
       commit('user', user);
+    },
+
+    async list({ state }, opts : {
+      emailAddress?: string;
+      filterActive?: boolean;
+    } = {}) : Promise<IUser[]> {
+      const params : { [key:string] : any } = {
+        filter: [],
+      };
+
+      const { user } = state;
+
+      if (user && opts.filterActive) {
+        params.filter.push(`id||ne||${user.id}`);
+      }
+
+      if (opts.emailAddress) {
+        params.filter.push(`emailAddress||eq||${opts.emailAddress}`);
+      }
+
+      return this.$axios.$get('/api/user/list', {
+        params,
+      });
     },
 
     async login({ commit }, { emailAddress, password, rememberMe = false } : ILoginDTO) {

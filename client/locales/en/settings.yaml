@@ -1,0 +1,10 @@
+INDEX_PAGE:
+  TAB: Profile
+  TITLE: Profile Settings
+PASSWORD_PAGE:
+  TAB: Password
+  TITLE: Password Settings
+USERS_PAGE:
+  TAB: Users
+  TITLE: Users Settings
+  NEW_USER: New User
