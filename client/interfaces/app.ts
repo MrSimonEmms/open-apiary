@@ -20,5 +20,9 @@ export interface ISystemMsg {
 }
 
 export interface IConfirm {
-  open: (message?: string, title?: string) => Promise<boolean>;
+  open(opts: {
+    message?: string;
+    title?: string;
+    typeWord?: boolean;
+  }): Promise<boolean>;
 }

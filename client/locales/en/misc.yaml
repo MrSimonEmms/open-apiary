@@ -5,7 +5,9 @@ CONFIRM:
   ARE_YOU_SURE: Are you sure?
   CONTINUE_TO_DELETE: Do you want to delete this item?
   CANCEL_BUTTON: Cancel
+  CONFIRM_WORD: DELETE
   DELETE_BUTTON: Delete
+  TYPE_WORD: "Type \"$t(misc:CONFIRM.CONFIRM_WORD)\" to confirm"
 PAGE_TITLES:
   APIARY: My Apiaries
   APIARY-CREATE: New Apiary
@@ -13,6 +15,7 @@ PAGE_TITLES:
   APIARY-ID-CREATE: New Hive
   APIARY-ID-EDIT: Edit
   APIARY-ID-HIVE: "Hive #{{number}} Inspections"
+  APIARY-ID-HIVE-SETTINGS: Settings
   SETTINGS: Settings
   SETTINGS-PASSWORD: Password
   SETTINGS-PROFILE: Profile
