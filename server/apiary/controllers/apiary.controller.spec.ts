@@ -64,6 +64,9 @@ describe('Apiary Controller', function () {
           hives: {
             eager: true,
           },
+          'hives.inspections': {
+            eager: true,
+          },
           location: {
             eager: true,
             required: true,
