@@ -26,6 +26,13 @@ const hiveStore : {
   state: () => RootState;
 } = {
   actions: {
+    async delete(_store, { apiaryId, hiveId }: {
+      apiaryId: number,
+      hiveId: number,
+    }) {
+      await this.$axios.$delete(`/api/apiary/${apiaryId}/hive/${hiveId}`);
+    },
+
     async deleteInspection({ commit }, { apiaryId, hiveId, inspectionId }: {
       apiaryId: number,
       hiveId: number,
