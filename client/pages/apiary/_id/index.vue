@@ -142,9 +142,11 @@ export default class ApiaryIDIndexPage extends Vue {
   }
 
   hiveList(hive: IHive) {
+    const [lastInspection] = hive?.inspections;
+
     return [{
       title: 'LAST_INSPECTION_DATE',
-      value: this.$options.filters!.datetime(hive.establishedDate),
+      value: lastInspection?.date ? this.$options.filters!.datetime(lastInspection.date) : '-',
     }, {
       title: 'ESTABLISHED_DATE',
       value: this.$options.filters!.datetime(hive.establishedDate),

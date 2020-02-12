@@ -84,6 +84,10 @@ export default class Validation implements IValidation {
     }, {});
   }
 
+  resetValidation() : void {
+    this.vue.$v.$reset();
+  }
+
   validate() : boolean {
     this.vue.$v.$touch();
 

@@ -12,7 +12,7 @@ import { ConfigService } from '@nestjs/config';
 
 /* Files */
 import UserService from '../../user/services/user.service';
-import { IUserDTO, IUserTokenPayload } from '../../user/interfaces/user';
+import { IUser, IUserTokenPayload } from '../../user/interfaces/user';
 
 @Injectable()
 export default class JWTStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -27,13 +27,15 @@ export default class JWTStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate({ id }: IUserTokenPayload) : Promise<IUserDTO | void> {
-    const user = await this.userService.findById(id);
+  async validate({ id }: IUserTokenPayload) : Promise<IUser | void> {
+    const user = await this.userService.findOne({
+      id,
+    });
 
     if (!user) {
       return undefined;
     }
 
-    return this.userService.toDTO(user);
+    return user;
   }
 }

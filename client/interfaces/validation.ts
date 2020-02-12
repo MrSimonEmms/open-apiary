@@ -21,5 +21,6 @@ export interface IValidation {
   getValidations(): {
     [key: string]: ValidationRule,
   };
+  resetValidation() : void;
   validate() : boolean;
 }

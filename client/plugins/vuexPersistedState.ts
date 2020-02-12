@@ -53,6 +53,7 @@ const plugin : Plugin = ({ req, res, store }) : void => {
   createPersistedState({
     key: 'oa-session',
     paths: [
+      'app.setupStage',
       'user.redirect',
       'user.tokenSession',
     ],

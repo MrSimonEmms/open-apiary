@@ -13,6 +13,7 @@ export interface IUser {
   name: string;
   emailAddress: string;
   password: string;
+  changeOnLogin: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

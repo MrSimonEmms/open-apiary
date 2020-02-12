@@ -12,12 +12,21 @@ import { Vue } from 'vue-property-decorator';
 
 const middleware : Middleware = async ({ redirect, route, store }) => {
   const isLoggedIn : boolean = !!store.getters['user/token'];
+  const passwordRoute = 'change-password';
 
   if (isLoggedIn) {
     /* Logged in, get the user data */
     try {
       await store.dispatch('user/loadUser');
       Vue.$log.info('User login token is valid');
+
+      const user = store.getters['user/user'];
+
+      if (user.changeOnLogin && route.name !== passwordRoute) {
+        redirect({
+          name: passwordRoute,
+        });
+      }
 
       return;
     } catch (err) {
