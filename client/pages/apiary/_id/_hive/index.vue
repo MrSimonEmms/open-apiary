@@ -1,6 +1,10 @@
 <template lang="pug">
   div
     oa-confirm( ref="confirm" )
+    oa-new-button(
+      :buttons="speedDial"
+      open-icon="mdi-settings"
+    )
     v-dialog(
       v-model="editor"
       fullscreen
@@ -205,6 +209,7 @@ import { cloneDeep, debounce } from 'lodash';
 /* Files */
 import datetime from '../../../../filters/datetime';
 import { IInspection } from '../../../../../server/apiary/interfaces/apiary';
+import { IButton } from '../../../../interfaces/newButton';
 
 @Component
 export default class HiveIndexPage extends Vue {
@@ -213,6 +218,22 @@ export default class HiveIndexPage extends Vue {
   };
 
   loading: boolean = false;
+
+  speedDial: IButton[] = [{
+    color: 'warning',
+    icon: 'mdi-settings',
+    to: {
+      name: 'apiary-id-hive-settings',
+    },
+  }, {
+    color: 'red',
+    icon: 'mdi-delete',
+    click: async (event) => {
+      event.stopPropagation();
+
+      await this.deleteHive();
+    },
+  }];
 
   defaultInspection: Omit<IInspection, 'hive' | 'updatedAt' | 'createdAt' | 'id'> = {
     date: new Date(),
@@ -266,6 +287,28 @@ export default class HiveIndexPage extends Vue {
 
   set search(search) {
     this.filterResults(search);
+  }
+
+  async deleteHive() {
+    this.$log.debug('Hive delete confirmation requested');
+
+    const confirm = await this.$refs.confirm.open({
+      typeWord: true,
+    });
+
+    if (!confirm) {
+      this.$log.debug('Hive delete cancelled');
+      return;
+    }
+
+    await this.$store.dispatch('hive/delete', {
+      apiaryId: this.$route.params.id,
+      hiveId: this.$route.params.hive,
+    });
+
+    await this.$router.push({
+      name: 'apiary-id',
+    });
   }
 
   weatherOpts: { [key: string]: string } = {
