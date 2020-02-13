@@ -56,4 +56,15 @@ export default class HiveService extends TypeOrmCrudService<Hive> {
 
     return hive.apiaryCount + 1;
   }
+
+  async findHiveByUUID(uuid: string) : Promise<Hive | undefined> {
+    return this.findOne({
+      where: {
+        uuid,
+      },
+      relations: [
+        'apiary',
+      ],
+    });
+  }
 }

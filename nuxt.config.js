@@ -135,6 +135,7 @@ module.exports = {
     './plugins/i18next',
     './plugins/logger',
     './plugins/leaflet.client',
+    './plugins/qrReader.client',
     './plugins/vuelidate',
     './plugins/vuexPersistedState',
     './plugins/axios', // Put after the logger - log id added to outgoing

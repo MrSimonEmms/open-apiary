@@ -2,3 +2,11 @@ GENERAL_ERROR: General error
 PAGE_NOT_FOUND: Page not found
 RETURN_TO_HOMEPAGE: Back to homepage
 MESSAGE: "Message: {{msg}}"
+SCANNER: General error
+SCANNER_NotFound: Hive not found
+SCANNER_NotAllowedError: You need to grant camera access permisson
+SCANNER_NotFoundError: No camera on this device
+SCANNER_NotSupportedError: Secure context required (HTTPS, localhost)
+SCANNER_NotReadableError: Is the camera already in use?
+SCANNER_OverconstrainedError: Installed cameras are not suitable
+SCANNER_StreamApiNotSupportedError: Stream API is not supported in this browser

@@ -82,6 +82,12 @@ export default class NavDrawer extends Vue {
     },
     icon: 'mdi-beehive-outline',
     title: 'nav:DRAWER.APIARIES',
+  }, {
+    to: {
+      name: 'scanner',
+    },
+    icon: 'mdi-qrcode',
+    title: 'nav:DRAWER.SCANNER',
   }];
 
   get appName(): string {
