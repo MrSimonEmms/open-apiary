@@ -1,18 +1,20 @@
 <template lang="pug">
   oa-hive-editor(
+    v-model="hive"
     :apiaryId="apiaryId"
   )
 </template>
 
 <script lang="ts">
 /**
- * create
+ * settings
  */
 
 /* Node modules */
 import { Vue, Component } from 'vue-property-decorator';
 
 /* Files */
+import { IHive } from '../../../../../server/apiary/interfaces/apiary';
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -31,13 +33,21 @@ declare module 'vue/types/vue' {
     },
   },
 })
-export default class NewHivePage extends Vue {
+export default class HiveEditPage extends Vue {
   get apiaryId() {
     return Number(this.$route.params.id);
   }
 
+  get hive() {
+    return this.$store.getters['hive/active'];
+  }
+
+  set hive(hive: IHive) {
+    this.$store.commit('hive/setActive', hive);
+  }
+
   setPageTitle() {
-    this.$store.commit('app/setPageTitle', 'hive:CREATE.TITLE');
+    this.$store.commit('app/setPageTitle', 'hive:EDIT.TITLE');
   }
 }
 </script>

@@ -116,6 +116,41 @@ const hiveStore : {
       return getters.inspections;
     },
 
+    async save({ dispatch }, {
+      apiaryId,
+      hive,
+    }: {
+      apiaryId: number,
+      hive: IHive,
+    }) {
+      let hiveId = hive?.id ?? 0;
+
+      if (hiveId === 0) {
+        Vue.$log.info('Creating new hive', {
+          hive,
+          apiaryId,
+        });
+
+        const { id } = await this.$axios.$post(`/api/apiary/${apiaryId}/hive`, hive);
+
+        hiveId = id;
+      } else {
+        Vue.$log.info('Updating existing hive', {
+          hive,
+          apiaryId,
+        });
+
+        await this.$axios.$put(`/api/apiary/${apiaryId}/hive/${hive.id}`, hive);
+      }
+
+      await dispatch('load', {
+        apiaryId,
+        hiveId,
+      });
+
+      return hiveId;
+    },
+
     async saveInspection(_store, {
       data,
       id,

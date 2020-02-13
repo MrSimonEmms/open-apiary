@@ -211,7 +211,23 @@ import datetime from '../../../../filters/datetime';
 import { IInspection } from '../../../../../server/apiary/interfaces/apiary';
 import { IButton } from '../../../../interfaces/newButton';
 
-@Component
+declare module 'vue/types/vue' {
+  interface Vue {
+    setPageTitle(): void;
+  }
+}
+
+@Component({
+  created() {
+    this.setPageTitle();
+  },
+
+  watch: {
+    $route() {
+      this.setPageTitle();
+    },
+  },
+})
 export default class HiveIndexPage extends Vue {
   $refs!: {
     confirm: any;
@@ -223,7 +239,7 @@ export default class HiveIndexPage extends Vue {
     color: 'warning',
     icon: 'mdi-settings',
     to: {
-      name: 'apiary-id-hive-settings',
+      name: 'apiary-id-hive-edit',
     },
   }, {
     color: 'red',
@@ -265,7 +281,7 @@ export default class HiveIndexPage extends Vue {
     }],
     weather: {
       temp: 12,
-      desc: '',
+      desc: 'FAIR',
     },
     supers: 0,
     notes: '',
@@ -309,6 +325,16 @@ export default class HiveIndexPage extends Vue {
     await this.$router.push({
       name: 'apiary-id',
     });
+  }
+
+  get hive() {
+    return this.$store.getters['hive/active'] ?? {};
+  }
+
+  setPageTitle() {
+    this.$store.commit('app/setPageTitle', this.$i18n.t('misc:PAGE_TITLES.APIARY-ID-HIVE', {
+      number: this.hive.apiaryCount,
+    }));
   }
 
   weatherOpts: { [key: string]: string } = {
