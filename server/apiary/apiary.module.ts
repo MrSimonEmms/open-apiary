@@ -18,6 +18,7 @@ import HiveService from './services/hive.service';
 import Inspection from './entities/inspection.entity';
 import InspectionController from './controllers/inspection.controller';
 import InspectionService from './services/inspection.service';
+import UUIDController from './controllers/uuid.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -27,6 +28,7 @@ import InspectionService from './services/inspection.service';
   ])],
   controllers: [
     InspectionController,
+    UUIDController,
     HiveController,
     ApiaryController,
   ],

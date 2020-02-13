@@ -21,6 +21,7 @@ PAGE_TITLES:
   SETTINGS-PASSWORD: Password
   SETTINGS-PROFILE: Profile
   SETTINGS-USERS: Users
+  SCANNER: Barcode Scanner
 PAGING:
   ITEMS_PER_PAGE_TEXT: Rows per page
   PAGE_TEXT: "{{ pageStart }}-{{ pageStop }} of {{ itemsLength }}"

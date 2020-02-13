@@ -43,6 +43,10 @@ const hiveStore : {
       commit('deleteInspection', inspectionId);
     },
 
+    async findByUUID(_store, uuid: string) {
+      return this.$axios.$get(`/api/hive/uuid/${uuid}`);
+    },
+
     async load({ commit, getters }, { apiaryId, hiveId }: {
       apiaryId: number,
       hiveId: number,
