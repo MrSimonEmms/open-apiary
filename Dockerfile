@@ -11,10 +11,10 @@ ADD node_modules node_modules
 ENV APP_NAME="${APP_NAME}"
 ENV BUILD_ID="${BUILD_ID}"
 ENV VERSION="${VERSION}"
-RUN apk add --no-cache g++ make python \
+RUN apk add --no-cache g++ git make python \
   && npm prune --production \
   && npm rebuild \
-  && apk del g++ make python
+  && apk del g++ git make python
 EXPOSE 3000
 USER node
 CMD [ "npm", "start" ]
