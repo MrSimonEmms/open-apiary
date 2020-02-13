@@ -1,0 +1,15 @@
+CREATE:
+  TITLE: Create Hive
+EDIT:
+  TITLE: Edit Hive
+DOCUMENT:
+  APIARY: "Apiary: {{name}}"
+  HIVE: "Hive: #{{number}}"
+  INSTRUCTIONS: Print this item and place inside your hive
+FORM:
+  APIARY_COUNT: Apiary Number
+  ESTABLISHED_DATE: Date colony established
+  LAUNCH_DOCUMENT: Generate barcode
+  ORIGIN: Where did this colony come from?
+  SAVE: Save
+  UUID: Unique ID

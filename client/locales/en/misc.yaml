@@ -14,8 +14,9 @@ PAGE_TITLES:
   APIARY-ID: "{{name}}"
   APIARY-ID-CREATE: New Hive
   APIARY-ID-EDIT: Edit
-  APIARY-ID-HIVE: "Hive #{{number}} Inspections"
-  APIARY-ID-HIVE-SETTINGS: Settings
+  APIARY-ID-HIVE: "Hive #{{number}}"
+  APIARY-ID-HIVE-EDIT: Edit
+  APIARY-ID-HIVE-DOCUMENT: Document
   SETTINGS: Settings
   SETTINGS-PASSWORD: Password
   SETTINGS-PROFILE: Profile
