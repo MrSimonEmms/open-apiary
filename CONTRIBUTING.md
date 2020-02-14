@@ -14,7 +14,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 3. Increase the version numbers in any examples files and the README.md to the new version that this
    Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/) which is
    implemented by [Semantic Release](https://semantic-release.gitbook.io).
-4. It is mandatory that to use the Semantic Release
+4. It is mandatory to use the Semantic Release
    [git message convention](https://semantic-release.gitbook.io/semantic-release/#how-does-it-work) on
    all commits to the repository. All Pull Requests must be raised against the `develop`
    branch.
