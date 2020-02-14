@@ -137,3 +137,6 @@ sw.*
 
 # Config
 /config.js*
+
+# Vuepress
+/public

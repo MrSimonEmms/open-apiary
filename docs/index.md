@@ -4,7 +4,7 @@ heroImage: /icon.png
 heroText: Open Apiary
 tagline: Open-source beekeeping records
 actionText: Getting Started →
-actionLink: /getting-started/
+actionLink: /guide/
 features:
 - title: Effective
   details: Record keeping for apiaries and hives with future development focusing on automation.
