@@ -53,9 +53,17 @@ build_artifact:
 #########
 docker_build_amd64:
   extends: .docker_build
+  artifacts:
+    paths:
+      - ./artifacts
+  after_script:
+    - sh ./scripts/extractDist.sh
 
 docker_build_arm32v6:
   extends: .docker_build
+  artifacts:
+    paths:
+      - ./artifacts
   only:
     refs:
       - master
@@ -64,9 +72,14 @@ docker_build_arm32v6:
   variables:
     CIT_DOCKER_ARCH: arm32v6
     CIT_DOCKER_ARGS_IMG: arm32v6/alpine
+  after_script:
+    - sh ./scripts/extractDist.sh
 
 docker_build_arm32v7:
   extends: .docker_build
+  artifacts:
+    paths:
+      - ./artifacts
   only:
     refs:
       - master
@@ -75,9 +88,14 @@ docker_build_arm32v7:
   variables:
     CIT_DOCKER_ARCH: arm32v7
     CIT_DOCKER_ARGS_IMG: arm32v7/alpine
+  after_script:
+    - sh ./scripts/extractDist.sh
 
 docker_build_arm64v8:
   extends: .docker_build
+  artifacts:
+    paths:
+      - ./artifacts
   only:
     refs:
       - master
@@ -86,6 +104,8 @@ docker_build_arm64v8:
   variables:
     CIT_DOCKER_ARCH: arm64v8
     CIT_DOCKER_ARGS_IMG: arm64v8/alpine
+  after_script:
+    - sh ./scripts/extractDist.sh
 
 ###########
 # Publish #
@@ -124,3 +144,18 @@ docker_publish_feature:
 ###########
 update_version:
   extends: .repo_update
+
+gitlab_release:
+  stage: release
+  variables:
+    GITHUB_USER: mrsimonemms
+    GITHUB_REPO: open-apiary
+  script:
+    - apk add --no-cache curl jq zip
+    - sh ./scripts/release.sh
+  except:
+    variables:
+      - $CIT_NO_RELEASE == "1"
+  only:
+    refs:
+      - master

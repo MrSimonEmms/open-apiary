@@ -131,3 +131,6 @@ sw.*
 
 # SQLite
 **/*.sql
+
+# Artifacts
+/artifacts
