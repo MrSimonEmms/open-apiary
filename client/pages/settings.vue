@@ -33,6 +33,13 @@ import { Vue, Component } from 'vue-property-decorator';
 
 /* Files */
 
+/* Define the validator on the instance */
+declare module 'vue/types/vue' {
+  interface Vue {
+    setPageTitle(): void;
+  }
+}
+
 const pages = [{
   name: 'index',
 }, {
@@ -62,12 +69,14 @@ function getSettingsTab(name?: string) : number {
     'isLoggedIn',
   ],
 
-  head() {
-    const tab = getSettingsTab(this.$route.name);
+  created() {
+    this.setPageTitle();
+  },
 
-    return {
-      title: this.$i18n.t(`settings:${pages[tab].name.toUpperCase()}_PAGE.TITLE`),
-    };
+  watch: {
+    $route() {
+      this.setPageTitle();
+    },
   },
 })
 export default class SettingsPage extends Vue {
@@ -96,6 +105,12 @@ export default class SettingsPage extends Vue {
   }
 
   pages = pages;
+
+  setPageTitle() {
+    const tab = getSettingsTab(this.$route.name);
+
+    this.$store.commit('app/setPageTitle', `settings:${pages[tab].name.toUpperCase()}_PAGE.TITLE`);
+  }
 }
 </script>
 
