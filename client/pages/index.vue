@@ -1,5 +1,8 @@
 <template lang="pug">
-  div index
+  div
+    | @todo - this will be used when I work out what to do. Most likely, this
+    | will be how the automated data is collated - things such as weight, temperature,
+    | humidity
 </template>
 
 <script lang="ts">
@@ -18,6 +21,11 @@ import { Component, Vue } from 'vue-property-decorator';
   middleware: [
     'isSetup',
     'isLoggedIn',
+    ({ redirect }) => {
+      redirect({
+        name: 'apiary',
+      });
+    },
   ],
 })
 export default class IndexPage extends Vue {}

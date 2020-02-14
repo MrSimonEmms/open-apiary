@@ -70,12 +70,12 @@ import { IMenuItem } from '../interfaces/navDrawer';
 @Component
 export default class NavDrawer extends Vue {
   menu: IMenuItem[] = [{
-    to: {
-      name: 'index',
-    },
-    icon: 'mdi-view-dashboard',
-    title: 'nav:DRAWER.DASHBOARD',
-  }, {
+  //   to: {
+  //     name: 'index',
+  //   },
+  //   icon: 'mdi-view-dashboard',
+  //   title: 'nav:DRAWER.DASHBOARD',
+  // }, {
     exact: false,
     to: {
       name: 'apiary',
