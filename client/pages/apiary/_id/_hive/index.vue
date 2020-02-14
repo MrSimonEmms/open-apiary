@@ -1,6 +1,10 @@
 <template lang="pug">
   div
     oa-confirm( ref="confirm" )
+    oa-new-button(
+      :buttons="speedDial"
+      open-icon="mdi-settings"
+    )
     v-dialog(
       v-model="editor"
       fullscreen
@@ -205,14 +209,47 @@ import { cloneDeep, debounce } from 'lodash';
 /* Files */
 import datetime from '../../../../filters/datetime';
 import { IInspection } from '../../../../../server/apiary/interfaces/apiary';
+import { IButton } from '../../../../interfaces/newButton';
 
-@Component
+declare module 'vue/types/vue' {
+  interface Vue {
+    setPageTitle(): void;
+  }
+}
+
+@Component({
+  created() {
+    this.setPageTitle();
+  },
+
+  watch: {
+    $route() {
+      this.setPageTitle();
+    },
+  },
+})
 export default class HiveIndexPage extends Vue {
   $refs!: {
     confirm: any;
   };
 
   loading: boolean = false;
+
+  speedDial: IButton[] = [{
+    color: 'warning',
+    icon: 'mdi-settings',
+    to: {
+      name: 'apiary-id-hive-edit',
+    },
+  }, {
+    color: 'red',
+    icon: 'mdi-delete',
+    click: async (event) => {
+      event.stopPropagation();
+
+      await this.deleteHive();
+    },
+  }];
 
   defaultInspection: Omit<IInspection, 'hive' | 'updatedAt' | 'createdAt' | 'id'> = {
     date: new Date(),
@@ -244,7 +281,7 @@ export default class HiveIndexPage extends Vue {
     }],
     weather: {
       temp: 12,
-      desc: '',
+      desc: 'FAIR',
     },
     supers: 0,
     notes: '',
@@ -266,6 +303,38 @@ export default class HiveIndexPage extends Vue {
 
   set search(search) {
     this.filterResults(search);
+  }
+
+  async deleteHive() {
+    this.$log.debug('Hive delete confirmation requested');
+
+    const confirm = await this.$refs.confirm.open({
+      typeWord: true,
+    });
+
+    if (!confirm) {
+      this.$log.debug('Hive delete cancelled');
+      return;
+    }
+
+    await this.$store.dispatch('hive/delete', {
+      apiaryId: this.$route.params.id,
+      hiveId: this.$route.params.hive,
+    });
+
+    await this.$router.push({
+      name: 'apiary-id',
+    });
+  }
+
+  get hive() {
+    return this.$store.getters['hive/active'] ?? {};
+  }
+
+  setPageTitle() {
+    this.$store.commit('app/setPageTitle', this.$i18n.t('misc:PAGE_TITLES.APIARY-ID-HIVE', {
+      number: this.hive.apiaryCount,
+    }));
   }
 
   weatherOpts: { [key: string]: string } = {

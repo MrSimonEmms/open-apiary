@@ -12,6 +12,16 @@
         v-if="message"
       ) {{ $t(message) }}
 
+      v-card-text(
+        v-if="typeWord"
+      ) {{ $t('misc:CONFIRM.TYPE_WORD') }}
+        v-text-field(
+          v-model="word"
+          ref="word"
+          :rules="[rules.required, rules.equals]"
+          required
+        )
+
       v-card-actions
         v-spacer
         v-btn(
@@ -38,6 +48,10 @@ import { IConfirm } from '../interfaces/app';
 
 @Component
 export default class Confirm extends Vue implements IConfirm {
+  $refs!: {
+    word: any;
+  };
+
   dialog: boolean = false;
 
   title: string = '';
@@ -50,7 +64,35 @@ export default class Confirm extends Vue implements IConfirm {
 
   maxWidth: number = 290;
 
+  typeWord: boolean = false;
+
+  word: string = '';
+
+  get rules() {
+    return {
+      equals: (value: string) => {
+        const target = this.$i18n.t('misc:CONFIRM.CONFIRM_WORD');
+        if (value === target) {
+          return true;
+        }
+
+        return this.$i18n.t('form:ERRORS.NONMATCH', {
+          target,
+        });
+      },
+      required: (value: string) => !!value || this.$i18n.t('form:ERRORS.REQUIRED'),
+    };
+  }
+
   agree() {
+    if (this.typeWord) {
+      const valid = this.$refs.word.validate(true);
+
+      if (!valid) {
+        return;
+      }
+    }
+
     this.resolve!(true);
     this.reset();
   }
@@ -60,12 +102,20 @@ export default class Confirm extends Vue implements IConfirm {
     this.reset();
   }
 
-  open(
-    message: string = 'misc:CONFIRM.CONTINUE_TO_DELETE',
-    title: string = 'misc:CONFIRM.ARE_YOU_SURE',
-  ) : Promise<boolean> {
+  open({
+    message = 'misc:CONFIRM.CONTINUE_TO_DELETE',
+    title = 'misc:CONFIRM.ARE_YOU_SURE',
+    typeWord = false,
+  }: {
+    message?: string;
+    title?: string;
+    typeWord?: boolean;
+  } = {}) : Promise<boolean> {
+    this.word = '';
+
     if (message) { this.message = message; }
     if (title) { this.title = title; }
+    this.typeWord = typeWord;
 
     this.dialog = true;
 

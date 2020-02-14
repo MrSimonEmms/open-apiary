@@ -282,28 +282,10 @@
             )
 
           v-col( cols="12" )
-            v-tabs()
-              v-tab(
-                @click="textPreview = false"
-              ) {{ $t('apiary:INSPECTIONS.FORM.NOTES.WRITE') }}
-              v-tab(
-                @click="textPreview = true"
-              ) {{ $t('apiary:INSPECTIONS.FORM.NOTES.PREVIEW') }}
-
-            div(
-              v-if="textPreview"
-              v-dompurify-html="$options.filters.markdown(value.notes)"
+            oa-markdown-editor(
+              v-model="value.notes"
+              placeholder="apiary:INSPECTIONS.FORM.NOTES.TITLE"
             )
-            div( v-else )
-              v-textarea(
-                auto-grow
-                :placeholder="$t('apiary:INSPECTIONS.FORM.NOTES.TITLE')"
-                v-model="value.notes"
-              )
-              p(
-                v-html="$t('apiary:INSPECTIONS.FORM.NOTES.MARKDOWN_ALLOWED', \
-                { url: markdownHelp })"
-              )
 
         v-row( v-if="value.createdAt && value.updatedAt" )
           v-col.py-0( cols="12" md="6" )
@@ -347,8 +329,6 @@ export default class InspectionEditor extends Vue {
     ].sort();
   }
 
-  markdownHelp: string = 'https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet';
-
   queenMarkingColors: any[] = [{
     text: 'NO',
     value: false,
@@ -378,8 +358,6 @@ export default class InspectionEditor extends Vue {
   }];
 
   saving: boolean = false;
-
-  textPreview: boolean = false;
 
   varroaLevels: string[] = [
     'L',

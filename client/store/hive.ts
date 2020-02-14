@@ -26,6 +26,13 @@ const hiveStore : {
   state: () => RootState;
 } = {
   actions: {
+    async delete(_store, { apiaryId, hiveId }: {
+      apiaryId: number,
+      hiveId: number,
+    }) {
+      await this.$axios.$delete(`/api/apiary/${apiaryId}/hive/${hiveId}`);
+    },
+
     async deleteInspection({ commit }, { apiaryId, hiveId, inspectionId }: {
       apiaryId: number,
       hiveId: number,
@@ -34,6 +41,10 @@ const hiveStore : {
       await this.$axios.$delete(`/api/apiary/${apiaryId}/hive/${hiveId}/inspection/${inspectionId}`);
 
       commit('deleteInspection', inspectionId);
+    },
+
+    async findByUUID(_store, uuid: string) {
+      return this.$axios.$get(`/api/hive/uuid/${uuid}`);
     },
 
     async load({ commit, getters }, { apiaryId, hiveId }: {
@@ -107,6 +118,41 @@ const hiveStore : {
       }
 
       return getters.inspections;
+    },
+
+    async save({ dispatch }, {
+      apiaryId,
+      hive,
+    }: {
+      apiaryId: number,
+      hive: IHive,
+    }) {
+      let hiveId = hive?.id ?? 0;
+
+      if (hiveId === 0) {
+        Vue.$log.info('Creating new hive', {
+          hive,
+          apiaryId,
+        });
+
+        const { id } = await this.$axios.$post(`/api/apiary/${apiaryId}/hive`, hive);
+
+        hiveId = id;
+      } else {
+        Vue.$log.info('Updating existing hive', {
+          hive,
+          apiaryId,
+        });
+
+        await this.$axios.$put(`/api/apiary/${apiaryId}/hive/${hive.id}`, hive);
+      }
+
+      await dispatch('load', {
+        apiaryId,
+        hiveId,
+      });
+
+      return hiveId;
     },
 
     async saveInspection(_store, {

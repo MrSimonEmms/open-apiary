@@ -93,9 +93,6 @@ export default class ApiaryIDIndexPage extends Vue {
     icon: 'mdi-settings',
     to: {
       name: 'apiary-id-edit',
-      params: {
-        id: '1',
-      },
     },
   }, {
     color: 'red',

@@ -19,7 +19,7 @@ install:
       - ./node_modules
       - ./data/node_modules
   script:
-    - apk add --no-cache g++ make python
+    - apk add --no-cache g++ git make python
     - npm ci --unsafe-perm # Required for the patch-package postinstall task
     - (cd data && npm ci) # Used for ingesting data
 
