@@ -9,10 +9,11 @@
   "scripts": {
     "prebuild": "rimraf ./dist ./.nuxt",
     "build": "run-s compile:server compile:client",
-    "postbuild": "run-s copy:nuxt copy:client copy:config",
+    "postbuild": "run-s copy:nuxt copy:client copy:config copy:dist",
     "compile:client": "cross-env mode=production nuxt build",
     "compile:server": "tsc -p ./server/tsconfig.build.json",
     "copy:client": "copyfiles -a \"client/**/*\" dist",
+    "copy:dist": "copyfiles ATTRIBUTION.md CHANGELOG LICENSE pm2.yaml README.md dist",
     "copy:config": "copyfiles nuxt.config.js package.json package-lock.json dist && node ./scripts/editPackageJson.js ./dist/package.json",
     "copy:nuxt": "copyfiles -a \".nuxt/**/*\" dist",
     "dev": "cross-env IS_NUXT_ENABLED=true nodemon",
