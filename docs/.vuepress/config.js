@@ -32,6 +32,7 @@ module.exports = {
     sidebar: [{
       title: 'Guide',
       path: '/guide/',
+      sidebarDepth: 2,
       children: [
         '/guide/',
         '/guide/getting-started',
