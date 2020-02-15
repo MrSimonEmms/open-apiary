@@ -5,6 +5,7 @@
 /* Node modules */
 
 /* Third-party modules */
+import { merge } from 'lodash';
 
 /* Files */
 
@@ -19,7 +20,25 @@ if (loggingVar === 'true') {
   logging = loggingVar;
 }
 
-export default () => ({
+const cwd = process.cwd();
+
+/* Look for a custom config file */
+let config: { [key: string] : any};
+try {
+  /* Look for a config.js file */
+  // eslint-disable-next-line global-require,import/no-dynamic-require
+  config = require(`${cwd}/config.js`);
+} catch {
+  try {
+    /* Look for a config.json file */
+    // eslint-disable-next-line global-require,import/no-dynamic-require
+    config = require(`${cwd}/config.json`);
+  } catch {
+    config = {};
+  }
+}
+
+export default () => merge({
   db: {
     type: process.env.DB_TYPE,
     host: process.env.DB_HOST,
@@ -39,4 +58,4 @@ export default () => ({
   server: {
     port: Number(process.env.PORT || 3000),
   },
-});
+}, config);

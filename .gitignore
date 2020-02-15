@@ -134,3 +134,6 @@ sw.*
 
 # Artifacts
 /artifacts
+
+# Config
+/config.js*
