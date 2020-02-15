@@ -15,3 +15,4 @@ apps:
       DB_SYNC: false
       DB_TYPE: sqlite
       JWT_SECRET: q1w2e3r4 # Ensure you set your own random string
+      PORT: 80
