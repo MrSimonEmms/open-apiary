@@ -23,6 +23,9 @@ module.exports = {
       text: 'Contributing',
       link: '/contributing/',
     }, {
+      text: 'Changelog',
+      link: '/changelog/',
+    }, {
       text: 'Issues',
       link: 'https://gitlab.com/MrSimonEmms/open-apiary/issues',
     }, {

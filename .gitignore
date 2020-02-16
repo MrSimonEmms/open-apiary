@@ -141,3 +141,4 @@ sw.*
 # Vuepress
 /public
 /docs/contributing/
+/docs/changelog/
