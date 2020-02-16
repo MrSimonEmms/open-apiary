@@ -140,3 +140,4 @@ sw.*
 
 # Vuepress
 /public
+/docs/contributing/
