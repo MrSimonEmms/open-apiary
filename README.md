@@ -3,13 +3,10 @@
 > An application to enable beekeepers to keep track of their records and maintain
 > healthy apiaries.
 
-# Requirements
-
-@todo
-
 # Getting Started
 
-@todo
+See the [documentation website](https://mrsimonemms.gitlab.io/open-apiary) for
+details on getting started. 
 
 # Contributing
 
