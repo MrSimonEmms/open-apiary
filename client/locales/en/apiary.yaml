@@ -1,5 +1,6 @@
 BUTTONS:
   NEW: Create an apiary
+  NEW_HIVE: Create a hive
   SUBMIT: Save
 ERROR:
   FAILED_TO_SAVE: Error whilst saving. Please try again later.

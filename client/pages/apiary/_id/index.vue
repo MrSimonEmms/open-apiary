@@ -16,7 +16,7 @@
           color="primary"
           nuxt
           :to="{ name: 'apiary-id-create' }"
-        ) {{ $t('apiary:BUTTONS.NEW') }}
+        ) {{ $t('apiary:BUTTONS.NEW_HIVE') }}
 
     template( v-slot:activator="{ item }" )
       v-card(
