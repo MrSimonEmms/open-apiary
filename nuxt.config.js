@@ -24,6 +24,14 @@ module.exports = {
       return name;
     },
     meta: [{
+      name: '_oa_build_id',
+      hid: '_oa_build_id',
+      value: process.env.BUILD_ID || 'dev',
+    }, {
+      name: '_oa_version',
+      hid: '_oa_version',
+      value: process.env.VERSION || 'dev-build',
+    }, {
       charset: 'utf-8',
     }, {
       name: 'viewport',
