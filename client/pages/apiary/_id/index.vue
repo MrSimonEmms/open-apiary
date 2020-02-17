@@ -56,6 +56,7 @@ import { Vue, Component } from 'vue-property-decorator';
 /* Files */
 import { IApiary, IHive } from '../../../../server/apiary/interfaces/apiary';
 import { IButton } from '../../../interfaces/newButton';
+import Barcode from '../../../lib/barcode';
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -81,27 +82,39 @@ export default class ApiaryIDIndexPage extends Vue {
 
   dialog: boolean = false;
 
-  speedDial: IButton[] = [{
-    color: 'success',
-    icon: 'mdi-plus',
-    to: {
-      name: 'apiary-id-create',
-    },
-  }, {
-    color: 'warning',
-    icon: 'mdi-settings',
-    to: {
-      name: 'apiary-id-edit',
-    },
-  }, {
-    color: 'red',
-    icon: 'mdi-delete',
-    click: async (event) => {
-      event.stopPropagation();
+  get speedDial() : IButton[] {
+    return [{
+      color: 'primary',
+      icon: 'mdi-qrcode',
+      click: async (event) => {
+        event.stopPropagation();
 
-      await this.deleteApiary();
-    },
-  }];
+        const barcode = new Barcode(this.apiary, this.hives, this.$i18n);
+
+        await barcode.generatePDF();
+      },
+    }, {
+      color: 'success',
+      icon: 'mdi-plus',
+      to: {
+        name: 'apiary-id-create',
+      },
+    }, {
+      color: 'warning',
+      icon: 'mdi-settings',
+      to: {
+        name: 'apiary-id-edit',
+      },
+    }, {
+      color: 'red',
+      icon: 'mdi-delete',
+      click: async (event) => {
+        event.stopPropagation();
+
+        await this.deleteApiary();
+      },
+    }];
+  }
 
   get apiary() : IApiary {
     return this.$store.getters['apiary/active'];

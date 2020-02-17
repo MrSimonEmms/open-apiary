@@ -97,13 +97,12 @@
 /* Node modules */
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { required } from 'vuelidate/lib/validators';
-import QRCode from 'qrcode';
 
 /* Files */
 import { IHive } from '../../server/apiary/interfaces/apiary';
 import { IValidation } from '../interfaces/validation';
 import Validation from '../lib/validation';
-import logo from '../static/img/icon.png';
+import Barcode from '../lib/barcode';
 
 /* Define the validator on the instance */
 declare module 'vue/types/vue' {
@@ -127,13 +126,9 @@ declare module 'vue/types/vue' {
   },
 })
 export default class HiveEditor extends Vue {
-  hiveDocument: boolean = true;
-
   error: string | null = null;
 
   loading: boolean = false;
-
-  qrCode: string = 'sss';
 
   @Prop({
     type: Number,
@@ -171,64 +166,10 @@ export default class HiveEditor extends Vue {
     Vue.set(this.value, 'establishedDate', date);
   }
 
-  async generateQRCode() {
-    return QRCode.toDataURL(this.value.uuid, {
-      type: 'image/png',
-      errorCorrectionLevel: 'H',
-      scale: 3,
-    });
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getLogoString() : Promise<string> {
-    return new Promise((resolve) => {
-      const img = new Image();
-
-      img.setAttribute('crossOrigin', 'anonymous');
-
-      img.onload = function onload(this: any) {
-        const canvas = document.createElement('canvas');
-        canvas.width = this.width;
-        canvas.height = this.height;
-
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-          resolve('');
-          return;
-        }
-        ctx.drawImage(this, 0, 0);
-
-        const dataURL = canvas.toDataURL('image/png');
-
-        resolve(dataURL.replace(/^data:image\/(png|jpg);base64,/, ''));
-      };
-
-      img.src = logo;
-    });
-  }
-
   async generateHiveDoc() {
-    const { default: PDF } = await import('jspdf');
+    const barcode = new Barcode(this.apiary, [this.value as IHive], this.$i18n);
 
-    const doc = new PDF({
-      orientation: 'portrait',
-      format: 'a8',
-    });
-    doc.addImage(await this.getLogoString(), 'png', 2, 5);
-    doc.text(this.$store.getters['app/appName'], 17, 13);
-    doc.addImage(await this.generateQRCode(), 'png', 6, 20, 40, 40);
-    doc.setFontSize(10);
-    doc.text([
-      this.$i18n.t('hive:DOCUMENT.APIARY', {
-        name: this.apiary.name,
-      }),
-      this.$i18n.t('hive:DOCUMENT.HIVE', {
-        number: this.value.apiaryCount,
-      }),
-    ], 2, 63, {
-      lineHeightFactor: 1.5,
-    });
-    doc.output('save', `${this.value.uuid}.pdf`);
+    await barcode.generatePDF();
   }
 
   async submit() {
