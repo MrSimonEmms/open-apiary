@@ -148,6 +148,9 @@ export default class ApiaryIDIndexPage extends Vue {
     }, {
       title: 'ESTABLISHED_DATE',
       value: this.$options.filters!.datetime(hive.establishedDate),
+    }, {
+      title: 'ID',
+      value: hive.uuid,
     }];
   }
 

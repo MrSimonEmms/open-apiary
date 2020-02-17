@@ -17,6 +17,7 @@ HIVES:
   CARD:
     ESTABLISHED_DATE: Colony established
     LAST_INSPECTION_DATE: Last inspection
+    ID: Unique ID
   TITLE: Hives
 INSPECTIONS:
   FORM:
