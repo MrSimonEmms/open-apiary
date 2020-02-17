@@ -1,6 +1,7 @@
 <template lang="pug">
   oa-card-grid(
     v-model="apiaryList"
+    no-adjust-cols
   )
     template( v-slot:root )
       oa-new-button(

@@ -1,7 +1,6 @@
 <template lang="pug">
   oa-card-grid(
     v-model="hives"
-    no-adjust-cols
   )
     template( v-slot:root )
       oa-confirm( ref="confirm" )
