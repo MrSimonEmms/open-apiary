@@ -115,7 +115,9 @@ export default class ApiaryIDIndexPage extends Vue {
   async deleteApiary() {
     this.$log.debug('Apiary delete confirmation requested');
 
-    const confirm = await this.$refs.confirm.open();
+    const confirm = await this.$refs.confirm.open({
+      typeWord: true,
+    });
 
     if (!confirm) {
       this.$log.debug('Apiary delete cancelled');
