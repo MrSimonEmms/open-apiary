@@ -91,6 +91,8 @@ export default class ApiaryIDIndexPage extends Vue {
 
         const barcode = new Barcode(this.apiary, this.hives, this.$i18n);
 
+        barcode.debug = process.env.DEBUG_BARCODE === 'true';
+
         await barcode.generatePDF();
       },
     }, {

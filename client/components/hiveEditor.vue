@@ -169,6 +169,8 @@ export default class HiveEditor extends Vue {
   async generateHiveDoc() {
     const barcode = new Barcode(this.apiary, [this.value as IHive], this.$i18n);
 
+    barcode.debug = process.env.DEBUG_BARCODE === 'true';
+
     await barcode.generatePDF();
   }
 

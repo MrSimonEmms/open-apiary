@@ -5,7 +5,7 @@
 /* Node modules */
 
 /* Third-party modules */
-import QRCode from 'qrcode';
+import QRCode, { QRCodeErrorCorrectionLevel } from 'qrcode';
 import VueI18Next from '@panter/vue-i18next';
 
 /* Files */
@@ -16,7 +16,7 @@ export default class Barcode {
   public debug: boolean = false;
 
   // @todo get this from the store
-  protected appName: string = 'OpenApiary';
+  protected appName: string = 'Open Apiary';
 
   protected apiary: IApiary;
 
@@ -145,7 +145,7 @@ export default class Barcode {
   static async generateQRCode(uuid: string) {
     return QRCode.toDataURL(uuid, {
       type: 'image/png',
-      errorCorrectionLevel: 'H',
+      errorCorrectionLevel: process.env.QR_ERROR_CORRECTION as QRCodeErrorCorrectionLevel,
       scale: 3,
     });
   }

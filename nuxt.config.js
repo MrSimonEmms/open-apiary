@@ -197,5 +197,7 @@ module.exports = {
     VERSION: process.env.VERSION,
     PROJECT_HOMEPAGE: pkg.homepage,
     PROJECT_BUGS: pkg.bugs.url,
+    DEBUG_BARCODE: process.env.DEBUG_BARCODE,
+    QR_ERROR_CORRECTION: process.env.QR_ERROR_CORRECTION || 'M',
   },
 };
