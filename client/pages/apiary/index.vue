@@ -120,26 +120,6 @@ export default class ApiaryPage extends Vue {
     return this.$store.getters['apiary/list'];
   }
 
-  /**
-   * Adjust Columns
-   *
-   * Adjust the columns so they always fill out the line
-   * if fewer than one line's worth
-   *
-   * @param {number} columnWidth
-   * @return {number}
-   */
-  adjustColumns(columnWidth: number) : number {
-    const lessThan = 12 / columnWidth;
-    const items = this.apiaryList.length;
-
-    if (items < lessThan) {
-      return 12 / items;
-    }
-
-    return columnWidth;
-  }
-
   toggleShowMap(item: any) : void {
     Vue.set(this.showMap, item.id, !this.showMap[item.id]);
   }
