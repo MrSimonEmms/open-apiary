@@ -63,6 +63,12 @@ declare module 'vue/types/vue' {
   interface Vue {
     schema: ISchema[];
     validator: IValidation;
+    latLong: [
+      number,
+      number,
+    ];
+    latitude: number;
+    longitude: number;
   }
 }
 
@@ -73,6 +79,14 @@ declare module 'vue/types/vue' {
 
   created() {
     this.validator = new Validation(this, this.schema);
+  },
+
+  mounted() {
+    /* The lat/long may not be set to the active apiary if using default coords */
+    this.latLong = [
+      this.latitude,
+      this.longitude,
+    ];
   },
 })
 export default class ApiaryEditor extends Vue {
