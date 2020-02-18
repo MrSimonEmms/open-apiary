@@ -30,6 +30,11 @@ declare module 'vue/types/vue' {
 }
 
 @Component({
+  middleware: [
+    'isSetup',
+    'isLoggedIn',
+  ],
+
   created() {
     this.setPageTitle();
   },
