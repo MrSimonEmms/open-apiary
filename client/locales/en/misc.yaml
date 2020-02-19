@@ -17,6 +17,7 @@ PAGE_TITLES:
   APIARY-ID-HIVE: "Hive #{{number}}"
   APIARY-ID-HIVE-EDIT: Edit
   APIARY-ID-HIVE-DOCUMENT: Document
+  MEDIA: Media Library
   SETTINGS: Settings
   SETTINGS-PASSWORD: Password
   SETTINGS-PROFILE: Profile

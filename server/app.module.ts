@@ -14,6 +14,7 @@ import { LoggerOptions } from 'typeorm/logger/LoggerOptions';
 import config from './config/env';
 import ApiaryModule from './apiary/apiary.module';
 import AuthModule from './auth/auth.module';
+import MediaModule from './media/media.module';
 import NuxtModule from './nuxt/nuxt.module';
 import UserModule from './user/user.module';
 
@@ -48,6 +49,7 @@ import UserModule from './user/user.module';
     }),
     ApiaryModule,
     AuthModule,
+    MediaModule,
     UserModule,
     NuxtModule, /* This must be last */
   ],

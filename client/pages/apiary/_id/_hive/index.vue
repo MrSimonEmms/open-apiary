@@ -293,7 +293,7 @@ export default class HiveIndexPage extends Vue {
 
   editor: boolean = false;
 
-  get search() {
+  get search() : string | null {
     if (typeof this.$route.query.q === 'string') {
       return this.$route.query.q ?? '';
     }
@@ -302,7 +302,7 @@ export default class HiveIndexPage extends Vue {
   }
 
   set search(search) {
-    this.filterResults(search);
+    this.filterResults(search === null ? '' : search);
   }
 
   async deleteHive() {

@@ -84,6 +84,12 @@ export default class NavDrawer extends Vue {
     title: 'nav:DRAWER.APIARIES',
   }, {
     to: {
+      name: 'media',
+    },
+    icon: 'mdi-folder-multiple-image',
+    title: 'nav:DRAWER.MEDIA',
+  }, {
+    to: {
       name: 'scanner',
     },
     icon: 'mdi-qrcode',

@@ -1,0 +1,19 @@
+FORM:
+  ERROR:
+    TOO_BIG: File should be less than {{ maxSize }}
+  FILE: File
+  BUTTONS:
+    DELETE: Delete
+    UPLOAD: Upload
+RESPONSE:
+  OK: Uploaded successfully
+TABLE:
+  HEADERS:
+    PREVIEW: Preview
+    ORIGINALFILENAME: File Name
+    MIMETYPE: MIME Type
+    SIZE: Size
+    USER: Uploader
+    CREATEDAT: Created
+  NO_DATA: No data
+  NO_RESULTS: No results

@@ -22,9 +22,11 @@ services:
       DB_LOGGING: "true"
       DEBUG_BARCODE: "true"
       JWT_SECRET: jwt-secret-token
+      UPLOAD_PATH: /uploads
       VERSION: develop
     working_dir: /opt/app
     volumes:
+      - ./uploads:/uploads
       - .:/opt/app
     user: node
     restart: on-failure
@@ -45,6 +47,7 @@ services:
       DB_PASS: db-password
       DB_NAME: apiary
       DB_PORT: 3306
+      UPLOAD_PATH: /uploads
     restart: on-failure
 
   ##############################

@@ -3,6 +3,7 @@
  */
 
 /* Node modules */
+import * as path from 'path';
 
 /* Third-party modules */
 import { merge } from 'lodash';
@@ -57,5 +58,6 @@ export default () => merge({
   },
   server: {
     port: Number(process.env.PORT || 3000),
+    upload: process.env.UPLOAD_PATH || path.join(process.cwd(), 'upload'),
   },
 }, config);
