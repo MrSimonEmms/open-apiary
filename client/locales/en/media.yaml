@@ -4,6 +4,7 @@ FORM:
   FILE: File
   BUTTONS:
     DELETE: Delete
+    SELECT: Select Media
     UPLOAD: Upload
 RESPONSE:
   OK: Uploaded successfully

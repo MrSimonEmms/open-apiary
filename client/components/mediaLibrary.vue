@@ -28,10 +28,17 @@
     v-card.mt-2
       v-card-title
         v-btn(
-          v-if="selected.length > 0"
+          v-if="!select && selected.length > 0"
           color="error"
           @click="deleteFiles()"
-        ) {{ $t('media:FORM.BUTTONS.DELETE' )}}
+        ) {{ $t('media:FORM.BUTTONS.DELETE' ) }}
+
+        v-btn(
+          v-if="select"
+          color="primary"
+          :disabled="selectDisabled"
+          @click="selectFiles()"
+        ) {{ $t('media:FORM.BUTTONS.SELECT' ) }}
 
         v-spacer
         v-text-field(
@@ -47,6 +54,7 @@
       v-card-text
         v-data-table(
           v-model="selected"
+          :single-select="select && !isMultiple"
           :headers="headers"
           :items="mediaList"
           :loading="loading"
@@ -163,6 +171,12 @@ export default class MediaLibrary extends Vue {
   })
   search!: string;
 
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  select!: boolean;
+
   /* This is the ones that are selected */
   @Prop({
     type: [
@@ -170,7 +184,7 @@ export default class MediaLibrary extends Vue {
       Number,
     ],
   })
-  value!: (number | null) | number[] | undefined;
+  value!: (number | null | undefined) | number[];
 
   $refs!: {
     confirm: any;
@@ -184,7 +198,44 @@ export default class MediaLibrary extends Vue {
 
   preview = {};
 
-  selected: IMedia[] = [];
+  selectFromValue = true;
+
+  currentSelected: Pick<IMedia, 'id'>[] = [];
+
+  selectDisabled: boolean = false;
+
+  checkSelection() {
+    this.selectFromValue = true;
+  }
+
+  get selected() : Pick<IMedia, 'id'>[] {
+    if (this.selectFromValue) {
+      const data: Pick<IMedia, 'id'>[] = [];
+
+      if (this.isMultiple) {
+        data.push(...(this.value as number[]).map((id) => ({
+          id,
+        })));
+      } else if (this.value && this.value > 0) {
+        data.push({
+          id: this.value as number,
+        });
+      }
+
+      Vue.set(this, 'selected', data);
+      Vue.set(this, 'selectFromValue', false);
+    }
+
+    return this.currentSelected;
+  }
+
+  set selected(selected: Pick<IMedia, 'id'>[]) {
+    Vue.set(this, 'currentSelected', selected);
+  }
+
+  get isMultiple() {
+    return Array.isArray(this.value);
+  }
 
   get headers() {
     return [
@@ -285,7 +336,6 @@ export default class MediaLibrary extends Vue {
     Vue.set(this, 'loading', true);
     Vue.set(this, 'error', null);
 
-
     const { page, itemsPerPage: limit } = opts;
 
     /* Only support single column sorting */
@@ -317,6 +367,20 @@ export default class MediaLibrary extends Vue {
     }
 
     Vue.set(this, 'loading', false);
+  }
+
+  selectFiles() {
+    if (this.isMultiple) {
+      this.$emit('input', this.selected.map(({ id }) => id));
+    } else if (this.selected.length > 0) {
+      this.$emit('input', this.selected[0].id);
+    } else {
+      this.$emit('input', null);
+    }
+
+    this.$emit('close');
+
+    Vue.set(this, 'selectFromValue', true);
   }
 
   async updateSearch(search: string) {
