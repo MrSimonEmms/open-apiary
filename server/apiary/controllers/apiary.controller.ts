@@ -48,6 +48,10 @@ import HiveService from '../services/hive.service';
         eager: true,
         required: true,
       },
+      image: {
+        allow: ['id'],
+        eager: true,
+      },
     },
   },
 })

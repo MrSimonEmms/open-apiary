@@ -36,6 +36,11 @@ describe('Apiary entity', () => {
             CrudValidationGroups.UPDATE,
           ],
         }],
+      }, {
+        param: 'image',
+        settings: [{
+          always: true,
+        }],
       }]);
 
       expect(decorators.IsNotEmpty).toEqual([{

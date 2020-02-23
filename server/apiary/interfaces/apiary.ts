@@ -7,6 +7,7 @@
 /* Third-party modules */
 
 /* Files */
+import { IMedia } from '../../media/interfaces/media';
 
 export enum QueenMarked {
   WHITE = 'white', // year ending 1 or 6
@@ -88,7 +89,7 @@ export interface IHive {
 export interface IApiary {
   id: number;
   name: string;
-  image?: number;
+  image: IMedia | null;
   location: ILocation,
   hives: IHive[];
   createdAt: Date;

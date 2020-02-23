@@ -36,6 +36,11 @@
           :disable-geo-location="!isNew"
         )
 
+    v-card-text
+      oa-media-selector(
+        v-model="media"
+      )
+
     v-card-actions
       v-spacer
       v-btn(
@@ -127,6 +132,21 @@ export default class ApiaryEditor extends Vue {
 
   get longitude(): number {
     return this.apiary?.location?.longitude ?? -1.524890;
+  }
+
+  get media() {
+    return this.apiary?.image?.id ?? null;
+  }
+
+  set media(imageId: number | null) {
+    const value = imageId === null ? null : {
+      id: imageId,
+    };
+
+    this.$store.commit('apiary/updateActive', {
+      value,
+      key: 'image',
+    });
   }
 
   get name() {

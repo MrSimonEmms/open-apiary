@@ -128,8 +128,8 @@ export default class ApiaryPage extends Vue {
   // eslint-disable-next-line class-methods-use-this
   getApiaryImg(item: IApiary, key: number) : string {
     if (item.image) {
-      // @todo - get from asset store
-      return '';
+      /* Image is set */
+      return `/api/media/${item.image.id}`;
     }
 
     /* Max number /static/img/apiaries */

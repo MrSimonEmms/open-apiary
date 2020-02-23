@@ -27,6 +27,7 @@ import { CrudValidationGroups } from '@nestjsx/crud';
 import { IApiary } from '../interfaces/apiary';
 import Hive from './hive.entity'; // eslint-disable-line import/no-cycle
 import Location from './location.entity';
+import Media from '../../media/entities/media.entity';
 
 @Entity()
 export default class Apiary implements IApiary {
@@ -50,6 +51,13 @@ export default class Apiary implements IApiary {
   })
   @JoinColumn()
   location: Location;
+
+  @IsOptional({ always: true })
+  @OneToOne(() => Media, {
+    cascade: true,
+  })
+  @JoinColumn()
+  image: Media;
 
   @OneToMany(() => Hive, (hive) => hive.apiary, {
     cascade: true,

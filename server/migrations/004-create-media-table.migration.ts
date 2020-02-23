@@ -9,6 +9,7 @@ import {
   QueryRunner,
   MigrationInterface,
   Table,
+  TableColumn,
   TableForeignKey,
 } from 'typeorm';
 
@@ -21,6 +22,13 @@ const fks = [{
 
 export default class CreateMediaTable1582048823905 implements MigrationInterface {
   async up(queryRunner: QueryRunner) : Promise<void> {
+    await queryRunner.addColumn('apiary', new TableColumn({
+      name: 'imageId',
+      type: 'integer',
+      isNullable: true,
+      default: null,
+    }));
+
     await queryRunner.createTable(new Table({
       name: 'media',
       columns: [{
@@ -76,9 +84,23 @@ export default class CreateMediaTable1582048823905 implements MigrationInterface
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       })));
+
+    await queryRunner.createForeignKey('apiary', new TableForeignKey({
+      columnNames: [
+        'imageId',
+      ],
+      referencedTableName: 'media',
+      referencedColumnNames: [
+        'id',
+      ],
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL',
+    }));
   }
 
   async down(queryRunner: QueryRunner) : Promise<void> {
+    await queryRunner.dropColumn('apiary', 'imageId');
+
     await queryRunner.dropTable('media');
 
     await Promise.all(fks.map(async ({ table }) => {

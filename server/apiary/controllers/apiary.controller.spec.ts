@@ -71,6 +71,10 @@ describe('Apiary Controller', function () {
             eager: true,
             required: true,
           },
+          image: {
+            allow: ['id'],
+            eager: true,
+          },
         },
       },
     }]);
