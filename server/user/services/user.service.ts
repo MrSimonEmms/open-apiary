@@ -6,7 +6,6 @@
 
 /* Third-party modules */
 import * as jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import ms from 'ms';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -43,7 +42,7 @@ export default class UserService extends TypeOrmCrudService<User> {
       return undefined;
     }
 
-    if (!await bcrypt.compare(password, user.password)) {
+    if (!user.verifyPassword(password)) {
       return undefined;
     }
 

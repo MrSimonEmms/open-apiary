@@ -3,9 +3,9 @@
  */
 
 /* Node modules */
+import crypto from 'crypto';
 
 /* Third-party modules */
-import bcrypt from 'bcrypt';
 import {
   AfterLoad,
   BeforeInsert,
@@ -29,6 +29,8 @@ import { CrudValidationGroups } from '@nestjsx/crud';
 
 /* Files */
 import { IUser } from '../interfaces/user';
+
+const passwordJoin = '$';
 
 @Entity()
 export default class User implements IUser {
@@ -95,8 +97,13 @@ export default class User implements IUser {
 
   private encryptPassword(resetChangeOnLogin = false) {
     if (this.password !== this.tempPassword) {
-      const salt = bcrypt.genSaltSync(10);
-      this.password = bcrypt.hashSync(this.password, salt);
+      const salt = crypto.randomBytes(16).toString('hex');
+      const hash = crypto.pbkdf2Sync(this.password, salt, 2048, 32, 'sha512')
+        .toString('hex');
+      this.password = [
+        salt,
+        hash,
+      ].join(passwordJoin);
       this.tempPassword = this.password;
 
       if (resetChangeOnLogin) {
@@ -114,5 +121,14 @@ export default class User implements IUser {
   @BeforeUpdate()
   beforeUpdate() {
     this.encryptPassword(true);
+  }
+
+  verifyPassword(password: string) : boolean {
+    const [salt, originalHash] = this.password.split('$');
+
+    const hash = crypto.pbkdf2Sync(password, salt, 2048, 32, 'sha512')
+      .toString('hex');
+
+    return hash === originalHash;
   }
 }
