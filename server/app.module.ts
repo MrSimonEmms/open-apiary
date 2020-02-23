@@ -9,6 +9,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { LoggerOptions } from 'typeorm/logger/LoggerOptions';
+import {
+  TerminusModule,
+  TerminusModuleOptions,
+  TypeOrmHealthIndicator,
+} from '@nestjs/terminus';
 
 /* Files */
 import config from './config/env';
@@ -45,6 +50,19 @@ import UserModule from './user/user.module';
         migrations: [
           `${__dirname}/**/*.migration{.ts,.js}`,
         ],
+      }),
+    }),
+    TerminusModule.forRootAsync({
+      inject: [TypeOrmHealthIndicator],
+      useFactory: (db: TypeOrmHealthIndicator) : TerminusModuleOptions => ({
+        endpoints: [{
+          url: '/api/health',
+          healthIndicators: [
+            async () => db.pingCheck('database', {
+              timeout: 300,
+            }),
+          ],
+        }],
       }),
     }),
     ApiaryModule,

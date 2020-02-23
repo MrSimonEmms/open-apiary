@@ -13,9 +13,13 @@ ENV VERSION="${VERSION}"
 ENV UPLOAD_PATH=/uploads
 VOLUME "/uploads"
 RUN apk add --no-cache g++ git make python \
+  && apk add --no-cache curl \
   && npm install --production \
   && apk del g++ git make python \
   && chmod 777 "${UPLOAD_PATH}"
+ENV PORT=3000
 EXPOSE 3000
 USER node
+HEALTHCHECK --interval=10s --timeout=3s --retries=5 --start-period=10s \
+  CMD curl -f http://localhost:${PORT}/api/health || exit 1
 CMD [ "npm", "start" ]
