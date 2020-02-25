@@ -113,13 +113,13 @@
 /* Node modules */
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { debounce } from 'lodash';
+import filesize from 'filesize.js';
 
 /* Files */
 import { IPagination } from '../interfaces/pagination';
 import { IMedia } from '../../server/media/interfaces/media';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-const { humanReadableFileSize } = require('vuetify/es5/util/helpers');
+const maxSize = 2000000;
 
 @Component
 export default class MediaLibrary extends Vue {
@@ -259,8 +259,8 @@ export default class MediaLibrary extends Vue {
 
   get rules() {
     return [
-      (item: File) => !item || item.size < 2000000 || this.$i18n.t('media:FORM.ERROR.TOO_BIG', {
-        maxSize: humanReadableFileSize(2000000, false),
+      (item: File) => !item || item.size < maxSize || this.$i18n.t('media:FORM.ERROR.TOO_BIG', {
+        maxSize: filesize(maxSize),
       }),
     ];
   }
@@ -304,7 +304,7 @@ export default class MediaLibrary extends Vue {
 
   // eslint-disable-next-line class-methods-use-this
   getHumanFileSize(bytes: number) : string {
-    return humanReadableFileSize(bytes, false);
+    return filesize(bytes);
   }
 
   // eslint-disable-next-line class-methods-use-this
