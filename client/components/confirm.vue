@@ -105,7 +105,7 @@ export default class Confirm extends Vue implements IConfirm {
   open({
     message = 'misc:CONFIRM.CONTINUE_TO_DELETE',
     title = 'misc:CONFIRM.ARE_YOU_SURE',
-    typeWord = false,
+    typeWord = true,
   }: {
     message?: string;
     title?: string;
