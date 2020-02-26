@@ -86,6 +86,7 @@ export default class ApiaryIDIndexPage extends Vue {
     return [{
       color: 'primary',
       icon: 'mdi-qrcode',
+      display: () => this.hives.length > 0,
       click: async (event) => {
         event.stopPropagation();
 

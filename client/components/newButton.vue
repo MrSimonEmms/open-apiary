@@ -37,6 +37,7 @@
       v-btn(
         v-for="(item, key) in buttons"
         :key="key"
+        v-if="displayItem(item)"
         fab
         :light="item.dark === false"
         :dark="item.dark !== false"
@@ -99,6 +100,20 @@ export default class NewButton extends Vue {
     type: Object,
   })
   readonly to?: RawLocation;
+
+  // eslint-disable-next-line class-methods-use-this
+  displayItem(item: IButton) : boolean {
+    if (item.display === undefined) {
+      /* Not set, return */
+      return true;
+    }
+
+    if (typeof item.display === 'function') {
+      return item.display();
+    }
+
+    return item.display;
+  }
 
   // eslint-disable-next-line class-methods-use-this
   getEvents(item: IButton) {

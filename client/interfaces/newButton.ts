@@ -14,5 +14,6 @@ export interface IButton {
   icon: string;
   dark?: boolean;
   to?: RawLocation;
+  display?: (() => boolean) | boolean;
   click?: (e: Event) => void;
 }
