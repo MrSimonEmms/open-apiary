@@ -6,16 +6,21 @@
 
 /* Third-party modules */
 import {
+  CacheInterceptor,
+  CacheTTL,
   Controller,
+  Get,
   HttpException,
   HttpStatus,
   Param,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   Crud,
   CrudController,
   CrudRequest,
+  CrudRequestInterceptor,
   Override,
   ParsedRequest,
 } from '@nestjsx/crud';
@@ -77,5 +82,14 @@ export default class ApiaryController implements CrudController<Apiary> {
     }
 
     return this.base.deleteOneBase(req);
+  }
+
+  @CacheTTL(10 * 60) // OpenWeather API has a 10 minute cache
+  @UseInterceptors(CrudRequestInterceptor, CacheInterceptor)
+  @Get('/:id/weather')
+  async getCurrentWeather(@ParsedRequest() req: CrudRequest) {
+    const apiary = await this.service.getOne(req);
+
+    return this.service.getWeather(apiary.location.latitude, apiary.location.longitude);
   }
 }

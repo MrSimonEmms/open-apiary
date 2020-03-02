@@ -5,7 +5,7 @@
 /* Node modules */
 
 /* Third-party modules */
-import { Module } from '@nestjs/common';
+import { CacheModule, HttpModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 /* Files */
@@ -21,11 +21,15 @@ import InspectionService from './services/inspection.service';
 import UUIDController from './controllers/uuid.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([
-    Inspection,
-    Hive,
-    Apiary,
-  ])],
+  imports: [
+    CacheModule.register(),
+    HttpModule,
+    TypeOrmModule.forFeature([
+      Inspection,
+      Hive,
+      Apiary,
+    ]),
+  ],
   controllers: [
     InspectionController,
     UUIDController,

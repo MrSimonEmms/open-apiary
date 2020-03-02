@@ -6,7 +6,12 @@
 
 /* Third-party modules */
 import { Test, TestingModule } from '@nestjs/testing';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import {
+  CacheModule,
+  HttpException,
+  HttpModule,
+  HttpStatus,
+} from '@nestjs/common';
 
 /* Files */
 import ApiaryController from './apiary.controller';
@@ -29,6 +34,10 @@ describe('Apiary Controller', function () {
     };
 
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        CacheModule.register(),
+        HttpModule,
+      ],
       controllers: [ApiaryController],
       providers: [{
         provide: ApiaryService,

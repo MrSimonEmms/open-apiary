@@ -18,7 +18,7 @@ import {
 import { CrudValidationGroups } from '@nestjsx/crud';
 
 /* Files */
-import { IWeather } from '../interfaces/apiary';
+import { IWeather, IWeatherTypes } from '../interfaces/apiary';
 
 @Entity()
 export default class Weather implements IWeather {
@@ -47,11 +47,12 @@ export default class Weather implements IWeather {
     'HAIL',
     'RAIN',
     'SNOW',
+    'STORM',
     'SUN',
   ], { always: true })
   @Column({
     type: 'varchar',
     length: 10,
   })
-  desc: string;
+  desc: IWeatherTypes;
 }

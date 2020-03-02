@@ -60,4 +60,8 @@ export default () => merge({
     port: Number(process.env.PORT || 3000),
     upload: process.env.UPLOAD_PATH || path.join(process.cwd(), 'upload'),
   },
+  weather: {
+    apiKey: process.env.WEATHER_API_KEY,
+    url: process.env.WEATHER_URL,
+  },
 }, config);

@@ -46,7 +46,17 @@ export interface IQueenCell {
 
 export interface IWeather {
   temp: number;
-  desc: string;
+  desc: IWeatherTypes;
+}
+
+export enum IWeatherTypes {
+  CLOUD = 'CLOUD',
+  FAIR = 'FAIR',
+  HAIL = 'HAIL',
+  RAIN = 'RAIN',
+  SNOW = 'SNOW',
+  STORM = 'STORM',
+  SUN = 'SUN',
 }
 
 export interface ILocation {
