@@ -10,11 +10,13 @@ import { Vue } from 'vue-property-decorator';
 
 /* Files */
 import { IApiary } from '../../server/apiary/interfaces/apiary';
+import { ICurrentWeather } from '../../server/apiary/interfaces/openWeather';
 
 export interface RootState {
   active: IApiary | {},
   activeId: number | null,
   list: IApiary[],
+  weather: ICurrentWeather | null,
 }
 
 const apiaryStore : {
@@ -65,6 +67,14 @@ const apiaryStore : {
 
       return getters.active;
     },
+
+    async weather({ commit, getters }, id: number) : Promise<ICurrentWeather> {
+      const weather = await this.$axios.$get<ICurrentWeather>(`/api/apiary/${id}/weather`);
+
+      commit('setWeather', weather);
+
+      return getters.weather;
+    },
   },
 
   mutations: {
@@ -76,6 +86,10 @@ const apiaryStore : {
       Vue.set(state, 'list', list);
     },
 
+    setWeather(state, weather: ICurrentWeather) {
+      Vue.set(state, 'weather', weather);
+    },
+
     updateActive(state: any, { key, value }: { key: string, value: any }) {
       Vue.set(state.active, key, value);
     },
@@ -84,12 +98,14 @@ const apiaryStore : {
   getters: {
     active: (state) => state.active,
     list: (state) => state.list,
+    weather: (state) => state.weather,
   },
 
   state: () => ({
     active: {},
     activeId: null,
     list: [],
+    weather: null,
   }),
 };
 

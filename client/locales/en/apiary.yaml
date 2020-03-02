@@ -83,6 +83,7 @@ INSPECTIONS:
       HAIL: Hail
       RAIN: Rain
       SNOW: Snow
+      STORM: Stormy
       SUN: Sun
     TITLE:
       EDIT: Edit inspection

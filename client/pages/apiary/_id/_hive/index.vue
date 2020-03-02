@@ -1,3 +1,4 @@
+import { IWeatherTypes } from '../../../../../server/apiary/interfaces/apiary';
 <template lang="pug">
   div
     oa-confirm( ref="confirm" )
@@ -22,6 +23,8 @@
       v-card-title
         v-btn(
           color="primary"
+          :disabled="inspectionLoading"
+          :loading="inspectionLoading"
           @click="editItem({ id: 0 })"
         ) {{ $t('apiary:INSPECTIONS.FORM.TITLE.NEW') }}
         v-spacer
@@ -203,12 +206,12 @@
  */
 
 /* Node modules */
-import { Vue, Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { cloneDeep, debounce } from 'lodash';
 
 /* Files */
 import datetime from '../../../../filters/datetime';
-import { IInspection } from '../../../../../server/apiary/interfaces/apiary';
+import { IInspection, IWeatherTypes } from '../../../../../server/apiary/interfaces/apiary';
 import { IButton } from '../../../../interfaces/newButton';
 
 declare module 'vue/types/vue' {
@@ -234,6 +237,8 @@ export default class HiveIndexPage extends Vue {
   };
 
   loading: boolean = false;
+
+  inspectionLoading: boolean = false;
 
   speedDial: IButton[] = [{
     color: 'warning',
@@ -281,7 +286,7 @@ export default class HiveIndexPage extends Vue {
     }],
     weather: {
       temp: 12,
-      desc: 'FAIR',
+      desc: IWeatherTypes.FAIR,
     },
     supers: 0,
     notes: '',
@@ -343,6 +348,7 @@ export default class HiveIndexPage extends Vue {
     HAIL: 'mdi-weather-hail',
     RAIN: 'mdi-weather-rainy',
     SNOW: 'mdi-weather-snowy',
+    STORM: 'mdi-weather-storm',
     SUN: 'mdi-weather-sunny',
   };
 
@@ -399,11 +405,25 @@ export default class HiveIndexPage extends Vue {
     await this.$store.dispatch('hive/deleteInspection', data);
   }
 
-  editItem(item: { id: number }) {
+  async editItem(item: { id: number }) {
     /* Clone the data */
     const defaultInspection = cloneDeep(this.defaultInspection);
 
-    const data = item.id === 0 ? defaultInspection : cloneDeep(item);
+    const isNew = item.id === 0;
+
+    const data = isNew ? defaultInspection : cloneDeep(item);
+
+    if (isNew) {
+      /* Load the weather */
+      Vue.set(this, 'inspectionLoading', true);
+      const apiaryId = this.$route.params.id;
+
+      const weather = await this.$store.dispatch('apiary/weather', apiaryId);
+
+      Vue.set(data, 'weather', weather);
+
+      Vue.set(this, 'inspectionLoading', false);
+    }
 
     Vue.set(this, 'editData', {
       ...defaultInspection, // Fill in any missing items
