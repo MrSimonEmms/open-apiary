@@ -41,7 +41,12 @@ module.exports = {
         '/guide/getting-started',
         '/guide/setup',
         '/guide/deployment',
+        '/guide/weather',
       ],
+    }, {
+      title: 'Config',
+      path: '/config/',
+      children: [],
     }, {
       title: 'Usage',
       path: '/usage/',
