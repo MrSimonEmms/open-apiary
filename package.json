@@ -24,7 +24,7 @@
     "dev:server": "nodemon",
     "docs:dev": "run-s docs:pre && nodemon -x 'vuepress dev docs --debug --no-cache'",
     "docs:build": "run-s docs:pre && vuepress build docs --dest public",
-    "docs:pre": "mkdir -p ./docs/contributing ./docs/changelog && cp ./CONTRIBUTING.md ./docs/contributing/index.md && cp ./CHANGELOG ./docs/changelog/index.md",
+    "docs:pre": "mkdir -p ./docs/contributing && cp ./CONTRIBUTING.md ./docs/contributing/index.md",
     "lint": "run-s lint:client lint:server",
     "lint:client": "eslint --ext .ts,.js,.vue ./client nuxt.config.js",
     "lint:server": "eslint --ext .ts,.js ./server",
