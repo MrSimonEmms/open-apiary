@@ -11,7 +11,7 @@ release=$(curl --location \
   --fail \
   --request POST "https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/releases" \
   --header "Content-Type: application/json" \
-  --header "Authorization: token ${GITHUB_TOKEN}" \
+  --header "Authorization: token ${GITHUB_DEPLOY_TOKEN}" \
   --data-raw "{ \"tag_name\": \"${VERSION}\" }")
 
 releaseId=$(echo "${release}" | jq '.id')
@@ -33,7 +33,7 @@ do
   curl --location \
     --fail \
     --request POST "https://uploads.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/releases/${releaseId}/assets?name=${artifact}" \
-    --header "Authorization: token ${GITHUB_TOKEN}" \
+    --header "Authorization: token ${GITHUB_DEPLOY_TOKEN}" \
     --header "Content-Type: application/zip" \
     --data-binary "@${PWD}/${artifact}"
 done
