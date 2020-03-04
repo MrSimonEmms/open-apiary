@@ -14,6 +14,8 @@ ENV VERSION="${VERSION}"
 ENV PORT=3000
 ENV DATA_PATH=/data
 ENV UPLOAD_PATH=/uploads
+ENV LOG_DESTINATION=STDOUT
+ENV LOG_LEVEL=info
 # This manually builds the npm SQLite3 package using SQLite alpine package
 RUN apk add --no-cache g++ git jq make python sqlite sqlite-dev \
   && NODE_SQLITE_VERSION=$(cat node_modules/sqlite3/package.json | jq '.version' --raw-output) \

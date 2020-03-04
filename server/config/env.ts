@@ -51,6 +51,10 @@ export default () => merge({
     sync: process.env.DB_SYNC === 'true',
     logging: logging ?? false,
   },
+  logging: {
+    destination: process.env.LOG_DESTINATION,
+    level: process.env.LOG_LEVEL,
+  },
   jwt: {
     expiry: process.env.JWT_EXPIRY || '30 days',
     issuer: process.env.JWT_ISSUER || 'open-apiary',
