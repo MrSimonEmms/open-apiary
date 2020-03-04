@@ -3,6 +3,7 @@ PAGE_NOT_FOUND: Page not found
 RETURN_TO_HOMEPAGE: Back to homepage
 MESSAGE: "Message: {{msg}}"
 SCANNER: General error
+SCANNER_InsecureContextError: Secure context required (HTTPS, localhost)
 SCANNER_NotFound: Hive not found
 SCANNER_NotAllowedError: You need to grant camera access permisson
 SCANNER_NotFoundError: No camera on this device
