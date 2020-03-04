@@ -6,13 +6,17 @@
 
 /* Third-party modules */
 import { NestFactory } from '@nestjs/core';
+import { Logger } from 'nestjs-pino';
 
 /* Files */
 import AppModule from './app.module';
 
 (async () => {
   try {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, {
+      logger: false,
+    });
+    app.useLogger(app.get(Logger));
 
     const port = app.get('ConfigService').get('server.port');
 

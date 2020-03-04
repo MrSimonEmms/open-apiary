@@ -22,6 +22,8 @@ services:
       DB_LOGGING: "true"
       DEBUG_BARCODE: "true"
       JWT_SECRET: jwt-secret-token
+      LOG_DESTINATION: STDOUT
+      LOG_LEVEL: trace
       UPLOAD_PATH: /uploads
       VERSION: develop
     working_dir: /opt/app

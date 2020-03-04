@@ -3,6 +3,7 @@
  */
 
 /* Node modules */
+import * as path from 'path';
 
 /* Third-party modules */
 import { Module } from '@nestjs/common';
@@ -14,6 +15,8 @@ import {
   TerminusModuleOptions,
   TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
+import { LoggerModule, Params } from 'nestjs-pino';
+import pino from 'pino';
 
 /* Files */
 import config from './config/env';
@@ -28,6 +31,25 @@ import UserModule from './user/user.module';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
+    }),
+    LoggerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) : Promise<Params> => {
+        let logDest = configService
+          .get<string | number>('logging.destination', path.join(process.cwd(), 'log', 'open-apiary.log'));
+
+        /* Log to STDOUT */
+        if (logDest === 'STDOUT') { logDest = 1; }
+
+        return {
+          pinoHttp: [{
+            name: 'open-apiary',
+            level: configService.get('logging.level', 'info'),
+            serializers: pino.stdSerializers,
+          }, pino.destination(logDest)],
+        };
+      },
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
