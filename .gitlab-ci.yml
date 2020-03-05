@@ -46,7 +46,20 @@ build_artifact:
   artifacts:
     paths:
       - ./dist
-  script: npm run build
+  script:
+    - APP_NAME=${CI_PROJECT_NAME}
+    - export BUILD_ID="${CI_COMMIT_SHA}"
+    - |
+      if [ -s VERSION ]; then
+        echo "Setting VERSION as VERSION file"
+        export VERSION="$(cat VERSION)"
+        npm version "${VERSION}"
+      else
+        echo "Setting VERSION as branch name"
+        export VERSION="${CI_COMMIT_REF_SLUG}"
+      fi
+      echo $VERSION
+    - npm run build
 
 #########
 # Build #
