@@ -8,6 +8,7 @@
 import { Vue } from 'vue-property-decorator';
 import uuid from 'uuid';
 import { ActionTree, GetterTree, MutationTree } from 'vuex';
+import { Level, LogEvent } from 'pino';
 
 /* Files */
 import { ISystemMsg } from '../interfaces/app';
@@ -35,6 +36,16 @@ const appStore : {
   actions: {
     isSetup() {
       return this.$axios.$get('/api/user/setup');
+    },
+
+    async logTransport(_store, logs: { level: Level, logEvent: LogEvent }[]) {
+      try {
+        await this.$axios.$post('/api/log', {
+          logs,
+        });
+      } catch (err) {
+        console.error('Error sending logs to server', err);
+      }
     },
   },
 

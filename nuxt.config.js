@@ -137,11 +137,11 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    './plugins/logger', // Put first so log transport can send to server
     './plugins/components',
     './plugins/domPurify',
     './plugins/filters',
     './plugins/i18next',
-    './plugins/logger',
     './plugins/leaflet.client',
     './plugins/qrReader.client',
     './plugins/vuelidate',

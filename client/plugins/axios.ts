@@ -7,8 +7,14 @@
 /* Third-party modules */
 import { Plugin } from '@nuxt/types'; // eslint-disable-line import/no-unresolved
 import { Vue } from 'vue-property-decorator';
+import { AxiosRequestConfig } from 'axios';
 
 /* Files */
+
+function canLog(config: AxiosRequestConfig) : boolean {
+  /* Don't log if sending to log endpoint - it will exponentially increase calls till BOOM! */
+  return config.url !== '/api/log';
+}
 
 const plugin : Plugin = ({ $axios, store }) : void => {
   const { $log: log } = Vue;
@@ -25,31 +31,39 @@ const plugin : Plugin = ({ $axios, store }) : void => {
       const token = store.getters['user/token'];
 
       if (token) {
-        log.debug('Automatically adding authorization token to Axios call');
+        if (canLog(config)) {
+          log.debug('Automatically adding authorization token to Axios call');
+        }
 
         Vue.set(config.headers, 'authorization', `Bearer ${token}`);
-      } else {
+      } else if (canLog(config)) {
         log.debug('Not adding auth header as no valid token');
       }
-    } else {
+    } else if (canLog(config)) {
       log.debug('Not checking to add auth header as already set');
     }
 
-    log.debug('New HTTP request', {
-      config,
-    });
+    if (canLog(config)) {
+      log.debug('New HTTP request', {
+        config,
+      });
+    }
   });
 
   $axios.onResponse((result) => {
-    log.debug('HTTP response', {
-      result,
-    });
+    if (canLog(result.config)) {
+      log.debug('HTTP response', {
+        result,
+      });
+    }
   });
 
   $axios.onError((err) => {
-    log.error('HTTP error', {
-      err,
-    });
+    if (canLog(err.config)) {
+      log.error('HTTP error', {
+        err,
+      });
+    }
   });
 
   /* Add correlation id to the outgoing call */
