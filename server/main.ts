@@ -12,19 +12,27 @@ import { Logger } from 'nestjs-pino';
 import AppModule from './app.module';
 
 (async () => {
+  let logger: Logger | undefined;
+
   try {
     const app = await NestFactory.create(AppModule, {
       logger: false,
     });
-    app.useLogger(app.get(Logger));
+    logger = app.get(Logger);
+    app.useLogger(logger);
 
     const port = app.get('ConfigService').get('server.port');
 
     await app.listen(port);
 
-    // @todo log when up and running with URL:port
+    logger.log('Application running', port);
   } catch (err) {
-    console.log(err.stack);
+    if (logger) {
+      logger.error('Fatal application error', err.stack, err.message);
+    } else {
+      console.error(`Fatal application error: ${err.message}`);
+      console.error(err.stack);
+    }
     process.exit(1);
   }
 })();
