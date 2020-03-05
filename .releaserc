@@ -11,10 +11,13 @@
         "changelogFile": "CHANGELOG"
       }
     ],
+    "@semantic-release/npm",
     {
       "path": "@semantic-release/git",
       "assets": [
-        "CHANGELOG"
+        "CHANGELOG",
+        "package.json",
+        "package-lock.json"
       ],
       "message": "chore(release): ${nextRelease.version} [CI SKIP]"
     }
