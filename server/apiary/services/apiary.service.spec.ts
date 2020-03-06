@@ -9,6 +9,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule, HttpModule, HttpService } from '@nestjs/common';
+import { LoggerModule, PinoLogger } from 'nestjs-pino/dist';
 
 /* Files */
 import ApiaryService from './apiary.service';
@@ -49,6 +50,7 @@ describe('ApiaryService', function () {
         ConfigModule,
         CacheModule.register(),
         HttpModule,
+        LoggerModule,
       ],
       providers: [{
         provide: getRepositoryToken(Apiary),
@@ -59,6 +61,12 @@ describe('ApiaryService', function () {
       }, {
         provide: HttpService,
         useValue: this.httpSrv,
+      }, {
+        provide: PinoLogger,
+        useValue: {
+          info: jest.fn(),
+          error: jest.fn(),
+        },
       }, ApiaryService],
     }).compile();
 
@@ -72,14 +80,6 @@ describe('ApiaryService', function () {
   });
 
   describe('#getWeather', () => {
-    // beforeEach(() => {
-    //   ApiaryService.convertToWeatherTypes = jest.fn();
-    // });
-    //
-    // afterEach(() => {
-    //   (<any> ApiaryService).convertToWeatherTypes.mockReset();
-    // });
-
     it('should error and return the default data', async () => {
       this.httpSrv.get.mockReturnValue({
         toPromise: jest.fn().mockRejectedValue(new Error('test error')),

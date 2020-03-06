@@ -13,16 +13,21 @@ import {
   Param,
   Res,
 } from '@nestjs/common';
+import { PinoLogger } from 'nestjs-pino';
 
 /* Files */
 import MediaService from '../services/media.service';
 
 @Controller('/api/media/:id')
 export default class OutputController {
-  constructor(protected service: MediaService) {}
+  constructor(protected service: MediaService, protected logger: PinoLogger) {}
 
   @Get()
   async output(@Param('id') id, @Res() response) {
+    this.logger.info({
+      id,
+    }, 'Outputting file');
+
     const media = await this.service.findOne(id);
 
     if (!media) {
@@ -31,8 +36,11 @@ export default class OutputController {
 
     return fs.createReadStream(media.uploadedFileName)
       .on('error', (err) => {
-        // @todo log this error - most likely to be a file missing
-        console.warn(err);
+        this.logger.error({
+          err,
+          media,
+          id,
+        }, 'Failed to load file');
 
         response.status(HttpStatus.NOT_FOUND)
           .send({
