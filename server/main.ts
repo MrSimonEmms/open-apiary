@@ -8,6 +8,7 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger } from 'nestjs-pino';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import helmet from 'helmet';
 
 /* Files */
 import AppModule from './app.module';
@@ -21,6 +22,7 @@ import AppModule from './app.module';
     });
     logger = app.get(Logger);
     app.useLogger(logger);
+    app.use(helmet());
 
     const options = new DocumentBuilder()
       .setTitle('Open Apiary')
