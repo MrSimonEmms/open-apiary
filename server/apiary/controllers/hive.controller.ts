@@ -21,6 +21,7 @@ import {
   ParsedRequest,
 } from '@nestjsx/crud';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 /* Files */
 import Hive from '../entities/hive.entity';
@@ -44,6 +45,7 @@ import { IApiary } from '../interfaces/apiary';
     ],
   },
 })
+@ApiBearerAuth('jwt')
 @UseGuards(AuthGuard('jwt'))
 @Controller('/api/apiary/:apiaryId/hive')
 export default class HiveController implements CrudController<Hive> {
