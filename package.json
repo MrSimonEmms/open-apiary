@@ -7,6 +7,7 @@
   "license": "MIT",
   "main": "./server/main",
   "scripts": {
+    "audit": "node node_modules/better-npm-audit audit -i 1488",
     "prebuild": "rimraf ./dist ./.nuxt",
     "build": "run-s compile:server compile:client",
     "postbuild": "run-s copy:nuxt copy:client copy:config copy:dist",
@@ -122,6 +123,7 @@
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.6",
     "@types/vuelidate": "^0.7.10",
+    "better-npm-audit": "^1.0.1",
     "concurrently": "^5.0.2",
     "copyfiles": "^2.1.1",
     "cross-env": "^6.0.3",
