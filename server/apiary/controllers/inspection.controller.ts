@@ -14,6 +14,7 @@ import {
   CrudController,
 } from '@nestjsx/crud';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 /* Files */
 import Inspection from '../entities/inspection.entity';
@@ -67,6 +68,7 @@ import InspectionService from '../services/inspection.service';
     },
   },
 })
+@ApiBearerAuth('jwt')
 @UseGuards(AuthGuard('jwt'))
 @Controller('/api/apiary/:apiary/hive/:hive/inspection')
 export default class InspectionController implements CrudController<Inspection> {

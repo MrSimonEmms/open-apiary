@@ -23,6 +23,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@nestjs/passport';
 import { PinoLogger } from 'nestjs-pino';
+import { ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 
 /* Files */
 import Media from '../entities/media.entity';
@@ -48,6 +49,7 @@ import MediaService from '../services/media.service';
     },
   },
 })
+@ApiBearerAuth('jwt')
 @UseGuards(AuthGuard('jwt'))
 @Controller('/api/media')
 export default class MediaController implements CrudController<Media> {
@@ -62,6 +64,7 @@ export default class MediaController implements CrudController<Media> {
 
   @Override('createOneBase')
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
   createOne(@Request() req, @ParsedRequest() parsedReq, @UploadedFile() file) {
     const dto = new Media();
     dto.originalFileName = file.originalname;

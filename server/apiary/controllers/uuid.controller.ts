@@ -14,10 +14,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 /* Files */
 import HiveService from '../services/hive.service';
 
+@ApiBearerAuth('jwt')
 @UseGuards(AuthGuard('jwt'))
 @Controller('/api/hive/uuid')
 export default class UUIDController {

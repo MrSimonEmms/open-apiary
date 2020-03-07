@@ -7,6 +7,7 @@
 /* Third-party modules */
 import { NestFactory } from '@nestjs/core';
 import { Logger } from 'nestjs-pino';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 /* Files */
 import AppModule from './app.module';
@@ -20,6 +21,15 @@ import AppModule from './app.module';
     });
     logger = app.get(Logger);
     app.useLogger(logger);
+
+    const options = new DocumentBuilder()
+      .setTitle('Open Apiary')
+      .setDescription('The Open Apiary API')
+      .setVersion(process.env.npm_package_version)
+      .addBearerAuth()
+      .build();
+    const document = SwaggerModule.createDocument(app, options);
+    SwaggerModule.setup('docs', app, document);
 
     const port = app.get('ConfigService').get('server.port');
 

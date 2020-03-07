@@ -26,6 +26,7 @@ import {
   ParsedBody,
   ParsedRequest,
 } from '@nestjsx/crud';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 /* Files */
 import User from '../entities/user.entity';
@@ -76,6 +77,8 @@ export default class UserController implements CrudController<User> {
     return this;
   }
 
+  @ApiBearerAuth('jwt')
+  @ApiBearerAuth('canSetup')
   @UseGuards(AuthGuard([
     'canSetup',
     'jwt',
@@ -88,18 +91,21 @@ export default class UserController implements CrudController<User> {
     return this.base.createOneBase(crudReq, dto);
   }
 
+  @ApiBearerAuth('jwt')
   @UseGuards(AuthGuard('jwt'))
   @Override('getOneBase')
   getUser(@ParsedRequest() req: CrudRequest) {
     return this.base.getOneBase(req);
   }
 
+  @ApiBearerAuth('jwt')
   @UseGuards(AuthGuard('jwt'))
   @Override('replaceOneBase')
   updateUser(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: User) {
     return this.base.replaceOneBase(req, dto);
   }
 
+  @ApiBearerAuth('jwt')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(CrudRequestInterceptor)
   @Delete('/:id')
@@ -107,6 +113,7 @@ export default class UserController implements CrudController<User> {
     await this.service.deleteUser(id);
   }
 
+  @ApiBearerAuth('jwt')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(CrudRequestInterceptor)
   @Get('/list')
