@@ -53,7 +53,7 @@ build_artifact:
       if [ -s VERSION ]; then
         echo "Setting VERSION as VERSION file"
         export VERSION="$(cat VERSION)"
-        npm version "${VERSION}"
+        npm version "${VERSION}" --no-git-tag-version
       else
         echo "Setting VERSION as branch name"
         export VERSION="${CI_COMMIT_REF_SLUG}"
