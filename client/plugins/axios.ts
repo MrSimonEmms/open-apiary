@@ -44,6 +44,12 @@ const plugin : Plugin = ({ $axios, store }) : void => {
     }
 
     if (canLog(config)) {
+      log.debug('Automatically adding CSRF token to Axios call');
+    }
+
+    Vue.set(config.headers, 'CSRF-TOKEN', store.getters.csrfToken);
+
+    if (canLog(config)) {
       log.debug('New HTTP request', {
         config,
       });

@@ -61,6 +61,8 @@ export default () => merge({
     secret: process.env.JWT_SECRET || '',
   },
   server: {
+    // Removing CSRF protection should only be done in development
+    csrf: process.env.CSRF_DISABLED !== 'true',
     port: Number(process.env.PORT || 3000),
     upload: process.env.UPLOAD_PATH || path.join(process.cwd(), 'upload'),
   },

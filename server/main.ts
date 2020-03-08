@@ -3,11 +3,14 @@
  */
 
 /* Node modules */
+import * as http from 'http';
 
 /* Third-party modules */
 import { NestFactory } from '@nestjs/core';
 import { Logger } from 'nestjs-pino';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
+import csurf from 'csurf';
 import helmet from 'helmet';
 
 /* Files */
@@ -22,7 +25,38 @@ import AppModule from './app.module';
     });
     logger = app.get(Logger);
     app.useLogger(logger);
-    app.use(helmet());
+    app
+      .use(helmet())
+      .use(cookieParser())
+      .use((req, res, next) => {
+        const csrfEnabled = app.get('ConfigService').get('server.csrf');
+
+        if (!csrfEnabled) {
+          logger.warn('CSRF protection is disabled');
+          next();
+          return;
+        }
+
+        csurf({
+          cookie: true,
+        })(req, res, next);
+      })
+      .use((err, req, res, next) => {
+        if (err?.code !== 'EBADCSRFTOKEN') {
+          /* Error not CSRF related - passthru */
+          next(err);
+          return;
+        }
+
+        logger.warn({
+          err,
+        }, 'Invalid CSRF token');
+
+        res.status(403);
+        res.send({
+          message: http.STATUS_CODES[403],
+        });
+      });
 
     const options = new DocumentBuilder()
       .setTitle('Open Apiary')
