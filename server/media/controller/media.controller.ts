@@ -22,6 +22,8 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@nestjs/passport';
+import { PinoLogger } from 'nestjs-pino';
+import { ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 
 /* Files */
 import Media from '../entities/media.entity';
@@ -47,10 +49,14 @@ import MediaService from '../services/media.service';
     },
   },
 })
+@ApiBearerAuth('jwt')
 @UseGuards(AuthGuard('jwt'))
 @Controller('/api/media')
 export default class MediaController implements CrudController<Media> {
-  constructor(public service: MediaService) {}
+  constructor(
+    public service: MediaService,
+    protected logger: PinoLogger,
+  ) {}
 
   get base() : CrudController<Media> {
     return this;
@@ -58,6 +64,7 @@ export default class MediaController implements CrudController<Media> {
 
   @Override('createOneBase')
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
   createOne(@Request() req, @ParsedRequest() parsedReq, @UploadedFile() file) {
     const dto = new Media();
     dto.originalFileName = file.originalname;
@@ -65,6 +72,10 @@ export default class MediaController implements CrudController<Media> {
     dto.mimeType = file.mimetype;
     dto.size = file.size;
     dto.user = req.user;
+
+    this.logger.info({
+      dto,
+    }, 'Uploading new file');
 
     return this.base.createOneBase(parsedReq, dto);
   }
@@ -79,8 +90,10 @@ export default class MediaController implements CrudController<Media> {
         await fs.unlink(item.uploadedFileName);
       }
     } catch (err) {
-      // @todo log error
-      console.log(err);
+      this.logger.error({
+        err,
+        id,
+      }, 'Failed to delete file');
     }
 
     return this.base.deleteOneBase(req);

@@ -24,13 +24,9 @@ module.exports = {
       return name;
     },
     meta: [{
-      name: '_oa_build_id',
-      hid: '_oa_build_id',
-      value: process.env.BUILD_ID || 'dev',
-    }, {
       name: '_oa_version',
       hid: '_oa_version',
-      value: process.env.VERSION || 'dev-build',
+      value: pkg.version,
     }, {
       charset: 'utf-8',
     }, {
@@ -137,11 +133,11 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    './plugins/logger', // Put first so log transport can send to server
     './plugins/components',
     './plugins/domPurify',
     './plugins/filters',
     './plugins/i18next',
-    './plugins/logger',
     './plugins/leaflet.client',
     './plugins/qrReader.client',
     './plugins/vuelidate',
@@ -194,7 +190,7 @@ module.exports = {
   },
   env: {
     BUILD_ID: process.env.BUILD_ID,
-    VERSION: process.env.VERSION,
+    VERSION: pkg.version,
     PROJECT_HOMEPAGE: pkg.homepage,
     PROJECT_BUGS: pkg.bugs.url,
     DEBUG_BARCODE: process.env.DEBUG_BARCODE,

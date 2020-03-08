@@ -19,6 +19,7 @@
             href="https://simonemms.com"
             target="_blank"
           ) Simon Emms
+          | &nbsp;v{{ version }}
 
         v-spacer
 
@@ -65,6 +66,11 @@ export default class Footer extends Vue {
     link: 'https://gitlab.com/mrsimonemms/open-apiary',
     text: 'footer:SOURCE_CODE',
   }];
+
+  // eslint-disable-next-line class-methods-use-this
+  get version() {
+    return process.env.VERSION;
+  }
 
   year: number = new Date()
     .getUTCFullYear();

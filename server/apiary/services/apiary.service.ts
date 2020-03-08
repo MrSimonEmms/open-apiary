@@ -9,6 +9,7 @@ import { HttpService, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { ConfigService } from '@nestjs/config';
+import { PinoLogger } from 'nestjs-pino';
 
 /* Files */
 import Apiary from '../entities/apiary.entity';
@@ -27,6 +28,7 @@ export default class ApiaryService extends TypeOrmCrudService<Apiary> {
     @InjectRepository(Apiary) protected repo,
     protected configService: ConfigService,
     protected readonly httpService: HttpService,
+    protected logger: PinoLogger,
   ) {
     super(repo);
 
@@ -59,13 +61,20 @@ export default class ApiaryService extends TypeOrmCrudService<Apiary> {
         desc = weatherType;
       }
 
-      return {
+      const output = {
         desc,
         temp: Math.round(data.main.temp),
       };
+
+      this.logger.info({
+        output,
+      }, 'Returning weather data');
+
+      return output;
     } catch (err) {
-      // @todo log error
-      console.error(err);
+      this.logger.error({
+        err,
+      }, 'Failed to get weather data');
 
       /* Return default */
       return {

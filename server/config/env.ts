@@ -51,12 +51,18 @@ export default () => merge({
     sync: process.env.DB_SYNC === 'true',
     logging: logging ?? false,
   },
+  logging: {
+    destination: process.env.LOG_DESTINATION,
+    level: process.env.LOG_LEVEL,
+  },
   jwt: {
     expiry: process.env.JWT_EXPIRY || '30 days',
     issuer: process.env.JWT_ISSUER || 'open-apiary',
     secret: process.env.JWT_SECRET || '',
   },
   server: {
+    // Removing CSRF protection should only be done in development
+    csrf: process.env.CSRF_DISABLED !== 'true',
     port: Number(process.env.PORT || 3000),
     upload: process.env.UPLOAD_PATH || path.join(process.cwd(), 'upload'),
   },

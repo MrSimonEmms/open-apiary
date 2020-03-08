@@ -348,7 +348,7 @@ export default class HiveIndexPage extends Vue {
     HAIL: 'mdi-weather-hail',
     RAIN: 'mdi-weather-rainy',
     SNOW: 'mdi-weather-snowy',
-    STORM: 'mdi-weather-storm',
+    STORM: 'mdi-weather-lightning-rainy',
     SUN: 'mdi-weather-sunny',
   };
 
