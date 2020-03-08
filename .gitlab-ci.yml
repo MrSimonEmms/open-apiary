@@ -158,7 +158,7 @@ pages:
 update_version:
   extends: .repo_update
 
-gitlab_release:
+github_release:
   stage: release
   variables:
     GITHUB_USER: mrsimonemms
