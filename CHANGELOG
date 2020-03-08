@@ -1,3 +1,23 @@
+# [1.1.0](https://gitlab.com/MrSimonEmms/open-apiary/compare/v1.0.0...v1.1.0) (2020-03-08)
+
+
+### Bug Fixes
+
+* **audit:** apply better-npm-audit and ignore issue for the acorn DDoS ([50b00db](https://gitlab.com/MrSimonEmms/open-apiary/commit/50b00db12fa82e8df13a73f02ad3fd5bb7458ad9))
+* **inspection:** set the storm icon ([f87dbb1](https://gitlab.com/MrSimonEmms/open-apiary/commit/f87dbb18a8e47cfd86897dc268f0a1cec2d5f260))
+* **scanner:** add error to cover InsecureContextError ([c2625a9](https://gitlab.com/MrSimonEmms/open-apiary/commit/c2625a93bd614bf52caf16dccb702ab63a4208ec))
+
+
+### Features
+
+* **logging:** add logging in all server [@todos](https://gitlab.com/todos) ([9c6f158](https://gitlab.com/MrSimonEmms/open-apiary/commit/9c6f1588b91795bdf15798e9230a2dcaabaf9753))
+* **logging:** configure pino logger for the backend and send everything to there ([e9ab21b](https://gitlab.com/MrSimonEmms/open-apiary/commit/e9ab21b68feec90bd77b29cbc224baa781c4a4e3))
+* **logging:** configure transport to send log messages between the client and server ([ffad248](https://gitlab.com/MrSimonEmms/open-apiary/commit/ffad248b629dff92afadddb27edfd21d20d2e89d))
+* **logging:** configure typeorm to use the app logger ([fa35fe1](https://gitlab.com/MrSimonEmms/open-apiary/commit/fa35fe157fd904c0bacca3fafea9fc1937ff6cd8))
+* **security:** configure CSRF protection for API ([3a3f33b](https://gitlab.com/MrSimonEmms/open-apiary/commit/3a3f33b3e165d27b2ae77d5f76753db98d3dd5d4))
+* **security:** configure helmet ([7c69d09](https://gitlab.com/MrSimonEmms/open-apiary/commit/7c69d098bf2170b9eb64184a9a4b77c0829b684a))
+* **swagger:** add swagger documentation ([9e28208](https://gitlab.com/MrSimonEmms/open-apiary/commit/9e28208f37e6716cc703e4496f82efabb929e3f8))
+
 # 1.0.0 (2020-03-04)
 
 
