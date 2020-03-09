@@ -28,7 +28,7 @@ install:
 ########
 audit:
   stage: test
-  script: npm run audit
+  script: npm audit
 
 lint:
   stage: test
