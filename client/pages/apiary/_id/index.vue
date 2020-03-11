@@ -6,7 +6,7 @@
       oa-confirm( ref="confirm" )
       oa-new-button(
         :buttons="speedDial"
-        open-icon="mdi-settings"
+        open-icon="mdi-cog"
       )
 
     template( v-slot:no-data ) {{ $t('apiary:HIVES.NO_ITEMS') }}
@@ -104,7 +104,7 @@ export default class ApiaryIDIndexPage extends Vue {
       },
     }, {
       color: 'warning',
-      icon: 'mdi-settings',
+      icon: 'mdi-cog',
       to: {
         name: 'apiary-id-edit',
       },
