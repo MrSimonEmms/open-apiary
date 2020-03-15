@@ -1,3 +1,10 @@
+## [1.1.1](https://gitlab.com/MrSimonEmms/open-apiary/compare/v1.1.0...v1.1.1) (2020-03-15)
+
+
+### Bug Fixes
+
+* **icons:** change settings icon to use "mdi-cog" as not correct ([9b3b7a7](https://gitlab.com/MrSimonEmms/open-apiary/commit/9b3b7a729eb906ef8b668950ba43a0851004324c))
+
 # [1.1.0](https://gitlab.com/MrSimonEmms/open-apiary/compare/v1.0.0...v1.1.0) (2020-03-08)
 
 
