@@ -145,7 +145,7 @@ export default class NavDrawer extends Vue {
       },
       title: this.user?.name,
       menu: [{
-        icon: 'mdi-settings',
+        icon: 'mdi-cog',
         title: 'nav:DRAWER.SETTINGS',
         to: {
           name: 'settings',

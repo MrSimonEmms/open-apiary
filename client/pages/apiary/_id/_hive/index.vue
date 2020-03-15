@@ -4,7 +4,7 @@ import { IWeatherTypes } from '../../../../../server/apiary/interfaces/apiary';
     oa-confirm( ref="confirm" )
     oa-new-button(
       :buttons="speedDial"
-      open-icon="mdi-settings"
+      open-icon="mdi-cog"
     )
     v-dialog(
       v-model="editor"
@@ -242,7 +242,7 @@ export default class HiveIndexPage extends Vue {
 
   speedDial: IButton[] = [{
     color: 'warning',
-    icon: 'mdi-settings',
+    icon: 'mdi-cog',
     to: {
       name: 'apiary-id-hive-edit',
     },
