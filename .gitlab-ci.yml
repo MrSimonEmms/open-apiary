@@ -42,6 +42,7 @@ install:
 ########
 audit:
   stage: test
+  allow_failure: true
   script: npm audit
 
 e2e-mariadb:
