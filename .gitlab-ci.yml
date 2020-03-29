@@ -5,6 +5,20 @@ include:
 
 image: node:12-alpine
 
+.e2e-test:
+  stage: test
+  variables:
+    DB_LOGGING: "true"
+    DB_MIGRATIONS_RUN: "true"
+    DB_SYNC: "false"
+    IS_NUXT_DISABLED: "true"
+    JWT_SECRET: jwt-secret-token
+    UPLOAD_PATH: ${PWD}/uploads
+  script:
+    - rm -f ${DB_NAME}
+    - npm run typeorm -- migration:run
+    - LOG_LEVEL=silent npm run test:server:e2e
+
 ###########
 # Install #
 ###########
@@ -29,6 +43,44 @@ install:
 audit:
   stage: test
   script: npm audit
+
+e2e-mariadb:
+  extends: .e2e-test
+  services:
+    - mariadb
+  variables:
+    DB_TYPE: mariadb
+    DB_HOST: mariadb
+    DB_USER: apiary
+    DB_PASS: db-password
+    DB_NAME: apiary
+    DB_PORT: 3306
+    MYSQL_DATABASE: apiary
+    MYSQL_PASSWORD: db-password
+    MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    MYSQL_USER: apiary
+
+e2e-mysql:
+  extends: .e2e-test
+  services:
+    - mysql
+  variables:
+    DB_TYPE: mysql
+    DB_HOST: mysql
+    DB_USER: apiary
+    DB_PASS: db-password
+    DB_NAME: apiary
+    DB_PORT: 3306
+    MYSQL_DATABASE: apiary
+    MYSQL_PASSWORD: db-password
+    MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    MYSQL_USER: apiary
+
+e2e-sqlite:
+  extends: .e2e-test
+  variables:
+    DB_NAME: ./db.sql
+    DB_TYPE: sqlite
 
 lint:
   stage: test

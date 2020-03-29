@@ -28,7 +28,6 @@ module.exports = class SQLite {
   execQuery (sql) {
     return new Promise((resolve, reject) => {
       this.db.serialize(() => {
-        console.log(sql);
         this.db.get(sql, (err, result) => {
           if (err) {
             reject(err);
