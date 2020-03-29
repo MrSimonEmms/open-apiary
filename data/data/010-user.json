@@ -4,4 +4,10 @@
   "emailAddress": "test@test.com",
   "password": "f0e866b907da7c9642463ccd256e2de3$b39fc1126c71502c5c4970ac06bd5d702b341293dced5cece707013250c5f139",
   "changeOnLogin": 0
+}, {
+  "id": 2,
+  "name": "Other User",
+  "emailAddress": "other-user@test.com",
+  "password": "f0e866b907da7c9642463ccd256e2de3$b39fc1126c71502c5c4970ac06bd5d702b341293dced5cece707013250c5f139",
+  "changeOnLogin": 1
 }]
