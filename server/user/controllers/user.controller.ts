@@ -27,6 +27,7 @@ import {
   ParsedRequest,
 } from '@nestjsx/crud';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { Not } from 'typeorm';
 
 /* Files */
 import User from '../entities/user.entity';
@@ -84,9 +85,20 @@ export default class UserController implements CrudController<User> {
     'jwt',
   ]))
   @Override('createOneBase')
-  createUser(@Request() { user }, @ParsedRequest() crudReq: CrudRequest, @ParsedBody() dto: User) {
+  async createUser(@Request() { user },
+    @ParsedRequest() crudReq: CrudRequest,
+    @ParsedBody() dto: User) {
     /* If authenticated using "canSetup", force password change */
     dto.changeOnLogin = !user.canSetup;
+
+    /* Check for email already registered */
+    const existingUser = await this.service.findOne({
+      emailAddress: dto.emailAddress,
+    });
+
+    if (existingUser) {
+      throw new HttpException('DUPLICATE_EMAIL', 400);
+    }
 
     return this.base.createOneBase(crudReq, dto);
   }
@@ -101,7 +113,19 @@ export default class UserController implements CrudController<User> {
   @ApiBearerAuth('jwt')
   @UseGuards(AuthGuard('jwt'))
   @Override('replaceOneBase')
-  updateUser(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: User) {
+  async updateUser(@Request() { user },
+    @ParsedRequest() req: CrudRequest,
+    @ParsedBody() dto: User) {
+    /* Check for email already registered */
+    const existingUser = await this.service.findOne({
+      id: Not(user.id),
+      emailAddress: dto.emailAddress,
+    });
+
+    if (existingUser) {
+      throw new HttpException('DUPLICATE_EMAIL', 400);
+    }
+
     return this.base.replaceOneBase(req, dto);
   }
 
