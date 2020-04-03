@@ -26,8 +26,12 @@ export default class CanSetupStrategy extends PassportStrategy(Strategy, 'canSet
   async validate() {
     const userTotal = await this.userService.countUsers();
 
+    if (userTotal > 0) {
+      return false;
+    }
+
     return {
-      canSetup: userTotal === 0,
+      canSetup: true,
     };
   }
 }
