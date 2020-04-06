@@ -6,6 +6,7 @@
 
 /* Third-party modules */
 import {
+  AfterLoad,
   Entity,
   Column,
   PrimaryGeneratedColumn,
@@ -45,4 +46,14 @@ export default class Location implements ILocation {
     scale: 8,
   })
   longitude: number;
+
+  @AfterLoad()
+  setCoordsAsNumbers() {
+    if (this.latitude) {
+      this.latitude = Number(this.latitude);
+    }
+    if (this.longitude) {
+      this.longitude = Number(this.longitude);
+    }
+  }
 }
