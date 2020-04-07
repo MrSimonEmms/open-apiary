@@ -12,6 +12,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import HiveController from './hive.controller';
 import HiveService from '../services/hive.service';
 import Hive from '../entities/hive.entity';
+import ApiaryService from '../services/apiary.service';
 
 describe('Hive controller', function () {
   let controller: HiveController;
@@ -22,11 +23,18 @@ describe('Hive controller', function () {
       findNextHiveNumber: jest.fn(),
     };
 
+    this.mockApiaryService = {
+      findOne: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [HiveController],
       providers: [{
         provide: HiveService,
         useValue: this.mockHiveService,
+      }, {
+        provide: ApiaryService,
+        useValue: this.mockApiaryService,
       }],
     }).compile();
 

@@ -65,7 +65,9 @@ export default class Hive implements IHive {
   })
   origin: string;
 
-  @ManyToOne(() => Apiary, (apiary) => apiary.hives)
+  @ManyToOne(() => Apiary, (apiary) => apiary.hives, {
+    eager: true,
+  })
   apiary: Apiary;
 
   @OneToMany(() => Inspection, (inspection) => inspection.hive, {

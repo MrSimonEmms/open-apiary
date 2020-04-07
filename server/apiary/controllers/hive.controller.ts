@@ -27,6 +27,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import Hive from '../entities/hive.entity';
 import HiveService from '../services/hive.service';
 import { IApiary } from '../interfaces/apiary';
+import ApiaryService from '../services/apiary.service';
 
 @Crud({
   model: {
@@ -49,7 +50,7 @@ import { IApiary } from '../interfaces/apiary';
 @UseGuards(AuthGuard('jwt'))
 @Controller('/api/apiary/:apiaryId/hive')
 export default class HiveController implements CrudController<Hive> {
-  constructor(public service: HiveService) {}
+  constructor(public service: HiveService, protected apiaryService: ApiaryService) {}
 
   get base(): CrudController<Hive> {
     return this;
@@ -83,16 +84,38 @@ export default class HiveController implements CrudController<Hive> {
     @Param('apiaryId') apiaryId: string,
     @ParsedRequest() req: CrudRequest,
     @ParsedBody() dto: Hive) {
+    const originalHive = await this.service.findOne({
+      id: Number(id),
+    });
+
+    const apiaryInt = Number(apiaryId);
+
     if (dto.apiaryCount) {
       const hive = await this.service.findByApiaryCountAndApiaryId(
         dto.apiaryCount,
-        Number(apiaryId),
+        apiaryInt,
       );
 
       if (hive && hive.id !== Number(id)) {
         throw new HttpException('APIARY_COUNT_MUST_BE_UNIQUE', HttpStatus.BAD_REQUEST);
       }
     }
+
+    /* Check the apiaryId is valid if already set */
+    if (originalHive?.apiary && originalHive.apiary.id !== apiaryInt) {
+      throw new HttpException('UNKNOWN_APIARY', HttpStatus.BAD_REQUEST);
+    }
+
+    const apiary = await this.apiaryService.findOne({
+      id: apiaryInt,
+    });
+
+    if (!apiary) {
+      throw new HttpException('UNKNOWN_APIARY', HttpStatus.NOT_FOUND);
+    }
+
+    /* Set the apiary */
+    dto.apiary = apiary;
 
     return this.base.replaceOneBase(req, dto);
   }
