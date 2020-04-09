@@ -50,7 +50,7 @@ export default class Hive implements IHive {
 
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
-  @IsISO8601({ always: true })
+  @IsISO8601({}, { always: true })
   @Column({
     type: 'date',
   })

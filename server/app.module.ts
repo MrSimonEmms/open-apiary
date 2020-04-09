@@ -12,11 +12,6 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { LoggerOptions } from 'typeorm/logger/LoggerOptions';
 import { Logger as TypeOrmLogger } from 'typeorm';
 import {
-  TerminusModule,
-  TerminusModuleOptions,
-  TypeOrmHealthIndicator,
-} from '@nestjs/terminus';
-import {
   LoggerModule,
   Params,
   PinoLogger,
@@ -28,6 +23,7 @@ import uuid from 'uuid';
 import config from './config/env';
 import ApiaryModule from './apiary/apiary.module';
 import AuthModule from './auth/auth.module';
+import HealthModule from './health/health.module';
 import LogModule from './log/log.module';
 import MediaModule from './media/media.module';
 import NuxtModule from './nuxt/nuxt.module';
@@ -105,21 +101,9 @@ import PinoTypeOrmLogger from './logger';
         };
       },
     }),
-    TerminusModule.forRootAsync({
-      inject: [TypeOrmHealthIndicator],
-      useFactory: (db: TypeOrmHealthIndicator) : TerminusModuleOptions => ({
-        endpoints: [{
-          url: '/api/health',
-          healthIndicators: [
-            async () => db.pingCheck('database', {
-              timeout: 300,
-            }),
-          ],
-        }],
-      }),
-    }),
     ApiaryModule,
     AuthModule,
+    HealthModule,
     LogModule,
     MediaModule,
     UserModule,

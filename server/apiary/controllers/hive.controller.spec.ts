@@ -75,7 +75,7 @@ describe('Hive controller', function () {
     it('should throw a 400 error if duplicate apiaryCount is given', async () => {
       this.mockHiveService.findByApiaryCountAndApiaryId.mockResolvedValue(true);
 
-      const apiaryId = '2';
+      const apiaryId = 2;
       const req : any = {};
       const dto : any = {
         apiaryCount: 1,
@@ -102,7 +102,7 @@ describe('Hive controller', function () {
       (<any> controller).createOneBase = jest.fn()
         .mockResolvedValue(res);
 
-      const apiaryId = '230';
+      const apiaryId = 230;
       const req : any = {};
       const dto : any = {
         apiaryCount: 120,
@@ -131,7 +131,7 @@ describe('Hive controller', function () {
       (<any> controller).createOneBase = jest.fn()
         .mockResolvedValue(res);
 
-      const apiaryId = '231';
+      const apiaryId = 231;
       const req : any = {};
       const dto : any = {};
 

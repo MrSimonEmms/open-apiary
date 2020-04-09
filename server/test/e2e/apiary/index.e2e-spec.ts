@@ -124,24 +124,13 @@ describe('/apiary', () => {
       .set('authorization', `bearer ${token}`)
       .expect(400, {
         statusCode: 400,
+        message: [
+          'name must be shorter than or equal to 200 characters',
+          'name must be a string',
+          'name should not be empty',
+          'location should not be empty',
+        ],
         error: 'Bad Request',
-        message: [{
-          target: {},
-          property: 'name',
-          children: [],
-          constraints: {
-            maxLength: 'name must be shorter than or equal to 200 characters',
-            isString: 'name must be a string',
-            isNotEmpty: 'name should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'location',
-          children: [],
-          constraints: {
-            isNotEmpty: 'location should not be empty',
-          },
-        }],
       }));
 
     it('should create a valid ', () => app

@@ -65,16 +65,11 @@ describe('/apiary/:id/hive', () => {
       .set('authorization', `bearer ${token}`)
       .expect(400, {
         statusCode: 400,
+        message: [
+          'establishedDate must be a valid ISO 8601 date string',
+          'establishedDate should not be empty',
+        ],
         error: 'Bad Request',
-        message: [{
-          target: {},
-          property: 'establishedDate',
-          children: [],
-          constraints: {
-            isIso8601: 'establishedDate must be a valid ISO 8601 date string',
-            isNotEmpty: 'establishedDate should not be empty',
-          },
-        }],
       }));
 
     it('should create a new hive', async () => (await request())

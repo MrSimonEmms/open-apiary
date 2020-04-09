@@ -9,7 +9,7 @@ import {
   Delete,
   Get,
   HttpException,
-  HttpStatus, Param,
+  HttpStatus, Param, ParseIntPipe,
   Post,
   Request,
   UseGuards,
@@ -133,8 +133,8 @@ export default class UserController implements CrudController<User> {
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(CrudRequestInterceptor)
   @Delete('/:id')
-  async delete(@Param('id') id: string, @Request() { user }) : Promise<void> {
-    if (user.id === Number(id)) {
+  async delete(@Param('id', ParseIntPipe) id: number, @Request() { user }) : Promise<void> {
+    if (user.id === id) {
       throw new HttpException('CANNOT_DELETE_SELF', 403);
     }
     await this.service.deleteUser(id);

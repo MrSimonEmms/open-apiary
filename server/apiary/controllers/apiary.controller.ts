@@ -13,6 +13,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -75,8 +76,8 @@ export default class ApiaryController implements CrudController<Apiary> {
   }
 
   @Override()
-  async deleteOne(@ParsedRequest() req: CrudRequest, @Param('id') id: string) {
-    const hives = await this.hiveService.findHivesByApiaryId(Number(id));
+  async deleteOne(@ParsedRequest() req: CrudRequest, @Param('id', ParseIntPipe) id: number) {
+    const hives = await this.hiveService.findHivesByApiaryId(id);
 
     if (hives.length > 0) {
       /* Hives still present - disallow the request */

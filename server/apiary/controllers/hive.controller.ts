@@ -9,7 +9,7 @@ import {
   Controller,
   HttpException,
   HttpStatus,
-  Param,
+  Param, ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -57,9 +57,9 @@ export default class HiveController implements CrudController<Hive> {
   }
 
   @Override()
-  async createOne(@Param('apiaryId') id: string, @ParsedRequest() req: CrudRequest, @ParsedBody() dto: Hive) {
-    const apiaryId = Number(id);
-
+  async createOne(@Param('apiaryId', ParseIntPipe) apiaryId: number,
+    @ParsedRequest() req: CrudRequest,
+    @ParsedBody() dto: Hive) {
     if (dto.apiaryCount) {
       const hive = await this.service.findByApiaryCountAndApiaryId(dto.apiaryCount, apiaryId);
 
@@ -80,34 +80,32 @@ export default class HiveController implements CrudController<Hive> {
   }
 
   @Override()
-  async replaceOne(@Param('id') id: string,
-    @Param('apiaryId') apiaryId: string,
+  async replaceOne(@Param('id', ParseIntPipe) id: number,
+    @Param('apiaryId', ParseIntPipe) apiaryId: number,
     @ParsedRequest() req: CrudRequest,
     @ParsedBody() dto: Hive) {
     const originalHive = await this.service.findOne({
-      id: Number(id),
+      id,
     });
-
-    const apiaryInt = Number(apiaryId);
 
     if (dto.apiaryCount) {
       const hive = await this.service.findByApiaryCountAndApiaryId(
         dto.apiaryCount,
-        apiaryInt,
+        apiaryId,
       );
 
-      if (hive && hive.id !== Number(id)) {
+      if (hive && hive.id !== id) {
         throw new HttpException('APIARY_COUNT_MUST_BE_UNIQUE', HttpStatus.BAD_REQUEST);
       }
     }
 
     /* Check the apiaryId is valid if already set */
-    if (originalHive?.apiary && originalHive.apiary.id !== apiaryInt) {
+    if (originalHive?.apiary && originalHive.apiary.id !== apiaryId) {
       throw new HttpException('UNKNOWN_APIARY', HttpStatus.BAD_REQUEST);
     }
 
     const apiary = await this.apiaryService.findOne({
-      id: apiaryInt,
+      id: apiaryId,
     });
 
     if (!apiary) {

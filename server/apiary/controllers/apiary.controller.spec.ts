@@ -98,7 +98,7 @@ describe('Apiary Controller', function () {
       this.mockHiveService.findHivesByApiaryId.mockResolvedValue(['']);
 
       const request : any = 'some-request';
-      const id = '123';
+      const id = 123;
 
       try {
         await controller.deleteOne(request, id);
@@ -119,7 +119,7 @@ describe('Apiary Controller', function () {
       (<any> controller).deleteOneBase = deleteOneBase;
 
       const request : any = 'some-request';
-      const id = '12';
+      const id = 12;
 
       await controller.deleteOne(request, id);
 

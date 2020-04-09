@@ -94,111 +94,34 @@ describe('/apiary/:id/hive/:id/inspection', () => {
       .set('authorization', `bearer ${token}`)
       .expect(400, {
         statusCode: 400,
+        message: [
+          'date must be a valid ISO 8601 date string',
+          'date should not be empty',
+          'stores must not be less than 0',
+          'stores must be an integer number',
+          'stores should not be empty',
+          'room must not be less than 0',
+          'room must be an integer number',
+          'room should not be empty',
+          'temper must not be greater than 10',
+          'temper must not be less than 0',
+          'temper must be an integer number',
+          'temper should not be empty',
+          'supers must be an integer number',
+          'supers should not be empty',
+          'varroa must be one of the following values: L,M,H',
+          'varroa should not be empty',
+          'notes must be a string',
+          'queen should not be empty',
+          'queenCell should not be empty',
+          'brood should not be empty',
+          'health should not be empty',
+          'weather should not be empty',
+          'feed must contain at least 1 elements',
+          'feed must be an array',
+          'feed should not be empty',
+        ],
         error: 'Bad Request',
-        message: [{
-          target: {},
-          property: 'date',
-          children: [],
-          constraints: {
-            isIso8601: 'date must be a valid ISO 8601 date string',
-            isNotEmpty: 'date should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'stores',
-          children: [],
-          constraints: {
-            min: 'stores must not be less than 0',
-            isInt: 'stores must be an integer number',
-            isNotEmpty: 'stores should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'room',
-          children: [],
-          constraints: {
-            min: 'room must not be less than 0',
-            isInt: 'room must be an integer number',
-            isNotEmpty: 'room should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'temper',
-          children: [],
-          constraints: {
-            max: 'temper must not be greater than 10',
-            min: 'temper must not be less than 0',
-            isInt: 'temper must be an integer number',
-            isNotEmpty: 'temper should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'supers',
-          children: [],
-          constraints: {
-            isInt: 'supers must be an integer number',
-            isNotEmpty: 'supers should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'varroa',
-          children: [],
-          constraints: {
-            isIn: 'varroa must be one of the following values: L,M,H',
-            isNotEmpty: 'varroa should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'notes',
-          children: [],
-          constraints: {
-            isString: 'notes must be a string',
-          },
-        }, {
-          target: {},
-          property: 'queen',
-          children: [],
-          constraints: {
-            isNotEmpty: 'queen should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'queenCell',
-          children: [],
-          constraints: {
-            isNotEmpty: 'queenCell should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'brood',
-          children: [],
-          constraints: {
-            isNotEmpty: 'brood should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'health',
-          children: [],
-          constraints: {
-            isNotEmpty: 'health should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'weather',
-          children: [],
-          constraints: {
-            isNotEmpty: 'weather should not be empty',
-          },
-        }, {
-          target: {},
-          property: 'feed',
-          children: [],
-          constraints: {
-            arrayMinSize: 'feed must contain at least 1 elements',
-            isArray: 'feed must be an array',
-            isNotEmpty: 'feed should not be empty',
-          },
-        }],
       }));
 
     it('should create a new inspection', async () => (await request())
