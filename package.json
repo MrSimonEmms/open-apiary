@@ -16,7 +16,7 @@
     "copy:dist": "copyfiles ATTRIBUTION.md CHANGELOG LICENSE pm2.yaml README.md dist",
     "copy:config": "copyfiles nuxt.config.js package.json package-lock.json dist && mkdirp ./dist/log && node ./scripts/editPackageJson.js ./dist/package.json",
     "copy:nuxt": "copyfiles -a \".nuxt/**/*\" dist",
-    "dev": "cross-env IS_NUXT_ENABLED=true nodemon | pino-pretty -tlc",
+    "dev": "cross-env IS_NUXT_ENABLED=false nodemon | pino-pretty -tlc",
     "dev:sqlite": "rm -f ./db.sql && concurrently  'npm run -s dev:sqlite:run' 'npm run -s dev:sqlite:db'",
     "dev:sqlite:db": "cd ./data && cross-env UPLOAD_PATH=$PWD/../uploads cross-env DB_TYPE=sqlite cross-env DB_NAME=../db.sql cross-env MAX_TRIES=15 npm start",
     "dev:sqlite:run": "cross-env LOG_DESTINATION=STDOUT cross-env LOG_LEVEL=info cross-env UPLOAD_PATH=$PWD/uploads cross-env DB_TYPE=sqlite cross-env DB_NAME=./db.sql cross-env JWT_SECRET=jwt-secret-token cross-env DB_MIGRATIONS_RUN=true cross-env DB_SYNC=false cross-env DB_LOGGING=true npm run dev",

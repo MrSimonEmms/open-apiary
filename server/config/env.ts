@@ -7,6 +7,7 @@ import * as path from 'path';
 
 /* Third-party modules */
 import { merge } from 'lodash';
+import { TransportOptionsStatic } from 'nestjs-messenger';
 
 /* Files */
 
@@ -54,6 +55,26 @@ export default () => merge({
   logging: {
     destination: process.env.LOG_DESTINATION,
     level: process.env.LOG_LEVEL,
+  },
+  messaging: {
+    email: {
+      enabled: process.env.EMAIL_MESSAGING_ENABLED === 'true',
+      verifyConnectionOnBoot: process.env.EMAIL_MESSAGING_VERIFY_ON_BOOT !== 'false',
+      generator: {
+        preview: process.env.MESSAGE_PREVIEW === 'true',
+        engine: 'pug',
+        templateDir: path.join(__dirname, '..', 'messenger', 'email'),
+      },
+      transport: {
+        host: process.env.EMAIL_TRANSPORT_HOST,
+        port: Number(process.env.EMAIL_TRANSPORT_PORT),
+        secure: process.env.EMAIL_TRANSPORT_SECURE === 'true',
+        auth: {
+          user: process.env.EMAIL_TRANSPORT_AUTH_USER,
+          pass: process.env.EMAIL_TRANSPORT_AUTH_PASS,
+        },
+      } as TransportOptionsStatic,
+    },
   },
   jwt: {
     expiry: process.env.JWT_EXPIRY || '30 days',

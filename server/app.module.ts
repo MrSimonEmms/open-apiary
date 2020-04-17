@@ -12,6 +12,12 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { LoggerOptions } from 'typeorm/logger/LoggerOptions';
 import { Logger as TypeOrmLogger } from 'typeorm';
 import {
+  IMessengerOptions,
+  MessengerModule,
+  IMessageGeneratorOpts,
+  TransportOptionsStatic,
+} from 'nestjs-messenger';
+import {
   LoggerModule,
   Params,
   PinoLogger,
@@ -99,6 +105,35 @@ import PinoTypeOrmLogger from './logger';
             `${__dirname}/**/*.migration{.ts,.js}`,
           ],
         };
+      },
+    }),
+    MessengerModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [
+        ConfigService,
+        PinoLogger,
+      ],
+      useFactory: async (
+        configService: ConfigService,
+        pinoLogger: PinoLogger,
+      ) : Promise<IMessengerOptions> => {
+        const emailEnabled = configService.get<boolean>('messaging.email.enabled');
+
+        pinoLogger.debug({
+          emailEnabled,
+        }, 'Messaging service');
+
+        const messageConfig: IMessengerOptions = {};
+
+        if (emailEnabled) {
+          messageConfig.email = {
+            generator: configService.get<IMessageGeneratorOpts>('messaging.email.generator'),
+            transport: configService.get<TransportOptionsStatic>('messaging.email.transport'),
+            verifyConnectionOnBoot: configService.get<boolean>('messaging.email.verifyConnectionOnBoot'),
+          };
+        }
+
+        return messageConfig;
       },
     }),
     ApiaryModule,
