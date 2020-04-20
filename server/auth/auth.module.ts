@@ -9,6 +9,7 @@ import { Module } from '@nestjs/common';
 
 /* Files */
 import CanSetupStrategy from './strategies/canSetup.strategy';
+import ForgottenPasswordStrategy from './strategies/forgottenPassword.strategy';
 import JWTStrategy from './strategies/jwt.strategy';
 import UserModule from '../user/user.module';
 
@@ -17,6 +18,7 @@ import UserModule from '../user/user.module';
   providers: [
     JWTStrategy,
     CanSetupStrategy,
+    ForgottenPasswordStrategy,
   ],
 })
 export default class AuthModule {}

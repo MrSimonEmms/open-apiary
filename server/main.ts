@@ -20,9 +20,7 @@ import AppModule from './app.module';
   let logger: Logger | undefined;
 
   try {
-    const app = await NestFactory.create(AppModule, {
-      logger: false,
-    });
+    const app = await NestFactory.create(AppModule);
     logger = app.get(Logger);
     app.useLogger(logger);
     app

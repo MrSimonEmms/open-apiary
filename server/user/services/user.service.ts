@@ -11,6 +11,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { MessengerService } from 'nestjs-messenger';
 
 /* Files */
 import User from '../entities/user.entity';
@@ -21,6 +22,7 @@ export default class UserService extends TypeOrmCrudService<User> {
   constructor(
     private configService: ConfigService,
     @InjectRepository(User) protected repo,
+    protected messenger: MessengerService,
   ) {
     super(repo);
   }
@@ -47,6 +49,38 @@ export default class UserService extends TypeOrmCrudService<User> {
     }
 
     return user;
+  }
+
+  async forgottenPassword(emailAddress: string) : Promise<void> {
+    const user = await this.findOne({
+      emailAddress,
+    });
+
+    const payload = {
+      id: user.id,
+      emailAddress: user.emailAddress,
+    };
+
+    const token = jwt.sign(payload, this.configService.get('jwt.secret'), {
+      expiresIn: '1h',
+      issuer: 'forgotten-password',
+      notBefore: 0,
+    });
+
+    await this.messenger.sendEmail({
+      from: this.configService.get('messaging.email.from'),
+      to: [
+        `${user.name} <${user.emailAddress}>`,
+      ],
+      subject: 'Forgotten password',
+    }, {
+      template: 'forgotten-password',
+      params: {
+        user,
+        token,
+        domain: this.configService.get('server.domain'),
+      },
+    });
   }
 
   generateUserToken(user: User) : { expires: Date, token: string } {

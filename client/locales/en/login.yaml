@@ -3,6 +3,7 @@ ERROR:
   INVALID_LOGIN: Access denied
 FORM:
   BUTTON:
+    FORGOTTEN_PASSWORD: Forgotten password
     LOGIN: Login
   LABEL:
     EMAIL_ADDRESS: Email Address
