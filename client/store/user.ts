@@ -37,6 +37,12 @@ const userStore : {
       await this.$axios.$delete(`/api/user/${id}`);
     },
 
+    async forgottenPassword(_store, emailAddress: string) {
+      await this.$axios.$post('/api/user/forgot-password', {
+        emailAddress,
+      });
+    },
+
     async loadUser({ commit }) {
       const user = await this.$axios.$get('/api/user');
 
@@ -95,6 +101,19 @@ const userStore : {
       await this.$axios.$put('/api/user', data);
 
       await dispatch('loadUser');
+    },
+
+    async updateForgottenPassword(
+      _store,
+      { password, token } : { password: string, token: string },
+    ) {
+      await this.$axios.$put('/api/user', {
+        password,
+      }, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
     },
   },
 

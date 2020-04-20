@@ -4,12 +4,16 @@
 
 /* Node modules */
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
+  HttpCode,
   HttpException,
-  HttpStatus, Param, ParseIntPipe,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
   Post,
   Request,
   UseGuards,
@@ -28,6 +32,7 @@ import {
 } from '@nestjsx/crud';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Not } from 'typeorm';
+import { MessengerService } from 'nestjs-messenger';
 
 /* Files */
 import User from '../entities/user.entity';
@@ -72,7 +77,10 @@ import { IAuthInputDTO, IUserLoginDTO } from '../interfaces/user';
 })
 @Controller('/api/user')
 export default class UserController implements CrudController<User> {
-  constructor(public service: UserService) {}
+  constructor(
+    public service: UserService,
+    protected messageService: MessengerService,
+  ) {}
 
   get base(): CrudController<User> {
     return this;
@@ -104,14 +112,14 @@ export default class UserController implements CrudController<User> {
   }
 
   @ApiBearerAuth('jwt')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard(['jwt', 'forgottenPassword']))
   @Override('getOneBase')
   getUser(@ParsedRequest() req: CrudRequest) {
     return this.base.getOneBase(req);
   }
 
   @ApiBearerAuth('jwt')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard(['jwt', 'forgottenPassword']))
   @Override('replaceOneBase')
   async updateUser(@Request() { user },
     @ParsedRequest() req: CrudRequest,
@@ -174,5 +182,18 @@ export default class UserController implements CrudController<User> {
       ...this.service.generateUserToken(user),
       user: this.service.toDTO(user),
     };
+  }
+
+  @UseInterceptors(CrudRequestInterceptor)
+  @HttpCode(204)
+  @Post('/forgot-password')
+  async generateForgotPasswordEmail(@Body() { emailAddress }: IAuthInputDTO) : Promise<void> {
+    /* Check messaging is configured */
+    if (!this.messageService.emailIsConfigured()) {
+      throw new BadRequestException('EMAIL_NOT_CONFIGURED');
+    }
+
+    /* Generate email */
+    await this.service.forgottenPassword(emailAddress);
   }
 }

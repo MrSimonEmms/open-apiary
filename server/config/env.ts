@@ -60,6 +60,10 @@ export default () => merge({
     email: {
       enabled: process.env.EMAIL_MESSAGING_ENABLED === 'true',
       verifyConnectionOnBoot: process.env.EMAIL_MESSAGING_VERIFY_ON_BOOT !== 'false',
+      from: {
+        name: process.env.EMAIL_FROM_NAME || 'Open Apiary',
+        address: process.env.EMAIL_FROM_ADDRESS || 'noreply@localhost',
+      },
       generator: {
         preview: process.env.MESSAGE_PREVIEW === 'true',
         engine: 'pug',
@@ -67,7 +71,7 @@ export default () => merge({
       },
       transport: {
         host: process.env.EMAIL_TRANSPORT_HOST,
-        port: Number(process.env.EMAIL_TRANSPORT_PORT),
+        port: Number(process.env.EMAIL_TRANSPORT_PORT || 587),
         secure: process.env.EMAIL_TRANSPORT_SECURE === 'true',
         auth: {
           user: process.env.EMAIL_TRANSPORT_AUTH_USER,
@@ -84,6 +88,7 @@ export default () => merge({
   server: {
     // Removing CSRF protection should only be done in development
     csrf: process.env.CSRF_DISABLED !== 'true',
+    domain: process.env.DOMAIN, // Required for email
     port: Number(process.env.PORT || 3000),
     upload: process.env.UPLOAD_PATH || path.join(process.cwd(), 'upload'),
   },

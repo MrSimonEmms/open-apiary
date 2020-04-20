@@ -9,10 +9,10 @@
           src="/img/icon.png"
         )
 
-    v-card-title.justify-center {{ $t('login:TITLE') }}
+    v-card-title.justify-center {{ $t('forgot-password:TITLE') }}
 
     v-card-text( v-if="error" )
-      v-alert( type="error" ) {{ $t(`login:ERROR.${error}`) }}
+      v-alert( type="error" ) {{ $t(`forgot-password:ERROR.${error}`) }}
 
     v-card-text
       v-form(
@@ -27,24 +27,13 @@
           outlined
         )
 
-        v-text-field(
-          v-model="password"
-          :error-messages="validator.getErrors('password')"
-          v-on="validator.getEvents('password')"
-          :label="$t('login:FORM.LABEL.PASSWORD')"
-          prepend-inner-icon="mdi-lock"
-          type="password"
-          outlined
-        )
-
-        v-switch(
-          v-model="rememberMe"
-          :label="$t('login:FORM.LABEL.REMEMBER_ME')"
+        v-text-field.d-none(
+          v-model="hidden"
         )
 
     v-card-text
-      nuxt-link( :to="{ name: 'forgotten-password' }" )
-        | {{ $t('login:FORM.BUTTON.FORGOTTEN_PASSWORD') }}
+      nuxt-link( :to="{ name: 'login' }" )
+        | {{ $t('forgot-password:BUTTONS.LOGIN') }}
 
     v-card-actions
       v-btn(
@@ -52,22 +41,23 @@
         block
         color="primary"
         large
-      ) {{ $t('login:FORM.BUTTON.LOGIN') }}
-
+      ) {{ $t('forgot-password:BUTTONS.SUBMIT') }}
 </template>
 
 <script lang="ts">
 /**
- * login
+ * forgotten-password
  */
 
 /* Node modules */
+
+/* Third-party modules */
 import { Vue, Component } from 'vue-property-decorator';
 import { email, required } from 'vuelidate/lib/validators';
 
 /* Files */
-import Validation from '../lib/validation';
-import { IValidation } from '../interfaces/validation';
+import Validation from '../../lib/validation';
+import { IValidation } from '../../interfaces/validation';
 
 /* Define the validator on the instance */
 declare module 'vue/types/vue' {
@@ -95,42 +85,21 @@ declare module 'vue/types/vue' {
         required,
         email,
       },
-    }, {
-      name: 'password',
-      validations: {
-        required,
-      },
     }]);
   },
 
   head() {
     return {
-      title: this.$i18n.t('login:TITLE'),
+      title: this.$i18n.t('forgot-password:TITLE'),
     };
   },
 })
-export default class LoginPage extends Vue {
+export default class ForgottenPasswordPage extends Vue {
   error: string | null = null;
 
   emailAddress: string = '';
 
-  password: string = '';
-
-  rememberMe: boolean = true;
-
-  validator!: IValidation;
-
-  get expires() {
-    return this.$store.getters['user/expires'];
-  }
-
-  get token() {
-    return this.$store.getters['user/token'];
-  }
-
-  get user() {
-    return this.$store.getters['user/user'];
-  }
+  hidden: string = '';
 
   async submit() {
     this.error = null;
@@ -142,23 +111,18 @@ export default class LoginPage extends Vue {
     }
 
     try {
-      await this.$store.dispatch('user/login', {
-        emailAddress: this.emailAddress,
-        password: this.password,
+      await this.$store.dispatch('user/forgottenPassword', this.emailAddress);
+
+      await this.$router.push({
+        name: 'login',
       });
-
-      const target = this.$store.getters['user/redirect'] ?? {
-        name: 'index',
-      };
-
-      await this.$router.push(target);
     } catch (err) {
-      this.$log.error('Unable to login', {
+      this.$log.error('Unable to generate forgotten password', {
         err,
       });
 
-      if (err?.response?.status === 401) {
-        this.error = 'INVALID_LOGIN';
+      if (err?.response?.status === 400) {
+        this.error = 'UNCONFIGURED';
       } else {
         this.error = 'GENERAL';
       }
@@ -167,5 +131,4 @@ export default class LoginPage extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
