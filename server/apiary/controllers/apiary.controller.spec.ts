@@ -69,6 +69,10 @@ describe('Apiary Controller', function () {
         ],
       },
       query: {
+        sort: [{
+          field: 'hives.inspections.date',
+          order: 'DESC',
+        }],
         join: {
           hives: {
             eager: true,

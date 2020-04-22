@@ -44,6 +44,10 @@ import HiveService from '../services/hive.service';
     ],
   },
   query: {
+    sort: [{
+      field: 'hives.inspections.date',
+      order: 'DESC',
+    }],
     join: {
       hives: {
         eager: true,
