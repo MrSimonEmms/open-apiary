@@ -56,8 +56,20 @@ describe('/apiary', () => {
                 updatedAt: expect.any(String),
                 inspections: [
                   expect.objectContaining({
-                    id: 1,
+                    id: expect.any(Number),
                     date: '2019-02-01T00:00:00.000Z',
+                    stores: 2,
+                    room: 1,
+                    temper: 10,
+                    supers: -1,
+                    varroa: 'L',
+                    notes: 'Here is some notes in **markdown**.\n\nAnd on _another_ line.',
+                    createdAt: expect.any(String),
+                    updatedAt: expect.any(String),
+                  }),
+                  expect.objectContaining({
+                    id: expect.any(Number),
+                    date: '2018-03-21T00:00:00.000Z',
                     stores: 2,
                     room: 1,
                     temper: 10,
@@ -258,8 +270,20 @@ describe('/apiary', () => {
                 updatedAt: expect.any(String),
                 inspections: [
                   expect.objectContaining({
-                    id: 1,
+                    id: expect.any(Number),
                     date: '2019-02-01T00:00:00.000Z',
+                    stores: 2,
+                    room: 1,
+                    temper: 10,
+                    supers: -1,
+                    varroa: 'L',
+                    notes: 'Here is some notes in **markdown**.\n\nAnd on _another_ line.',
+                    createdAt: expect.any(String),
+                    updatedAt: expect.any(String),
+                  }),
+                  expect.objectContaining({
+                    id: expect.any(Number),
+                    date: '2018-03-21T00:00:00.000Z',
                     stores: 2,
                     room: 1,
                     temper: 10,
