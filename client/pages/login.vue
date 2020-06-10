@@ -145,6 +145,7 @@ export default class LoginPage extends Vue {
       await this.$store.dispatch('user/login', {
         emailAddress: this.emailAddress,
         password: this.password,
+        rememberMe: this.rememberMe,
       });
 
       const target = this.$store.getters['user/redirect'] ?? {
