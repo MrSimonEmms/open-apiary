@@ -54,7 +54,7 @@
     "@nestjsx/crud-typeorm": "^4.4.1",
     "@nuxtjs/axios": "^5.9.2",
     "@panter/vue-i18next": "^0.15.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "better-queue": "^3.8.10",
     "better-queue-memory": "^1.0.4",
     "cache-manager": "^3.1.0",
